@@ -1,0 +1,138 @@
+# Plan dalszych prac
+
+Ten dokument opisuje kolejne etapy budowy systemu, w kolejności w jakiej
+mają sens do realizacji. Stan na podstawie `README.md`, `docs/INSTALLATION.md`
+i `docs/PROJECT_MEMORY.md`.
+
+## Plan na najbliższą sesję (ustalone 2026-08-20)
+
+Kolejność uzgodniona z użytkownikiem:
+
+1. **Diaryzacja** (rozpoznawanie mówców):
+   - założyć token dostępu na huggingface.co (Settings → Access Tokens,
+     typ „Read”),
+   - zaakceptować warunki użytkowania modeli `pyannote/segmentation-3.0`
+     i `pyannote/speaker-diarization-3.1` na stronach tych modeli (wymaga
+     zalogowania),
+   - przekazywać token do skryptu przez zmienną środowiskową
+     (np. `HF_TOKEN`), nie hardkodować w kodzie — zgodnie z zasadami
+     w `docs/AGENTS.md`,
+   - dodać do `scripts/transcribe.py` krok diaryzacji
+     (`whisperx.DiarizationPipeline` + przypisanie mówców do segmentów),
+   - sprawdzić, czy przy realnym użyciu diaryzacji ostrzeżenie o
+     `torchcodec` nadal jest nieszkodliwe (patrz `docs/HISTORY.md`,
+     wpis o wyciszeniu ostrzeżeń) — jeśli nie, wtedy dopiero szukać
+     właściwej naprawy (kompatybilna wersja FFmpeg z bibliotekami
+     współdzielonymi).
+2. **Instalacja Ollama i wybór modelu językowego**:
+   - instalacja Ollama (`docs/INSTALLATION.md`, sekcja 5),
+   - wybór modelu do analizy treści i generowania raportów — kandydaci
+     do sprawdzenia: modele z dobrym wsparciem języka polskiego (np.
+     Bielik, PLLuM) oraz uniwersalne (Llama 3.1, Mistral, Gemma 2),
+     z uwzględnieniem limitu pamięci GPU (RTX 4060 Laptop, zwykle 8 GB
+     VRAM) i długości kontekstu potrzebnej do analizy całego spotkania,
+   - podstawowy test działania modelu na prostym prompcie w języku
+     polskim.
+3. **Test na prawdziwym nagraniu z datą**:
+   - uruchomienie `scripts/transcribe.py` (już z diaryzacją) na jednym
+     z rzeczywistych nagrań z `input/audio/RRRR.MM.DD/`, nie tylko na
+     `test.mp3`,
+   - ocena jakości transkrypcji i diaryzacji na dłuższym, prawdziwym
+     materiale.
+
+## Etap 0 — Porządkowanie danych wejściowych (zrobione)
+
+- [x] Uporządkowanie `input/temp/` — katalog usunięty, nagrania rozłożone
+      do `input/audio/RRRR.MM.DD/` wg daty spotkania.
+- [x] Przygotowano `input/audio/test.mp3` — krótki plik do testów pipeline'u.
+- [ ] `input/historical_data/reports/` i `input/historical_data/transcripts/`
+      wciąż puste — historyczne raporty/transkrypcje do dodania, gdy będą
+      dostępne (potrzebne do Etapu 4 jako wzorce stylu).
+- [ ] Nowy katalog `input/knowledge/` (regulaminy, uchwały, umowy) — do
+      ustalenia, jak i czy ma być wykorzystywany jako kontekst dla modelu
+      przy analizie treści spotkań (Etap 4).
+- [ ] Weryfikacja zawartości `examples/` — nadal zrzut niepowiązanych danych
+      prywatnych (zdjęcia/SMS z 2020, katalog `Downloads/DCIM/...`), a nie
+      przykładowe raporty spółdzielni opisane w README.
+
+## Etap 1 — Dokończenie środowiska
+
+- [x] PyTorch 2.8.0+cu128, WhisperX 3.8.6 zainstalowane w `.venv` (zgodnie
+      z pinami w `docs/INSTALLATION.md`).
+- [ ] Instalacja i konfiguracja Ollama (`docs/INSTALLATION.md`, sekcja 5 —
+      obecnie „Do uzupełnienia”) — jeszcze nie zainstalowana.
+- [ ] Wybór modelu językowego do analizy treści i generowania raportów
+      (kryteria: jakość dla języka polskiego, długi kontekst, praca
+      lokalna na RTX 4060 Laptop / 32 GB RAM).
+- [ ] Token HuggingFace + akceptacja warunków modeli pyannote
+      (`pyannote/segmentation`, `pyannote/speaker-diarization-3.1`) —
+      wymagane przez WhisperX do diaryzacji (rozpoznawania mówców).
+- [ ] Spisanie testu instalacji (`docs/INSTALLATION.md`, sekcja 7) —
+      minimalny skrypt/procedura potwierdzająca, że WhisperX, PyTorch+CUDA
+      i Ollama działają poprawnie na danym komputerze.
+- [ ] Utworzenie katalogów `scripts/` i `prompts/` (są w opisie struktury
+      w README, ale jeszcze nie istnieją w repo).
+- [ ] Ustalenie zawartości `config/` (obecnie pusty) — np. ścieżki
+      wejścia/wyjścia, nazwa modelu Ollama, parametry WhisperX
+      (język, diaryzacja, rozmiar modelu).
+
+## Etap 2 — Transkrypcja i diaryzacja
+
+- [x] Skrypt `scripts/transcribe.py` uruchamiający WhisperX (bez diaryzacji)
+      na pliku audio z `input/audio/`, zapisujący transkrypcję (`.txt` +
+      `.json` z segmentami) do `output/transcripts/`, z odtworzeniem
+      struktury podkatalogów dat.
+- [x] Pierwszy test na `input/audio/test.mp3` — zakończony sukcesem
+      (8 segmentów), 2026-08-20.
+- [ ] Włączenie rozpoznawania mówców (diaryzacja) i oznaczenie ich w
+      transkrypcie — wymaga tokenu HuggingFace + naprawy `torchcodec`/FFmpeg
+      pod Windows (patrz Etap 1).
+- [ ] Test na 1–2 nagraniach z różną liczbą mówców i jakością dźwięku.
+
+## Etap 3 — Przetwarzanie transkrypcji
+
+- [ ] Oczyszczanie transkrypcji (usuwanie wypełniaczy, łączenie fragmentów
+      tej samej wypowiedzi, korekta oczywistych błędów rozpoznawania).
+- [ ] Ujednolicony format pośredni transkrypcji (np. mówca + znacznik
+      czasu + tekst) jako wejście dla kolejnego etapu.
+
+## Etap 4 — Analiza treści i generowanie raportu
+
+- [ ] Prompty w `prompts/` do: (a) analizy/streszczenia przebiegu
+      spotkania, (b) wygenerowania długiego, narracyjnego raportu w stylu
+      zgodnym z wcześniejszymi raportami spółdzielni.
+- [ ] Wykorzystanie danych historycznych (`input/historical_data/`) jako
+      wzorców stylu i struktury raportu.
+- [ ] Integracja skryptu z lokalnym modelem przez Ollama, zapis wyniku do
+      `output/reports/`.
+
+## Etap 5 — Weryfikacja przez pracownika
+
+- [ ] Ustalenie formy weryfikacji projektu raportu (np. plik do edycji,
+      prosty interfejs) — decyzja projektowa do zapisania w
+      `docs/PROJECT_MEMORY.md`.
+- [ ] Jasne oznaczenie w wygenerowanym pliku, że to **projekt** raportu
+      wymagający sprawdzenia przez człowieka, nie wersja ostateczna.
+
+## Etap 6 — Dokumentacja końcowa
+
+- [ ] Uzupełnienie `docs/HOW_TO_USE.md` (celowo odłożone na koniec —
+      instrukcja obsługi całego pipeline'u krok po kroku).
+- [ ] Aktualizacja `README.md` (sekcja „Status”) po osiągnięciu działającego
+      end-to-end przepływu.
+- [ ] Wpis podsumowujący w `docs/HISTORY.md`.
+
+## Etap 7 — Test end-to-end
+
+- [ ] Pełny przebieg: nagranie → transkrypcja → analiza → projekt raportu,
+      na rzeczywistym (uporządkowanym) nagraniu z `input/audio/`.
+- [ ] Porównanie projektu raportu z odpowiadającym mu raportem historycznym
+      (tam gdzie dostępne nagranie + gotowy raport) jako nieformalna miara
+      jakości.
+
+## Uwagi
+
+- Zgodnie z `docs/AGENTS.md`: żadne rzeczywiste nagrania, transkrypcje ani
+  raporty nie trafiają do repozytorium Git ani do zewnętrznych usług.
+- Ten plan należy aktualizować w miarę postępu prac i podejmowania decyzji
+  projektowych (odznaczanie zrobionych punktów, dopisywanie nowych).

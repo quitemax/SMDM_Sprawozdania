@@ -1,0 +1,48 @@
+# ============================================================
+# Dane poufne (nagrania, transkrypcje, sprawozdania, archiwum)
+# ============================================================
+
+input/audio/*
+!input/audio/.gitkeep
+
+input/historical_data/reports/*
+!input/historical_data/reports/.gitkeep
+
+input/historical_data/transcripts/*
+!input/historical_data/transcripts/.gitkeep
+
+output/reports/*
+!output/reports/.gitkeep
+
+output/transcripts/*
+!output/transcripts/.gitkeep
+
+# ============================================================
+# Python
+# ============================================================
+
+.venv/
+venv/
+env/
+
+__pycache__/
+*.py[cod]
+
+.pytest_cache/
+.mypy_cache/
+
+# ============================================================
+# Środowisko / konfiguracja lokalna
+# ============================================================
+
+.env
+.env.*
+
+.vscode/
+
+# ============================================================
+# System Windows
+# ============================================================
+
+Thumbs.db
+Desktop.ini
