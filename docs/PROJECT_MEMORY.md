@@ -37,6 +37,11 @@ Materiały te będą wykorzystywane jako przykłady sposobu opracowywania raport
 - NVIDIA GeForce RTX 4060 Laptop
 - 32 GB RAM
 
+## Repozytorium Git
+
+Projekt jest wersjonowany w repozytorium GitHub:
+https://github.com/quitemax/SMDM_Sprawozdania
+
 ## Uwagi
 
 Ten dokument należy aktualizować w przypadku podjęcia istotnych decyzji

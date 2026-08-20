@@ -1,5 +1,12 @@
 # Historia projektu
 
+## 2026-08-20 (5)
+
+- Utworzono i opublikowano repozytorium na GitHub:
+  https://github.com/quitemax/SMDM_Sprawozdania
+- Zaktualizowano `README.md` (sekcja „Szybki start”, link do
+  `docs/HOW_TO_USE.md`).
+
 ## 2026-08-20 (4)
 
 - Ustalono kolejność prac na kolejną sesję w `docs/ROADMAP.md`:
