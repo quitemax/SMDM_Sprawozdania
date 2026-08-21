@@ -1,5 +1,19 @@
 # Historia projektu
 
+## 2026-08-21 (7)
+
+- `scripts/clean_transcript.py` — jeśli obok transkrypcji istnieje
+  `<nazwa>.speakers.json` (z `identify_speakers.py`), wykryte imiona są
+  teraz od razu podstawiane w etykiecie mówcy (`speaker_display`) w
+  `.clean.txt`/`.clean.json`, zawsze oznaczone jako niepotwierdzona
+  propozycja (np. `Leon (SPEAKER_07?)`) — surowa etykieta `SPEAKER_XX`
+  zachowana osobno w polu `speaker`. Mówcy bez propozycji
+  (`proposed_name: null`) zostają jako `SPEAKER_XX`. Utrzymuje to zasadę
+  „tylko propozycja do weryfikacji” (`docs/PROJECT_MEMORY.md`), ułatwiając
+  jednocześnie przegląd. Test na `2025.06.27` pokazał to w praktyce —
+  łącznie ze znanym błędnym dopasowaniem (SPEAKER_03), które dzięki
+  oznaczeniu `?` jest od razu widoczne jako wymagające sprawdzenia.
+
 ## 2026-08-21 (6)
 
 - Dodano `scripts/clean_transcript.py` (Etap 3, dokończony) — skleja

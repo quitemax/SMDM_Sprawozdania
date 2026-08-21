@@ -84,14 +84,24 @@ mówcy (oddalone o mniej niż 2 sekundy) w jedną wypowiedź i usuwa segmenty
 będące wyłącznie izolowanym wypełniaczem (np. samo "yyy"). Nie poprawia
 błędów w środku zdań.
 
+Jeśli obok transkrypcji istnieje `<nazwa>.speakers.json` (wynik
+`identify_speakers.py` — patrz niżej), wykryte imiona są od razu
+podstawiane w etykiecie mówcy, ale ZAWSZE oznaczone jako propozycja, np.
+`Leon (SPEAKER_07?)` — model bywa niedokładny (patrz
+`docs/PROJECT_MEMORY.md`), więc etykieta z `?` wymaga sprawdzenia przy
+weryfikacji (Etap 5). Uruchom `identify_speakers.py` **przed**
+`clean_transcript.py`, żeby podstawienie zadziałało:
+
 ```powershell
 python scripts\identify_speakers.py "output\transcripts\2026.08.10\10.08.2026.json"
 python scripts\clean_transcript.py "output\transcripts\2026.08.10\10.08.2026.json"
 ```
 
-Wynik: `<nazwa>.clean.txt` (czytelny format `[HH:MM:SS] MÓWCA: tekst`,
-wygodny do przeglądu) i `<nazwa>.clean.json` (`{"turns": [...]}`, do
-dalszego przetwarzania — wejście dla analizy treści, Etap 4).
+Wynik: `<nazwa>.clean.txt` (czytelny format
+`[HH:MM:SS] MÓWCA (lub Imię (SPEAKER_XX?)): tekst`, wygodny do przeglądu)
+i `<nazwa>.clean.json` (`{"turns": [...]}`, z surową etykietą `speaker`
+i wyświetlaną `speaker_display` osobno — do dalszego przetwarzania,
+wejście dla analizy treści, Etap 4).
 
 ## Propozycja identyfikacji mówców
 

@@ -134,6 +134,14 @@ Kolejność uzgodniona z użytkownikiem:
       obok transkrypcji. Test na prawdziwym nagraniu (`2025.06.27`):
       1035 segmentów → 346 tur, wynik czytelny i spójny (patrz
       `docs/HISTORY.md`).
+      Aktualizacja 2026-08-21: jeśli obok istnieje `<nazwa>.speakers.json`
+      (z `identify_speakers.py`), wykryte imiona są od razu podstawiane w
+      etykiecie mówcy w `.clean.txt`/`.clean.json` (pole `speaker_display`),
+      zawsze oznaczone jako propozycja, np. `Leon (SPEAKER_07?)` — surowa
+      etykieta `speaker` (SPEAKER_XX) zostaje zachowana osobno w JSON.
+      Utrzymuje to zasadę „tylko propozycja do weryfikacji” z
+      `docs/PROJECT_MEMORY.md`, ale ułatwia przegląd bez ręcznego
+      zerkania do osobnego pliku.
 
 ## Etap 4 — Analiza treści i generowanie raportu
 
