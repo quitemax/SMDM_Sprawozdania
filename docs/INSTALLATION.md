@@ -179,7 +179,30 @@ ollama ps
 
 ## 7. Test instalacji
 
-Do uzupełnienia.
+Szybka weryfikacja, że cały stack działa razem (GPU, WhisperX + diaryzacja,
+Ollama):
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+
+# 1. GPU + CUDA
+nvidia-smi
+python -c "import torch; print('CUDA available:', torch.cuda.is_available())"
+
+# 2. WhisperX + diaryzacja na krótkim pliku testowym
+$env:HF_TOKEN = "hf_..."
+python scripts\transcribe.py "input\audio\test.mp3"
+
+# 3. Ollama + model językowy
+ollama run SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M "Powiedz jednym krótkim zdaniem po polsku, że wszystko działa."
+```
+
+Oczekiwany wynik:
+
+- `torch.cuda.is_available()` zwraca `True`,
+- `scripts\transcribe.py` zapisuje `output/transcripts/test.txt` i
+  `test.json` z etykietami mówców (np. `[SPEAKER_00]`),
+- Ollama zwraca sensowną, poprawną gramatycznie odpowiedź po polsku.
 
 ## Rozwiązywanie problemów
 

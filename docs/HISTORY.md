@@ -1,5 +1,15 @@
 # Historia projektu
 
+## 2026-08-21 (4)
+
+- Dokończono drobiazgi z Etapu 1 (`docs/ROADMAP.md`):
+  - utworzono katalog `prompts/` (na przyszłe szablony promptów, Etap 4),
+  - dodano `config/config.yaml` (ścieżki, parametry WhisperX, nazwa modelu
+    Ollama) wczytywany przez nowy `scripts/config.py`; `scripts/transcribe.py`
+    używa go jako domyślnych wartości CLI (nadpisywalnych parametrami),
+  - uzupełniono `docs/INSTALLATION.md`, sekcja 7 (Test instalacji) —
+    skonsolidowana weryfikacja GPU/CUDA, WhisperX+diaryzacja, Ollama.
+
 ## 2026-08-21 (3)
 
 - Dodano wypisywanie procentowego postępu (transkrypcja, wyrównanie,

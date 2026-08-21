@@ -74,14 +74,16 @@ Kolejność uzgodniona z użytkownikiem:
       `SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M` (patrz plan sesji wyżej).
 - [x] Token HuggingFace + akceptacja warunków modeli pyannote —
       wymagane przez WhisperX do diaryzacji (rozpoznawania mówców).
-- [ ] Spisanie testu instalacji (`docs/INSTALLATION.md`, sekcja 7) —
+- [x] Spisanie testu instalacji (`docs/INSTALLATION.md`, sekcja 7) —
       minimalny skrypt/procedura potwierdzająca, że WhisperX, PyTorch+CUDA
       i Ollama działają poprawnie na danym komputerze.
-- [ ] Utworzenie katalogów `scripts/` i `prompts/` (są w opisie struktury
-      w README, ale jeszcze nie istnieją w repo).
-- [ ] Ustalenie zawartości `config/` (obecnie pusty) — np. ścieżki
-      wejścia/wyjścia, nazwa modelu Ollama, parametry WhisperX
-      (język, diaryzacja, rozmiar modelu).
+- [x] Utworzenie katalogów `scripts/` i `prompts/` (są w opisie struktury
+      w README).
+- [x] Ustalenie zawartości `config/` — `config/config.yaml` (ścieżki
+      wejścia/wyjścia, nazwa modelu Ollama, parametry WhisperX: język,
+      diaryzacja, rozmiar modelu, batch size). Wczytywany przez
+      `scripts/config.py`, używany jako domyślne wartości w
+      `scripts/transcribe.py` (nadpisywalne parametrami CLI).
 
 ## Etap 2 — Transkrypcja i diaryzacja
 

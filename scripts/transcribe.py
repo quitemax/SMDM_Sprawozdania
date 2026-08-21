@@ -24,6 +24,8 @@ import torch
 import whisperx
 from whisperx.diarize import DiarizationPipeline
 
+from config import load_config
+
 
 def print_progress(stage: str):
     """Zwraca progress_callback wypisujący procent postępu danego etapu w jednej linii."""
@@ -110,29 +112,46 @@ def transcribe(
 
 
 def main() -> None:
+    config = load_config()
+    whisperx_cfg = config.get("whisperx", {})
+    paths_cfg = config.get("paths", {})
+
     parser = argparse.ArgumentParser(description="Transkrypcja nagrania audio przy użyciu WhisperX.")
     parser.add_argument("audio", type=Path, help="Ścieżka do pliku audio.")
-    parser.add_argument("--model", default="large-v3", help="Nazwa modelu Whisper (domyślnie: large-v3).")
-    parser.add_argument("--language", default="pl", help="Kod języka nagrania (domyślnie: pl).")
-    parser.add_argument("--batch-size", type=int, default=16, help="Rozmiar batcha (domyślnie: 16).")
+    parser.add_argument(
+        "--model",
+        default=whisperx_cfg.get("model", "large-v3"),
+        help="Nazwa modelu Whisper (domyślnie z config/config.yaml).",
+    )
+    parser.add_argument(
+        "--language",
+        default=whisperx_cfg.get("language", "pl"),
+        help="Kod języka nagrania (domyślnie z config/config.yaml).",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=whisperx_cfg.get("batch_size", 16),
+        help="Rozmiar batcha (domyślnie z config/config.yaml).",
+    )
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("output/transcripts"),
-        help="Katalog wynikowy (domyślnie: output/transcripts).",
+        default=Path(paths_cfg.get("output_transcripts", "output/transcripts")),
+        help="Katalog wynikowy (domyślnie z config/config.yaml).",
     )
     parser.add_argument(
         "--input-root",
         type=Path,
-        default=Path("input/audio"),
-        help="Katalog bazowy nagrań, względem którego odtwarzana jest struktura podkatalogów w output-dir (domyślnie: input/audio).",
+        default=Path(paths_cfg.get("input_audio", "input/audio")),
+        help="Katalog bazowy nagrań, względem którego odtwarzana jest struktura podkatalogów w output-dir (domyślnie z config/config.yaml).",
     )
     parser.add_argument(
         "--diarize",
         dest="diarize",
         action="store_true",
-        default=True,
-        help="Rozpoznawanie mówców (domyślnie: włączone). Wymaga zmiennej środowiskowej HF_TOKEN.",
+        default=whisperx_cfg.get("diarize", True),
+        help="Rozpoznawanie mówców (domyślnie z config/config.yaml). Wymaga zmiennej środowiskowej HF_TOKEN.",
     )
     parser.add_argument(
         "--no-diarize",

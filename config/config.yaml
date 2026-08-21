@@ -1,0 +1,17 @@
+# Konfiguracja projektu — ścieżki i domyślne parametry pipeline'u.
+# Wartości tutaj to domyślne ustawienia skryptów; można je nadpisać
+# parametrami linii poleceń (patrz docs/HOW_TO_USE.md).
+
+paths:
+  input_audio: input/audio
+  output_transcripts: output/transcripts
+  output_reports: output/reports
+
+whisperx:
+  model: large-v3
+  language: pl
+  batch_size: 16
+  diarize: true
+
+ollama:
+  model: SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M
