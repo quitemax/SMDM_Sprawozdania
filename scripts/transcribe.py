@@ -25,6 +25,16 @@ import whisperx
 from whisperx.diarize import DiarizationPipeline
 
 
+def print_progress(stage: str):
+    """Zwraca progress_callback wypisujący procent postępu danego etapu w jednej linii."""
+
+    def callback(percent: float) -> None:
+        end = "\n" if percent >= 100 else ""
+        print(f"\r{stage}: {percent:5.1f}%{end}", end="", flush=True)
+
+    return callback
+
+
 def resolve_output_dir(audio_path: Path, output_root: Path, input_root: Path) -> Path:
     """Odzwierciedla podkatalog nagrania (np. datę spotkania) w katalogu wynikowym."""
     try:
@@ -50,10 +60,18 @@ def transcribe(
 
     model = whisperx.load_model(model_name, device, compute_type=compute_type, language=language)
     audio = whisperx.load_audio(str(audio_path))
-    result = model.transcribe(audio, batch_size=batch_size)
+    result = model.transcribe(audio, batch_size=batch_size, progress_callback=print_progress("Transkrypcja"))
 
     align_model, metadata = whisperx.load_align_model(language_code=result["language"], device=device)
-    result = whisperx.align(result["segments"], align_model, metadata, audio, device, return_char_alignments=False)
+    result = whisperx.align(
+        result["segments"],
+        align_model,
+        metadata,
+        audio,
+        device,
+        return_char_alignments=False,
+        progress_callback=print_progress("Wyrównanie"),
+    )
 
     if diarize:
         hf_token = os.environ.get("HF_TOKEN")
@@ -64,7 +82,12 @@ def transcribe(
                 "Użyj --no-diarize, żeby zrobić transkrypcję bez rozpoznawania mówców."
             )
         diarize_model = DiarizationPipeline(token=hf_token, device=device)
-        diarize_segments = diarize_model(audio, min_speakers=min_speakers, max_speakers=max_speakers)
+        diarize_segments = diarize_model(
+            audio,
+            min_speakers=min_speakers,
+            max_speakers=max_speakers,
+            progress_callback=print_progress("Diaryzacja"),
+        )
         result = whisperx.assign_word_speakers(diarize_segments, result)
 
     output_dir = resolve_output_dir(audio_path, output_root, input_root)

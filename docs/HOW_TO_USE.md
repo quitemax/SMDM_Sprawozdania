@@ -21,6 +21,9 @@ $env:HF_TOKEN = "hf_..."
 python scripts\transcribe.py "input\audio\test.mp3"
 ```
 
+Postęp każdego etapu (transkrypcja, wyrównanie, diaryzacja) jest wypisywany
+w procentach na bieżąco w konsoli.
+
 Bez rozpoznawania mówców (nie wymaga tokena):
 
 ```powershell
