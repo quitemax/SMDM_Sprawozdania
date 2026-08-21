@@ -1,5 +1,31 @@
 # Historia projektu
 
+## 2026-08-21 (5)
+
+- Dodano `scripts/identify_speakers.py` — propozycja mapowania
+  `SPEAKER_XX` → imię/nazwisko na podstawie treści transkrypcji.
+  Heurystyka (regex) wybiera fragmenty, gdzie ktoś może się przedstawiać
+  albo zwracać do kogoś po imieniu, i przekazuje je modelowi Ollama
+  (`SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M`) z prośbą o wywnioskowanie
+  tożsamości — przez HTTP API Ollamy, z wymuszonym schematem JSON
+  odpowiedzi. Wynik to osobny plik `<nazwa>.speakers.json`, wyłącznie
+  propozycja do ręcznej weryfikacji (nigdy automatyczna podmiana w
+  transkrypcie) — decyzja zapisana w `docs/PROJECT_MEMORY.md`.
+- Test na prawdziwej transkrypcji (`2025.06.27`, 11 mówców): mechanizm
+  działa i realnie znajduje sygnał (poprawnie wskazał mówcę adresowanego
+  per „Panie Leonie”), ale ujawnił wyraźne ograniczenia lokalnego modelu
+  11B (Q4_K_M): (1) myli osobę, o której się mówi/cytuje jej wiadomość,
+  z faktycznym mówcą — nawet po dodaniu jawnej instrukcji w prompcie
+  ostrzegającej dokładnie przed tym błędem, i nawet gdy własne uzasadnienie
+  modelu (`evidence`) samo sobie przeczy z wnioskiem; (2) mimo instrukcji
+  „zwróć wynik dla wszystkich mówców” pominął część z nich. Naprawiono
+  też osobny drobny błąd: model czasem zwracał dosłowny string `"null"`
+  zamiast wartości JSON `null` — znormalizowane w kodzie po stronie
+  skryptu. Dalsze poprawki promptu uznane za mało opłacalne przy tym
+  rozmiarze modelu — do rewizji przy Etapie 4 (większy model lub
+  weryfikacja dwuprzebiegowa). Treść transkrypcji — dane poufne — nie
+  jest tu cytowana, patrz `docs/AGENTS.md`.
+
 ## 2026-08-21 (4)
 
 - Dokończono drobiazgi z Etapu 1 (`docs/ROADMAP.md`):

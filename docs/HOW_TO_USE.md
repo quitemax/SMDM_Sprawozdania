@@ -49,6 +49,9 @@ w pamięci podręcznej.
 
 ### Parametry opcjonalne
 
+Wartości domyślne pochodzą z `config/config.yaml` — poniżej aktualna
+zawartość tego pliku. Każdy parametr można nadpisać flagą CLI.
+
 | Parametr | Domyślna wartość | Opis |
 |---|---|---|
 | `--model` | `large-v3` | Nazwa modelu Whisper. |
@@ -73,3 +76,21 @@ Dla pliku `input/audio/2026.08.10/10.08.2026.MP3` powstają:
 
 Plik bezpośrednio w `input/audio/` (np. `test.mp3`, bez podkatalogu z datą)
 trafia płasko do `output/transcripts/` (np. `output/transcripts/test.txt`).
+
+## Propozycja identyfikacji mówców
+
+Skrypt: `scripts/identify_speakers.py`. Na podstawie pliku `.json` z
+transkrypcją (wynik `transcribe.py`) szuka fragmentów, gdzie ktoś się
+przedstawia albo zwraca do kogoś po imieniu, i prosi model Ollama o
+wywnioskowanie, kim może być każdy `SPEAKER_XX`.
+
+```powershell
+ollama serve  # jeśli usługa Ollama nie działa już w tle
+python scripts\identify_speakers.py "output\transcripts\2026.08.10\10.08.2026.json"
+```
+
+Wynik zapisywany jest jako `<nazwa>.speakers.json` obok transkrypcji —
+**wyłącznie propozycja do ręcznej weryfikacji przez pracownika**,
+transkrypcja nie jest automatycznie modyfikowana. Model bywa niedokładny
+(patrz `docs/HISTORY.md`, `docs/PROJECT_MEMORY.md`) — zawsze sprawdzić
+przed użyciem.

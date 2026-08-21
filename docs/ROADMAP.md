@@ -103,6 +103,24 @@ Kolejność uzgodniona z użytkownikiem:
 
 ## Etap 3 — Przetwarzanie transkrypcji
 
+- [x] Propozycja mapowania SPEAKER_XX → imię/nazwisko —
+      `scripts/identify_speakers.py` (zrobione 2026-08-21). Szuka w
+      transkrypcie fragmentów, gdzie ktoś się przedstawia albo zwraca do
+      kogoś po imieniu (heurystyka regex), i prosi model Ollama o
+      wywnioskowanie tożsamości mówców z kontekstu. Wynik zapisywany jako
+      osobny plik `<nazwa>.speakers.json` obok transkrypcji — **wyłącznie
+      propozycja do ręcznej weryfikacji** (Etap 5), transkrypcja nie jest
+      automatycznie modyfikowana (decyzja projektowa, patrz
+      `docs/PROJECT_MEMORY.md`).
+      Znane ograniczenia (model 11B, kwantyzacja Q4_K_M) — patrz
+      `docs/HISTORY.md`: model czasem myli osobę, o której się mówi/cytuje
+      jej wiadomość, z faktycznym mówcą (mimo jawnej instrukcji w
+      prompcie), i nie zawsze zwraca wynik dla wszystkich mówców mimo
+      takiego polecenia. Nie warto dalej optymalizować promptu bez
+      większego modelu — do rewizji przy Etapie 4.
+      Docelowo (świadomie odłożone): wykorzystanie `input/knowledge/` i
+      `input/historical_data/` jako dodatkowego kontekstu (znani
+      członkowie Zarządu/Rady) do poprawy trafności.
 - [ ] Oczyszczanie transkrypcji (usuwanie wypełniaczy, łączenie fragmentów
       tej samej wypowiedzi, korekta oczywistych błędów rozpoznawania).
 - [ ] Ujednolicony format pośredni transkrypcji (np. mówca + znacznik

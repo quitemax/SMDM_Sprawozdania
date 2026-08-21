@@ -46,6 +46,17 @@ VRAM dostępnego GPU. W razie problemów z jakością lub wydajnością przy
 dłuższych transkrypcjach do rozważenia alternatywy: mniejszy kwant tego
 modelu albo modele uniwersalne (Llama 3.1, Mistral, Gemma 2).
 
+## Identyfikacja mówców (SPEAKER_XX → imię/nazwisko)
+
+Decyzja projektowa: mapowanie mówców na imiona/nazwiska, wnioskowane przez
+model językowy z kontekstu transkrypcji, jest zapisywane WYŁĄCZNIE jako
+osobna propozycja do ręcznej weryfikacji (`<nazwa>.speakers.json`),
+nigdy nie podmienia automatycznie etykiet w transkrypcji. Powód: model
+11B (Q4_K_M) w testach popełniał wyraźne błędy wnioskowania (mylenie
+osoby, o której mowa, z faktycznym mówcą) mimo jawnych instrukcji w
+prompcie — zbyt duże ryzyko błędnego przypisania wypowiedzi w oficjalnym
+dokumencie spółdzielni, żeby robić to bez nadzoru człowieka.
+
 ## Repozytorium Git
 
 Projekt jest wersjonowany w repozytorium GitHub:
