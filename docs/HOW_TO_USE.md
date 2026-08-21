@@ -6,14 +6,32 @@ krok po kroku: od nagrania do gotowego projektu raportu.
 
 ## Transkrypcja nagrania (WhisperX)
 
-Skrypt: `scripts/transcribe.py`. Zamienia plik audio na transkrypcję tekstową
-(bez rozpoznawania mówców — diaryzacja zostanie dodana w kolejnym kroku).
+Skrypt: `scripts/transcribe.py`. Zamienia plik audio na transkrypcję
+tekstową z rozpoznawaniem mówców (diaryzacja, domyślnie włączona).
+
+Diaryzacja wymaga tokena Hugging Face w zmiennej środowiskowej `HF_TOKEN`
+(patrz `docs/INSTALLATION.md`, sekcja o tokenie i dostępie do modeli
+pyannote).
 
 ### Uruchomienie
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
+$env:HF_TOKEN = "hf_..."
 python scripts\transcribe.py "input\audio\test.mp3"
+```
+
+Bez rozpoznawania mówców (nie wymaga tokena):
+
+```powershell
+python scripts\transcribe.py "input\audio\test.mp3" --no-diarize
+```
+
+Jeśli znana jest przybliżona liczba mówców, można ją podać — poprawia to
+jakość diaryzacji:
+
+```powershell
+python scripts\transcribe.py "input\audio\test.mp3" --min-speakers 2 --max-speakers 5
 ```
 
 Dla nagrania z konkretnej daty spotkania:
@@ -35,14 +53,20 @@ w pamięci podręcznej.
 | `--batch-size` | `16` | Rozmiar batcha przetwarzania. |
 | `--output-dir` | `output/transcripts` | Katalog wynikowy. |
 | `--input-root` | `input/audio` | Katalog bazowy nagrań — względem niego odtwarzana jest struktura podkatalogów (np. daty) w katalogu wynikowym. |
+| `--diarize` / `--no-diarize` | `--diarize` (włączone) | Rozpoznawanie mówców. Wymaga `HF_TOKEN`. |
+| `--min-speakers` | brak | Minimalna liczba mówców (opcjonalnie, poprawia jakość diaryzacji). |
+| `--max-speakers` | brak | Maksymalna liczba mówców (opcjonalnie). |
 
 ### Wynik
 
 Dla pliku `input/audio/2026.08.10/10.08.2026.MP3` powstają:
 
-- `output/transcripts/2026.08.10/10.08.2026.txt` — sam tekst transkrypcji,
+- `output/transcripts/2026.08.10/10.08.2026.txt` — tekst transkrypcji,
+  z etykietą mówcy na początku każdej linii (np. `[SPEAKER_00] ...`), o ile
+  diaryzacja jest włączona,
 - `output/transcripts/2026.08.10/10.08.2026.json` — segmenty ze znacznikami
-  czasu (do dalszego przetwarzania).
+  czasu (i etykietą mówcy przy każdym segmencie/słowie) do dalszego
+  przetwarzania.
 
 Plik bezpośrednio w `input/audio/` (np. `test.mp3`, bez podkatalogu z datą)
 trafia płasko do `output/transcripts/` (np. `output/transcripts/test.txt`).

@@ -96,6 +96,41 @@ python -m pip install hf_xet==1.6.0
 python -m pip show hf_xet
 ```
 
+### Token Hugging Face i dostęp do modeli pyannote (diaryzacja)
+
+Diaryzacja (rozpoznawanie mówców) w WhisperX korzysta z modeli
+`pyannote/segmentation-3.0` i `pyannote/speaker-diarization-3.1`, które są
+„gated” — wymagają zalogowanego konta Hugging Face i ręcznej akceptacji
+warunków, sam token nie wystarczy.
+
+1. Załóż konto na https://huggingface.co (jeśli jeszcze nie masz).
+2. Wygeneruj token dostępu: Settings → Access Tokens → New token, typ
+   **Read**.
+3. Zaakceptuj warunki użytkowania obu modeli (wymaga zalogowania w
+   przeglądarce):
+   - https://huggingface.co/pyannote/segmentation-3.0
+   - https://huggingface.co/pyannote/speaker-diarization-3.1
+4. Przekaż token do skryptu przez zmienną środowiskową — **nie
+   hardkodować w kodzie** (zgodnie z `docs/AGENTS.md`):
+
+```powershell
+$env:HF_TOKEN = "hf_..."
+```
+
+Weryfikacja tokena i dostępu do plików modeli (przydatne przy
+diagnozowaniu błędu 403):
+
+```powershell
+curl.exe -s -H "Authorization: Bearer $env:HF_TOKEN" https://huggingface.co/api/whoami-v2
+
+curl.exe -s -o NUL -w "%{http_code}`n" -H "Authorization: Bearer $env:HF_TOKEN" https://huggingface.co/pyannote/segmentation-3.0/resolve/main/config.yaml
+curl.exe -s -o NUL -w "%{http_code}`n" -H "Authorization: Bearer $env:HF_TOKEN" https://huggingface.co/pyannote/speaker-diarization-3.1/resolve/main/config.yaml
+```
+
+Kod `200` dla obu modeli oznacza, że warunki zaakceptowane i token działa.
+Kod `403` oznacza brak akceptacji warunków (krok 3) — sam ważny token to
+za mało.
+
 ## 5. Ollama
 
 ```powershell

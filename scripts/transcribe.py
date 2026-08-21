@@ -1,16 +1,17 @@
-"""Transkrypcja nagrania audio przy użyciu WhisperX (bez diaryzacji)."""
+"""Transkrypcja nagrania audio przy użyciu WhisperX, z diaryzacją (rozpoznawaniem mówców)."""
 
 import argparse
 import json
 import logging
+import os
 import warnings
 from pathlib import Path
 
-# Nieszkodliwe ostrzeżenia z pyannote.audio (używanego wewnętrznie przez WhisperX do VAD):
+# Nieszkodliwe ostrzeżenia z pyannote.audio (używanego wewnętrznie przez WhisperX do VAD
+# i diaryzacji), potwierdzone jako niegroźne również przy realnym użyciu diaryzacji:
 # - brak torchcodec/FFmpeg pod Windows — WhisperX i tak przekazuje audio już wczytane
 #   do pamięci, więc ścieżka dekodowania przez torchcodec nigdy nie jest używana,
 # - wyłączenie TF32 — świadoma decyzja pyannote na rzecz powtarzalności wyników.
-# Trzeba to zweryfikować ponownie przy wdrażaniu diaryzacji (docs/ROADMAP.md, Etap 1).
 warnings.filterwarnings("ignore", message=r"\ntorchcodec is not installed correctly.*", category=UserWarning)
 warnings.filterwarnings("ignore", message=r".*TensorFloat-32.*", category=UserWarning)
 
@@ -21,6 +22,7 @@ logging.getLogger("lightning.pytorch.utilities.migration.utils").setLevel(loggin
 
 import torch
 import whisperx
+from whisperx.diarize import DiarizationPipeline
 
 
 def resolve_output_dir(audio_path: Path, output_root: Path, input_root: Path) -> Path:
@@ -39,6 +41,9 @@ def transcribe(
     model_name: str,
     language: str,
     batch_size: int,
+    diarize: bool,
+    min_speakers: int | None,
+    max_speakers: int | None,
 ) -> None:
     device = "cuda" if torch.cuda.is_available() else "cpu"
     compute_type = "float16" if device == "cuda" else "int8"
@@ -50,6 +55,18 @@ def transcribe(
     align_model, metadata = whisperx.load_align_model(language_code=result["language"], device=device)
     result = whisperx.align(result["segments"], align_model, metadata, audio, device, return_char_alignments=False)
 
+    if diarize:
+        hf_token = os.environ.get("HF_TOKEN")
+        if not hf_token:
+            raise RuntimeError(
+                "Diaryzacja wymaga tokena Hugging Face w zmiennej środowiskowej HF_TOKEN "
+                "(patrz docs/INSTALLATION.md, sekcja o tokenie i dostępie do modeli pyannote). "
+                "Użyj --no-diarize, żeby zrobić transkrypcję bez rozpoznawania mówców."
+            )
+        diarize_model = DiarizationPipeline(token=hf_token, device=device)
+        diarize_segments = diarize_model(audio, min_speakers=min_speakers, max_speakers=max_speakers)
+        result = whisperx.assign_word_speakers(diarize_segments, result)
+
     output_dir = resolve_output_dir(audio_path, output_root, input_root)
     output_dir.mkdir(parents=True, exist_ok=True)
     stem = audio_path.stem
@@ -58,7 +75,10 @@ def transcribe(
     json_path.write_text(json.dumps(result, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
 
     txt_path = output_dir / f"{stem}.txt"
-    lines = [segment["text"].strip() for segment in result["segments"]]
+    if diarize:
+        lines = [f"[{segment.get('speaker', '?')}] {segment['text'].strip()}" for segment in result["segments"]]
+    else:
+        lines = [segment["text"].strip() for segment in result["segments"]]
     txt_path.write_text("\n".join(lines), encoding="utf-8")
 
     print(f"Segmentów: {len(result['segments'])}")
@@ -84,9 +104,34 @@ def main() -> None:
         default=Path("input/audio"),
         help="Katalog bazowy nagrań, względem którego odtwarzana jest struktura podkatalogów w output-dir (domyślnie: input/audio).",
     )
+    parser.add_argument(
+        "--diarize",
+        dest="diarize",
+        action="store_true",
+        default=True,
+        help="Rozpoznawanie mówców (domyślnie: włączone). Wymaga zmiennej środowiskowej HF_TOKEN.",
+    )
+    parser.add_argument(
+        "--no-diarize",
+        dest="diarize",
+        action="store_false",
+        help="Wyłącz rozpoznawanie mówców (transkrypcja bez etykiet mówców, bez tokena HF).",
+    )
+    parser.add_argument("--min-speakers", type=int, default=None, help="Minimalna liczba mówców (opcjonalnie).")
+    parser.add_argument("--max-speakers", type=int, default=None, help="Maksymalna liczba mówców (opcjonalnie).")
     args = parser.parse_args()
 
-    transcribe(args.audio, args.output_dir, args.input_root, args.model, args.language, args.batch_size)
+    transcribe(
+        args.audio,
+        args.output_dir,
+        args.input_root,
+        args.model,
+        args.language,
+        args.batch_size,
+        args.diarize,
+        args.min_speakers,
+        args.max_speakers,
+    )
 
 
 if __name__ == "__main__":

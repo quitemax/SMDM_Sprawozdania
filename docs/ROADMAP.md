@@ -8,22 +8,24 @@ i `docs/PROJECT_MEMORY.md`.
 
 Kolejność uzgodniona z użytkownikiem:
 
-1. **Diaryzacja** (rozpoznawanie mówców):
-   - założyć token dostępu na huggingface.co (Settings → Access Tokens,
-     typ „Read”),
-   - zaakceptować warunki użytkowania modeli `pyannote/segmentation-3.0`
-     i `pyannote/speaker-diarization-3.1` na stronach tych modeli (wymaga
-     zalogowania),
-   - przekazywać token do skryptu przez zmienną środowiskową
-     (np. `HF_TOKEN`), nie hardkodować w kodzie — zgodnie z zasadami
-     w `docs/AGENTS.md`,
-   - dodać do `scripts/transcribe.py` krok diaryzacji
-     (`whisperx.DiarizationPipeline` + przypisanie mówców do segmentów),
-   - sprawdzić, czy przy realnym użyciu diaryzacji ostrzeżenie o
-     `torchcodec` nadal jest nieszkodliwe (patrz `docs/HISTORY.md`,
-     wpis o wyciszeniu ostrzeżeń) — jeśli nie, wtedy dopiero szukać
-     właściwej naprawy (kompatybilna wersja FFmpeg z bibliotekami
-     współdzielonymi).
+1. **Diaryzacja** (rozpoznawanie mówców) — zrobione 2026-08-21:
+   - [x] token dostępu HF + akceptacja warunków modeli pyannote
+     (`docs/INSTALLATION.md`, sekcja o tokenie HF),
+   - [x] token przekazywany do skryptu przez zmienną środowiskową
+     `HF_TOKEN`, nie hardkodowany w kodzie — zgodnie z `docs/AGENTS.md`,
+   - [x] dodano do `scripts/transcribe.py` krok diaryzacji
+     (`whisperx.diarize.DiarizationPipeline` + `whisperx.assign_word_speakers`),
+     domyślnie włączony (`--no-diarize`, żeby wyłączyć); domyślny model
+     pipeline'u to `pyannote/speaker-diarization-community-1` (nowy domyślny
+     model w WhisperX 3.8.6, nie `speaker-diarization-3.1` jak pierwotnie
+     zakładano — działa z tym samym tokenem, bez dodatkowej akceptacji),
+   - [x] stare ostrzeżenia o `torchcodec`/TF32 nadal nieszkodliwe przy
+     realnym użyciu diaryzacji. Pojawiło się nowe, osobne ostrzeżenie z
+     `pyannote.audio` (`pooling.py`, `std(): degrees of freedom is <= 0`)
+     przy pierwszym teście na krótkim pliku — do obserwacji na dłuższych,
+     prawdziwych nagraniach (może nie występować przy dłuższym materiale).
+   - [x] test na `input/audio/test.mp3` — poprawne etykiety `[SPEAKER_00]`
+     (patrz `docs/HISTORY.md`).
 2. **Instalacja Ollama i wybór modelu językowego** (zrobione 2026-08-21):
    - [x] instalacja Ollama (`docs/INSTALLATION.md`, sekcja 5),
    - [x] wybór modelu: `SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M` (6.7 GB
@@ -64,8 +66,7 @@ Kolejność uzgodniona z użytkownikiem:
 - [x] Instalacja i konfiguracja Ollama (`docs/INSTALLATION.md`, sekcja 5).
 - [x] Wybór modelu językowego do analizy treści i generowania raportów —
       `SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M` (patrz plan sesji wyżej).
-- [ ] Token HuggingFace + akceptacja warunków modeli pyannote
-      (`pyannote/segmentation`, `pyannote/speaker-diarization-3.1`) —
+- [x] Token HuggingFace + akceptacja warunków modeli pyannote —
       wymagane przez WhisperX do diaryzacji (rozpoznawania mówców).
 - [ ] Spisanie testu instalacji (`docs/INSTALLATION.md`, sekcja 7) —
       minimalny skrypt/procedura potwierdzająca, że WhisperX, PyTorch+CUDA
@@ -78,16 +79,17 @@ Kolejność uzgodniona z użytkownikiem:
 
 ## Etap 2 — Transkrypcja i diaryzacja
 
-- [x] Skrypt `scripts/transcribe.py` uruchamiający WhisperX (bez diaryzacji)
-      na pliku audio z `input/audio/`, zapisujący transkrypcję (`.txt` +
-      `.json` z segmentami) do `output/transcripts/`, z odtworzeniem
-      struktury podkatalogów dat.
+- [x] Skrypt `scripts/transcribe.py` uruchamiający WhisperX na pliku audio
+      z `input/audio/`, zapisujący transkrypcję (`.txt` + `.json` z
+      segmentami) do `output/transcripts/`, z odtworzeniem struktury
+      podkatalogów dat.
 - [x] Pierwszy test na `input/audio/test.mp3` — zakończony sukcesem
       (8 segmentów), 2026-08-20.
-- [ ] Włączenie rozpoznawania mówców (diaryzacja) i oznaczenie ich w
-      transkrypcie — wymaga tokenu HuggingFace + naprawy `torchcodec`/FFmpeg
-      pod Windows (patrz Etap 1).
-- [ ] Test na 1–2 nagraniach z różną liczbą mówców i jakością dźwięku.
+- [x] Włączenie rozpoznawania mówców (diaryzacja, domyślnie włączona,
+      `--no-diarize` żeby wyłączyć) i oznaczenie ich w transkrypcie —
+      zrobione 2026-08-21, przetestowane na `test.mp3`.
+- [ ] Test na 1–2 rzeczywistych nagraniach z różną liczbą mówców i jakością
+      dźwięku (patrz krok 3 planu sesji wyżej).
 
 ## Etap 3 — Przetwarzanie transkrypcji
 

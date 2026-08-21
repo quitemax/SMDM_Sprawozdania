@@ -1,5 +1,27 @@
 # Historia projektu
 
+## 2026-08-21 (2)
+
+- Skonfigurowano token dostępu Hugging Face (typ Read) i zaakceptowano
+  warunki użytkowania modeli `pyannote/segmentation-3.0` i
+  `pyannote/speaker-diarization-3.1` — opisane w `docs/INSTALLATION.md`
+  (nowa sekcja o tokenie HF). Zweryfikowano przez `curl` (kod `200` na
+  pobranie `config.yaml` obu modeli).
+- Dodano diaryzację (rozpoznawanie mówców) do `scripts/transcribe.py`
+  (`whisperx.diarize.DiarizationPipeline` + `whisperx.assign_word_speakers`),
+  domyślnie włączoną (`--no-diarize`, żeby wyłączyć; opcjonalnie
+  `--min-speakers`/`--max-speakers`). Domyślny model pipeline'u w
+  WhisperX 3.8.6 to `pyannote/speaker-diarization-community-1`, nie
+  `speaker-diarization-3.1` jak pierwotnie zakładano w `docs/ROADMAP.md` —
+  działa z tym samym tokenem, bez dodatkowej akceptacji warunków.
+- Test na `input/audio/test.mp3` z diaryzacją zakończony sukcesem — 8
+  segmentów, poprawne etykiety `[SPEAKER_00]` w `output/transcripts/test.txt`.
+  Stare ostrzeżenia o `torchcodec`/TF32 nadal nieszkodliwe. Pojawiło się
+  nowe, osobne ostrzeżenie z `pyannote.audio` (`pooling.py`, `std():
+  degrees of freedom is <= 0`) — prawdopodobnie efekt bardzo krótkiego
+  pliku testowego, do obserwacji przy teście na dłuższym, prawdziwym
+  nagraniu.
+
 ## 2026-08-21
 
 - Zainstalowano Ollama (`winget install Ollama.Ollama`, wersja 0.32.15) —
