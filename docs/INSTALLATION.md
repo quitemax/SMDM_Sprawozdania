@@ -98,11 +98,49 @@ python -m pip show hf_xet
 
 ## 5. Ollama
 
-Do uzupełnienia.
+```powershell
+winget install --id Ollama.Ollama -e --source winget
+```
+
+Instalator uruchamia serwer Ollama automatycznie jako usługę w tle (widoczna
+ikona w zasobniku systemowym) — nie trzeba go uruchamiać ręcznie.
+
+Po instalacji może być potrzebna nowa sesja terminala, żeby PATH się
+odświeżył (`ollama` nie jest rozpoznawane w już otwartym oknie). Jeśli
+problem się utrzymuje, `ollama.exe` domyślnie znajduje się w:
+
+```
+%LOCALAPPDATA%\Programs\Ollama\ollama.exe
+```
+
+Weryfikacja:
+
+```powershell
+ollama --version
+ollama list
+```
 
 ## 6. Model językowy
 
-Do uzupełnienia.
+Wybrany model: `SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M` — dobre wsparcie
+języka polskiego, kontekst do 32K, kwantyzacja Q4_K_M (6.7 GB) mieści się
+niemal w całości w 8 GB VRAM (RTX 4060 Laptop).
+
+```powershell
+ollama pull SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M
+```
+
+Test podstawowy:
+
+```powershell
+ollama run SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M "Napisz jedno krótkie zdanie po polsku podsumowujące, czym jest spółdzielnia mieszkaniowa."
+```
+
+Podział obciążenia CPU/GPU dla wczytanego modelu:
+
+```powershell
+ollama ps
+```
 
 ## 7. Test instalacji
 

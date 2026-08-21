@@ -1,5 +1,17 @@
 # Historia projektu
 
+## 2026-08-21
+
+- Zainstalowano Ollama (`winget install Ollama.Ollama`, wersja 0.32.15) —
+  opisane w `docs/INSTALLATION.md`, sekcja 5. Serwer startuje automatycznie
+  jako usługa w tle po instalacji.
+- Pobrano i przetestowano model językowy
+  `SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M` (6.7 GB) — wybrany do
+  analizy treści spotkań i generowania raportów (dobre wsparcie języka
+  polskiego). `ollama ps` pokazuje 19%/81% CPU/GPU przy kontekście 4096 —
+  model mieści się niemal w całości w 8 GB VRAM RTX 4060 Laptop. Test na
+  prostym prompcie po polsku zakończony poprawną, sensowną odpowiedzią.
+
 ## 2026-08-20 (5)
 
 - Utworzono i opublikowano repozytorium na GitHub:

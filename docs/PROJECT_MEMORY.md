@@ -37,6 +37,15 @@ Materiały te będą wykorzystywane jako przykłady sposobu opracowywania raport
 - NVIDIA GeForce RTX 4060 Laptop
 - 32 GB RAM
 
+## Model językowy
+
+Do analizy treści spotkań i generowania raportów wybrano
+`SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M` (Ollama) — dobre wsparcie
+języka polskiego, kwantyzacja Q4_K_M mieści się niemal w całości w 8 GB
+VRAM dostępnego GPU. W razie problemów z jakością lub wydajnością przy
+dłuższych transkrypcjach do rozważenia alternatywy: mniejszy kwant tego
+modelu albo modele uniwersalne (Llama 3.1, Mistral, Gemma 2).
+
 ## Repozytorium Git
 
 Projekt jest wersjonowany w repozytorium GitHub:

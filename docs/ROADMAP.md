@@ -24,15 +24,17 @@ Kolejność uzgodniona z użytkownikiem:
      wpis o wyciszeniu ostrzeżeń) — jeśli nie, wtedy dopiero szukać
      właściwej naprawy (kompatybilna wersja FFmpeg z bibliotekami
      współdzielonymi).
-2. **Instalacja Ollama i wybór modelu językowego**:
-   - instalacja Ollama (`docs/INSTALLATION.md`, sekcja 5),
-   - wybór modelu do analizy treści i generowania raportów — kandydaci
-     do sprawdzenia: modele z dobrym wsparciem języka polskiego (np.
-     Bielik, PLLuM) oraz uniwersalne (Llama 3.1, Mistral, Gemma 2),
-     z uwzględnieniem limitu pamięci GPU (RTX 4060 Laptop, zwykle 8 GB
-     VRAM) i długości kontekstu potrzebnej do analizy całego spotkania,
-   - podstawowy test działania modelu na prostym prompcie w języku
-     polskim.
+2. **Instalacja Ollama i wybór modelu językowego** (zrobione 2026-08-21):
+   - [x] instalacja Ollama (`docs/INSTALLATION.md`, sekcja 5),
+   - [x] wybór modelu: `SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M` (6.7 GB
+     na dysku, dobre wsparcie języka polskiego) — mieści się niemal
+     w całości w 8 GB VRAM RTX 4060 Laptop (`ollama ps`: 19%/81%
+     CPU/GPU przy kontekście 4096),
+   - [x] podstawowy test na prostym prompcie w języku polskim — odpowiedź
+     poprawna gramatycznie i merytorycznie (patrz `docs/HISTORY.md`).
+   - [ ] docelowa długość kontekstu do analizy całego spotkania (model
+     wspiera do 32K) może wymagać większego offloadu na CPU — do
+     sprawdzenia przy realnym teście na dłuższej transkrypcji (Etap 4).
 3. **Test na prawdziwym nagraniu z datą**:
    - uruchomienie `scripts/transcribe.py` (już z diaryzacją) na jednym
      z rzeczywistych nagrań z `input/audio/RRRR.MM.DD/`, nie tylko na
@@ -59,11 +61,9 @@ Kolejność uzgodniona z użytkownikiem:
 
 - [x] PyTorch 2.8.0+cu128, WhisperX 3.8.6 zainstalowane w `.venv` (zgodnie
       z pinami w `docs/INSTALLATION.md`).
-- [ ] Instalacja i konfiguracja Ollama (`docs/INSTALLATION.md`, sekcja 5 —
-      obecnie „Do uzupełnienia”) — jeszcze nie zainstalowana.
-- [ ] Wybór modelu językowego do analizy treści i generowania raportów
-      (kryteria: jakość dla języka polskiego, długi kontekst, praca
-      lokalna na RTX 4060 Laptop / 32 GB RAM).
+- [x] Instalacja i konfiguracja Ollama (`docs/INSTALLATION.md`, sekcja 5).
+- [x] Wybór modelu językowego do analizy treści i generowania raportów —
+      `SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M` (patrz plan sesji wyżej).
 - [ ] Token HuggingFace + akceptacja warunków modeli pyannote
       (`pyannote/segmentation`, `pyannote/speaker-diarization-3.1`) —
       wymagane przez WhisperX do diaryzacji (rozpoznawania mówców).
@@ -129,6 +129,26 @@ Kolejność uzgodniona z użytkownikiem:
 - [ ] Porównanie projektu raportu z odpowiadającym mu raportem historycznym
       (tam gdzie dostępne nagranie + gotowy raport) jako nieformalna miara
       jakości.
+
+## Etap 8 — (opcjonalnie, rozważane) Konteneryzacja (Docker)
+
+Pomysł zgłoszony 2026-08-21, jeszcze nie zaplanowany do realizacji.
+
+- [ ] Cel: uprościć instalację na nowym komputerze — jeden `Dockerfile`/
+      `docker-compose.yml` zamiast ręcznego dobierania wersji sterownika
+      NVIDIA/CUDA/PyTorch/WhisperX (obecnie napięte na sztywno, patrz
+      `docs/INSTALLATION.md`).
+- [ ] Wymaga na Windows: Docker Desktop + WSL2 + NVIDIA Container Toolkit
+      (dostęp kontenera do GPU) — dodatkowa warstwa konfiguracji, ale
+      obecnie dobrze wspierana.
+- [ ] Narzut na czas obliczeń (transkrypcja/inferencja) powinien być
+      pomijalny — GPU passthrough jest niemal bezpośredni. Narzut dotyczy
+      głównie rozmiaru obrazu (PyTorch+CUDA to kilka GB) i czasu builda.
+- [ ] Cache modeli (WhisperX `large-v3`, kilka GB z Hugging Face) musi być
+      zamontowanym wolumenem, nie wypiekany w obraz.
+- [ ] Ollama najlepiej jako osobny kontener/serwis obok głównego.
+- [ ] Do decyzji: czy warto teraz, czy dopiero po ustabilizowaniu pipeline'u
+      (Etapy 1–7) — na razie odłożone.
 
 ## Uwagi
 
