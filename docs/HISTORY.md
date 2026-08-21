@@ -1,5 +1,21 @@
 # Historia projektu
 
+## 2026-08-21 (6)
+
+- Dodano `scripts/clean_transcript.py` (Etap 3, dokończony) — skleja
+  kolejne segmenty tego samego mówcy oddalone o mniej niż 2 sekundy w
+  jedną „turę" (mówca + zakres czasu + tekst) i usuwa segmenty będące
+  wyłącznie izolowanym wypełniaczem. Świadomie nie poprawia błędów
+  rozpoznawania ani nie usuwa wypełniaczy wplecionych w zdanie (np. "no")
+  — bez pełnej analizy językowej za duże ryzyko zniekształcenia sensu.
+  Zapisuje ujednolicony format pośredni: `<nazwa>.clean.json`
+  (`{"turns": [...]}`) i czytelny `<nazwa>.clean.txt`
+  (`[HH:MM:SS] MÓWCA: tekst`).
+- Test na prawdziwej transkrypcji (`2025.06.27`): 1035 segmentów → 346
+  tur po sklejeniu. Wynik bardzo czytelny, spójne, sensowne wypowiedzi
+  bez utraty kontekstu (treść — dane poufne — nie jest tu cytowana,
+  patrz `docs/AGENTS.md`). To domyka Etap 3 z `docs/ROADMAP.md`.
+
 ## 2026-08-21 (5)
 
 - Dodano `scripts/identify_speakers.py` — propozycja mapowania

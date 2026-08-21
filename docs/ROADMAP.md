@@ -121,10 +121,19 @@ Kolejność uzgodniona z użytkownikiem:
       Docelowo (świadomie odłożone): wykorzystanie `input/knowledge/` i
       `input/historical_data/` jako dodatkowego kontekstu (znani
       członkowie Zarządu/Rady) do poprawy trafności.
-- [ ] Oczyszczanie transkrypcji (usuwanie wypełniaczy, łączenie fragmentów
-      tej samej wypowiedzi, korekta oczywistych błędów rozpoznawania).
-- [ ] Ujednolicony format pośredni transkrypcji (np. mówca + znacznik
-      czasu + tekst) jako wejście dla kolejnego etapu.
+- [x] Oczyszczanie transkrypcji i ujednolicony format pośredni —
+      `scripts/clean_transcript.py` (zrobione 2026-08-21). Skleja kolejne
+      segmenty tego samego mówcy oddalone o mniej niż 2 sekundy w jedną
+      „turę" (mówca + zakres czasu + tekst) i usuwa segmenty będące
+      wyłącznie izolowanym wypełniaczem (np. samo "yyy", "eee"). Nie
+      poprawia błędów rozpoznawania w środku zdań ani nie usuwa
+      wypełniaczy typu "no" wplecionych w zdanie — bez pełnej analizy
+      językowej ryzyko zniekształcenia sensu wypowiedzi jest zbyt duże
+      (świadomie odłożone/pominięte). Wynik: `<nazwa>.clean.json`
+      (`{"turns": [...]}`) i `<nazwa>.clean.txt` (`[HH:MM:SS] MÓWCA: tekst`)
+      obok transkrypcji. Test na prawdziwym nagraniu (`2025.06.27`):
+      1035 segmentów → 346 tur, wynik czytelny i spójny (patrz
+      `docs/HISTORY.md`).
 
 ## Etap 4 — Analiza treści i generowanie raportu
 

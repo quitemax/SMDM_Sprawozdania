@@ -77,6 +77,22 @@ Dla pliku `input/audio/2026.08.10/10.08.2026.MP3` powstają:
 Plik bezpośrednio w `input/audio/` (np. `test.mp3`, bez podkatalogu z datą)
 trafia płasko do `output/transcripts/` (np. `output/transcripts/test.txt`).
 
+## Czyszczenie transkrypcji
+
+Skrypt: `scripts/clean_transcript.py`. Skleja kolejne segmenty tego samego
+mówcy (oddalone o mniej niż 2 sekundy) w jedną wypowiedź i usuwa segmenty
+będące wyłącznie izolowanym wypełniaczem (np. samo "yyy"). Nie poprawia
+błędów w środku zdań.
+
+```powershell
+python scripts\identify_speakers.py "output\transcripts\2026.08.10\10.08.2026.json"
+python scripts\clean_transcript.py "output\transcripts\2026.08.10\10.08.2026.json"
+```
+
+Wynik: `<nazwa>.clean.txt` (czytelny format `[HH:MM:SS] MÓWCA: tekst`,
+wygodny do przeglądu) i `<nazwa>.clean.json` (`{"turns": [...]}`, do
+dalszego przetwarzania — wejście dla analizy treści, Etap 4).
+
 ## Propozycja identyfikacji mówców
 
 Skrypt: `scripts/identify_speakers.py`. Na podstawie pliku `.json` z
