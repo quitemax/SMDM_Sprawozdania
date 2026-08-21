@@ -37,12 +37,18 @@ Kolejność uzgodniona z użytkownikiem:
    - [ ] docelowa długość kontekstu do analizy całego spotkania (model
      wspiera do 32K) może wymagać większego offloadu na CPU — do
      sprawdzenia przy realnym teście na dłuższej transkrypcji (Etap 4).
-3. **Test na prawdziwym nagraniu z datą**:
-   - uruchomienie `scripts/transcribe.py` (już z diaryzacją) na jednym
-     z rzeczywistych nagrań z `input/audio/RRRR.MM.DD/`, nie tylko na
-     `test.mp3`,
-   - ocena jakości transkrypcji i diaryzacji na dłuższym, prawdziwym
-     materiale.
+3. **Test na prawdziwym nagraniu z datą** — zrobione 2026-08-21:
+   - [x] uruchomiono `scripts/transcribe.py` (z diaryzacją) na
+     `input/audio/2025.06.27/250620_0233.MP3` (nagranie 90 min),
+   - [x] ocena jakości: bardzo dobra — poprawnie rozpoznany przebieg
+     zebrania (porządek obrad, głosowania), poprawnie rozróżnieni
+     poszczególni mówcy w wielogłosowej dyskusji (1035 segmentów). Szczegóły
+     treści nie są zapisywane w dokumentacji (dane poufne, patrz
+     `docs/AGENTS.md`).
+   - [x] czas przetwarzania odnotowany w `docs/HISTORY.md` — diaryzacja na
+     długim materiale zajęła znacznie więcej niż na krótkim `test.mp3`
+     (nieliniowo względem długości nagrania) — do uwzględnienia przy
+     planowaniu pracy z dłuższymi nagraniami (Etap 4).
 
 ## Etap 0 — Porządkowanie danych wejściowych (zrobione)
 
@@ -88,8 +94,10 @@ Kolejność uzgodniona z użytkownikiem:
 - [x] Włączenie rozpoznawania mówców (diaryzacja, domyślnie włączona,
       `--no-diarize` żeby wyłączyć) i oznaczenie ich w transkrypcie —
       zrobione 2026-08-21, przetestowane na `test.mp3`.
-- [ ] Test na 1–2 rzeczywistych nagraniach z różną liczbą mówców i jakością
-      dźwięku (patrz krok 3 planu sesji wyżej).
+- [x] Test na rzeczywistym nagraniu (`2025.06.27`, 90 min, wielu mówców) —
+      wynik bardzo dobry (patrz krok 3 planu sesji wyżej).
+- [ ] Test na kolejnym nagraniu, najlepiej o innej jakości dźwięku (dla
+      porównania), gdy będzie potrzeba.
 
 ## Etap 3 — Przetwarzanie transkrypcji
 

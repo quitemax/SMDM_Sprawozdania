@@ -1,5 +1,21 @@
 # Historia projektu
 
+## 2026-08-21 (3)
+
+- Dodano wypisywanie procentowego postępu (transkrypcja, wyrównanie,
+  diaryzacja) w `scripts/transcribe.py`, korzystając z wbudowanego
+  `progress_callback` w WhisperX/pyannote — przydatne przy długich
+  nagraniach idących w tle.
+- Pierwszy test transkrypcji + diaryzacji na prawdziwym nagraniu:
+  `input/audio/2025.06.27/250620_0233.MP3` (90 min). Wynik: 1035
+  segmentów, jakość transkrypcji i rozróżnienia mówców bardzo dobra
+  (treść — dane poufne — nie jest tu opisywana, patrz `docs/AGENTS.md`).
+  Czas przetwarzania: VAD + transkrypcja + wyrównanie ok. 17,5 min,
+  diaryzacja ok. 56 min (łącznie ok. 1h 14min) — diaryzacja skaluje się
+  nieliniowo względem długości nagrania (na `test.mp3`, kilkanaście
+  sekund, trwała kilkadziesiąt sekund). Do uwzględnienia przy planowaniu
+  pracy z dłuższymi nagraniami.
+
 ## 2026-08-21 (2)
 
 - Skonfigurowano token dostępu Hugging Face (typ Read) i zaakceptowano
