@@ -58,9 +58,16 @@ Kolejność uzgodniona z użytkownikiem:
 - [ ] `input/historical_data/reports/` i `input/historical_data/transcripts/`
       wciąż puste — historyczne raporty/transkrypcje do dodania, gdy będą
       dostępne (potrzebne do Etapu 4 jako wzorce stylu).
-- [ ] Nowy katalog `input/knowledge/` (regulaminy, uchwały, umowy) — do
-      ustalenia, jak i czy ma być wykorzystywany jako kontekst dla modelu
-      przy analizie treści spotkań (Etap 4).
+- [x] Katalog `input/knowledge/` (regulaminy, uchwały, umowy — w większości
+      skany) konwertowany na Markdown w `input/knowledge_md/` przez nowy
+      `scripts/pdf_to_markdown.py` (zrobione 2026-08-22) — baza wiedzy do
+      audytu i odwoływania się w sprawozdaniach. Strony bez warstwy
+      tekstowej przechodzą przez OCR (Tesseract, `pol`); dokumenty
+      (częściowo) rozpoznane przez OCR mają notkę ostrzegawczą na
+      początku pliku `.md` (jakość dobra dla treści merytorycznej,
+      słabsza przy podpisach/pieczątkach — patrz `docs/HISTORY.md`).
+      Wykorzystanie tej bazy jako kontekstu dla modelu przy analizie
+      treści spotkań — do ustalenia przy Etapie 4.
 - [ ] Weryfikacja zawartości `examples/` — nadal zrzut niepowiązanych danych
       prywatnych (zdjęcia/SMS z 2020, katalog `Downloads/DCIM/...`), a nie
       przykładowe raporty spółdzielni opisane w README.

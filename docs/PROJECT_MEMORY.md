@@ -57,6 +57,20 @@ osoby, o której mowa, z faktycznym mówcą) mimo jawnych instrukcji w
 prompcie — zbyt duże ryzyko błędnego przypisania wypowiedzi w oficjalnym
 dokumencie spółdzielni, żeby robić to bez nadzoru człowieka.
 
+## Baza wiedzy z dokumentów spółdzielni (input/knowledge/)
+
+Regulaminy, uchwały i umowy w `input/knowledge/` to w większości skany —
+prawie bez warstwy tekstowej. `scripts/pdf_to_markdown.py` konwertuje je
+na Markdown w `input/knowledge_md/` (ta sama struktura katalogów),
+z OCR (Tesseract, `pol`) dla stron bez tekstu. Oba katalogi —
+`input/knowledge/` (PDF) i `input/knowledge_md/` (Markdown) — są w
+repozytorium Git (świadoma decyzja, patrz commit initial). Cel:
+baza wiedzy do audytu i odwoływania się w sprawozdaniach (Etap 4).
+Dokumenty (częściowo) rozpoznane przez OCR mają notkę ostrzegawczą w
+pliku `.md` — jakość OCR jest dobra dla treści merytorycznej, ale
+słabsza przy podpisach/pieczątkach/tabelach, więc kluczowe dane wymagają
+weryfikacji przed użyciem w oficjalnym dokumencie.
+
 ## Repozytorium Git
 
 Projekt jest wersjonowany w repozytorium GitHub:

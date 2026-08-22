@@ -120,3 +120,29 @@ Wynik zapisywany jest jako `<nazwa>.speakers.json` obok transkrypcji —
 transkrypcja nie jest automatycznie modyfikowana. Model bywa niedokładny
 (patrz `docs/HISTORY.md`, `docs/PROJECT_MEMORY.md`) — zawsze sprawdzić
 przed użyciem.
+
+## Konwersja dokumentów PDF na Markdown (baza wiedzy)
+
+Skrypt: `scripts/pdf_to_markdown.py`. Konwertuje PDF-y z `input/knowledge/`
+(regulaminy, uchwały, umowy) na pliki `.md` w `input/knowledge_md/`
+(ta sama struktura katalogów), do wykorzystania jako baza wiedzy przy
+audycie i pisaniu sprawozdań. Dla stron bez warstwy tekstowej (skany)
+robi OCR (Tesseract, język polski).
+
+```powershell
+python scripts\pdf_to_markdown.py
+```
+
+Domyślnie przetwarza cały `input/knowledge/` i pomija pliki, dla których
+`.md` jest już aktualniejszy niż źródłowy `.pdf` (żeby nie robić OCR od
+nowa dla wszystkiego przy każdym uruchomieniu — 300+ stron potrafi
+zająć sporo czasu). Wymuszenie ponownej konwersji wszystkiego:
+
+```powershell
+python scripts\pdf_to_markdown.py --force
+```
+
+Dokumenty rozpoznane (w całości lub częściowo) przez OCR mają na
+początku pliku `.md` notkę ostrzegawczą — OCR bywa niedokładny, zwłaszcza
+przy podpisach, pieczątkach i tabelach, więc kluczowe dane (daty, kwoty,
+nazwiska, numery uchwał) warto zweryfikować przed użyciem.

@@ -1,5 +1,31 @@
 # Historia projektu
 
+## 2026-08-22
+
+- Dodano `scripts/pdf_to_markdown.py` — konwersja PDF-ów z
+  `input/knowledge/` na Markdown w `input/knowledge_md/` (ta sama
+  struktura katalogów), z myślą o audycie i odwoływaniu się do tych
+  dokumentów w sprawozdaniach (Etap 0/4). Dla stron bez warstwy
+  tekstowej robi OCR (Tesseract 5.5.3 + pakiet `pol`, zainstalowany przez
+  `winget install tesseract-ocr.tesseract`; Python: `pymupdf==1.28.2`,
+  `pytesseract==0.3.13`). Domyślnie pomija pliki, których `.md` jest już
+  aktualniejszy niż źródłowy `.pdf` (`--force` wymusza pełną ponowną
+  konwersję).
+- Użytkownik dodał do `input/knowledge/` sporo nowych dokumentów
+  (regulaminy szczegółowe, STATUT itd.) — łącznie 40 plików PDF, 339
+  stron. Wszystkie strony okazały się skanami bez warstwy tekstowej —
+  100% przeszło przez OCR.
+- Wynik: jakość bardzo dobra dla treści merytorycznej (sprawdzone m.in.
+  na `STATUT.md` — poprawnie odczytane paragrafy statutu). Słabsza,
+  spodziewana jakość na: spisach treści z kropkowanymi liniami numeracji
+  stron (np. `STATUT.pdf`), oraz przy podpisach/pieczątkach w umowach —
+  te fragmenty są niskiej wartości informacyjnej, więc nie stanowi to
+  problemu praktycznego. Każdy plik `.md` (częściowo) rozpoznany przez
+  OCR ma na początku notkę ostrzegawczą.
+- `clean_transcript.py`, `identify_speakers.py` niezmienione w tym
+  wpisie — dotyczy wyłącznie nowej bazy wiedzy z dokumentów, nie
+  transkrypcji spotkań.
+
 ## 2026-08-21 (7)
 
 - `scripts/clean_transcript.py` — jeśli obok transkrypcji istnieje

@@ -15,6 +15,8 @@ Dokumentacja instalacji jest obecnie tworzona.
 - WhisperX
 - Ollama
 - Model językowy
+- Tesseract OCR (+ pakiet języka polskiego)
+- PyMuPDF, pytesseract
 
 ## 1. Git
 
@@ -203,6 +205,36 @@ Oczekiwany wynik:
 - `scripts\transcribe.py` zapisuje `output/transcripts/test.txt` i
   `test.json` z etykietami mówców (np. `[SPEAKER_00]`),
 - Ollama zwraca sensowną, poprawną gramatycznie odpowiedź po polsku.
+
+## 8. Tesseract OCR (konwersja PDF → Markdown)
+
+Używane przez `scripts/pdf_to_markdown.py` do konwersji zeskanowanych
+dokumentów z `input/knowledge/` na Markdown.
+
+```powershell
+winget install --id tesseract-ocr.tesseract -e --source winget
+```
+
+Instalator zawiera pakiet języka polskiego (`pol`) domyślnie. Weryfikacja:
+
+```powershell
+tesseract --version
+tesseract --list-langs
+```
+
+Powinno pokazać `pol` na liście dostępnych języków. Domyślna ścieżka
+instalacji (gdyby `tesseract` nie było widoczne w PATH w bieżącej sesji
+terminala):
+
+```
+C:\Program Files\Tesseract-OCR\tesseract.exe
+```
+
+Pakiety Pythona:
+
+```powershell
+python -m pip install pymupdf==1.28.2 pytesseract==0.3.13
+```
 
 ## Rozwiązywanie problemów
 
