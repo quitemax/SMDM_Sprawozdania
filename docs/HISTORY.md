@@ -1,5 +1,27 @@
 # Historia projektu
 
+## 2026-08-25
+
+- Naprawiono błąd w `scripts/identify_speakers.py` i `scripts/clean_transcript.py`:
+  ścieżka do pliku `<nazwa>.speakers.json` była liczona przez
+  `path.with_suffix("").with_suffix(".speakers.json")`, co dla nazw
+  zawierających więcej niż jedną kropkę przed `.json` (np. `10.08.2026.json`,
+  `18.12.2025 r- spotkanie.json`) ucinało zbyt dużo — `Path.with_suffix()`
+  usuwa fragment po OSTATNIEJ kropce w całej nazwie, nie tylko rozszerzenie.
+  Efekt: `10.08.2026.json` → błędnie `10.08.speakers.json` zamiast
+  `10.08.2026.speakers.json`. Poprawka: `path.with_name(f"{path.stem}.speakers.json")`.
+  Skutek uboczny w praktyce: dwa różne nagrania w `input/audio/2025.12.18/`
+  (`18.12.2025 r- RN` i `18.12.2025 r- spotkanie`) ucinały się do tej samej
+  błędnej nazwy `18.12.speakers.json` — drugie przetworzone nadpisało
+  propozycję pierwszego. Nie dało się ustalić z samej treści, czyje dane
+  przetrwały (identyczne etykiety SPEAKER_00–09 w obu), więc obie propozycje
+  wygenerowano od nowa z poprawionym kodem, tak samo dla `10.08.2026`
+  (tu nie było kolizji, tylko zła nazwa pliku).
+- Uruchomiono przetwarzanie (transkrypcja + diaryzacja + identyfikacja
+  mówców + czyszczenie) pozostałych nagrań z `input/audio/` w tle, w
+  dwóch partiach posortowanych rosnąco wg długości: batch 1 (4 najkrótsze,
+  do 84 min) zakończony; batch 2 (12 pozostałych, do 288 min) w trakcie.
+
 ## 2026-08-22
 
 - Dodano `scripts/pdf_to_markdown.py` — konwersja PDF-ów z

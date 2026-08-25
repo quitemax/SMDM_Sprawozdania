@@ -157,7 +157,7 @@ def main() -> None:
 
     result = identify_speakers(args.transcript, args.model)
 
-    output_path = args.transcript.with_suffix("").with_suffix(".speakers.json")
+    output_path = args.transcript.with_name(f"{args.transcript.stem}.speakers.json")
     output_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(f"Zapisano propozycję: {output_path}")

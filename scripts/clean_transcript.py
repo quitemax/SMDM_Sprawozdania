@@ -66,7 +66,7 @@ def format_timestamp(seconds) -> str:
 
 def load_proposed_names(transcript_path: Path) -> dict[str, str]:
     """Wczytuje <nazwa>.speakers.json (wynik identify_speakers.py), jeśli istnieje."""
-    speakers_path = transcript_path.with_suffix("").with_suffix(".speakers.json")
+    speakers_path = transcript_path.with_name(f"{transcript_path.stem}.speakers.json")
     if not speakers_path.exists():
         return {}
     data = json.loads(speakers_path.read_text(encoding="utf-8"))
