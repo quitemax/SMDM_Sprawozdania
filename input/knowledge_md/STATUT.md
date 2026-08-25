@@ -1,159 +1,87 @@
 # STATUT
 
-> **Uwaga:** ten dokument (w całości lub częściowo) został rozpoznany automatycznie z zeskanowanego obrazu (OCR). OCR bywa niedokładny, zwłaszcza przy podpisach, pieczątkach i tabelach — przed użyciem w audycie lub sprawozdaniu zweryfikuj kluczowe dane (daty, kwoty, nazwiska, numery uchwał).
+### Spółdzielnia Mieszkaniowa | DOŁY-MARYSIŃSKA
+
+### SPIS TREŚCI
+
+1. POSTANOWIENIA OGÓLNE ORAZ CEL I PRZEDMIOT DZIAŁALNOŚCI SPÓŁDZIELNI [Strona 1](#strona-1)
+
+2. CZŁONKOWIE, ICH PRAWA I OBOWIĄZKI [Strona 2](#strona-2)
+    - 2.1. Członkostwo w Spółdzielni [Strona 2](#strona-2)
+    - 2.2. Tryb i zasady przyjmowania w poczet członków Spółdzielni - (skreślony) [Strona 4](#strona-4)
+    - 2.3. Wpisowe i udział - (skreślony) [Strona 4](#strona-4)
+    - 2.4. Prawa członków [Strona 4](#strona-4)
+    - 2.5. Obowiązki członków [Strona 5](#strona-5)
+    - 2.6. Ustanie członkostwa [Strona 7](#strona-7)
+
+3. POSTĘPOWANIE WEWNĄTRZSPÓŁDZIELCZE [Strona 8](#strona-8)
+
+4. ORGANY SPÓŁDZIELNI [Strona 8](#strona-8)
+    - 4.1. Walne Zgromadzenie [Strona 9](#strona-9)
+    - 4.2. Rada Nadzorcza [Strona 13](#strona-13)
+    - 4.3. Zarząd [Strona 17](#strona-17)
+    - Przepisy wspólne dla Rady Nadzorczej i Zarządu [Strona 18](#strona-18)
+    - 4.4. Zebrania Grup Członkowskich [Strona 20](#strona-20)
+
+5. TYTUŁY PRAWNE DO LOKALI [Strona 20](#strona-20)
+    - 5.1. Spółdzielcze lokatorskie prawo do lokalu mieszkalnego [Strona 20](#strona-20)
+    - 5.2. Spółdzielcze własnościowe prawo do lokalu mieszkalnego (domu jednorodzinnego) [Strona 24](#strona-24)
+    - 5.3. Spółdzielcze własnościowe prawo do lokalu użytkowego oraz miejsca postojowego w garażu wielostanowiskowym [Strona 26](#strona-26)
+    - 5.4. Odrębna własność lokalu [Strona 27](#strona-27)
+    - 5.5. Najem lokalu [Strona 28](#strona-28)
+
+6. ZASADY ZASPOKAJANIA PORZEB LOKALOWYCH CZŁONKÓW - (skreślony) [Strona 29](#strona-29)
+    - 6.1. Zasady ustalania kolejności zaspokajania potrzeb lokalowych członków - (skreślony) [Strona 29](#strona-29)
+    - 6.2. Zamiana lokali - (skreślony) [Strona 29](#strona-29)
+
+7. ZASADY WNOSZENIA WKŁADÓW ORAZ ICH ROZLICZANIA W RAZIE WYGAŚNIĘCIA PRAWA DO LOKALU [Strona 29](#strona-29)
+    - 7.1. Zasady ogólne - (skreślony) [Strona 29](#strona-29)
+    - 7.2. Wkłady mieszkaniowe - (skreślony) [Strona 29](#strona-29)
+    - 7.3. Wkłady budowlane - (skreślony) [Strona 29](#strona-29)
+    - 7.4. Rozliczenia w razie wygaśnięcia prawa do lokalu [Strona 29](#strona-29)
+
+8. PRZEKSZTAŁCANIE TYTUŁÓW PRAWNYCH DO LOKALI [Strona 30](#strona-30)
+    - 8.1. Przekształcanie spółdzielczego lokatorskiego prawa do lokalu mieszkalnego w spółdzielcze własnościowe prawo do lokalu - (skreślony) [Strona 32](#strona-32)
+    - 8.2. Przeniesienie własności lokalu, do którego członkowi przysługuje spółdzielcze lokatorskie prawo do lokalu mieszkalnego [Strona 32](#strona-32)
+    - 8.3. Przeniesienie własności lokalu, do którego członkowi przysługuje spółdzielcze własnościowe prawo do lokalu mieszkalnego, użytkowego, garażu [Strona 33](#strona-33)
+    - 8.4. Przeniesienie ułamkowego udziału we współwłasności garażu wielostanowiskowego - (skreślony) [Strona 34](#strona-34)
+    - 8.5. Przekształcenie najmu lokali - (skreślony) [Strona 34](#strona-34)
+
+9. GOSPODARKA SPÓŁDZIELNI [Strona 34](#strona-34)
+    - 9.1. Zasady ogólne [Strona 34](#strona-34)
+    - 9.2. Inwestycje mieszkaniowe - (skreślony) [Strona 35](#strona-35)
+    - 9.3. Zarządzanie nieruchomościami [Strona 36](#strona-36)
+
+10. PRZEPISY PRZEJŚCIOWE I KOŃCOWE [Strona 39](#strona-39)
 
 ## Strona 1
-
-Spółdzielnia Mieszkaniowa
-T | DOŁY-MARYSIŃSKA
-
-STATUT
-
-## Strona 2
-
-—=
-
-6.
-
-SPIS TREŚCI
-
-' POSTANOWIENIA OGÓLNE ORAZ CEL I PRZEDMIOT DZIAŁALNOŚCI
-
-020 307415 KN OOOO
-
-„CZŁONKOWIE, ICH PRAWA I OBOWIĄZKI...................-..-1.-1--1--1--1--1--1--1-1--2.
-
-2.1. Członkostwo w* Spółdzielni:.ae..--ossseossseswoweowozwcwowowowowwawawoacwwaww NON OA GAY NOAA
-2.2. Tryb i zasady przyjmowania w poczet członków Spółdzielni - (skreślony) .....
-2.3. Wpisowe iudział  - (skreślony) .......:.:.:e-ess-nseeeae eee wonna aaa
-3.4. Prawa cdonkOWasniina wii ODC HAD AANA
-2.5. Obowiązki członków.........-..-ee-omoseorawo wazon aware oo NOWA OOOO
-2.6. Ustanie członkostwa......--nsesssi55s5E5 GEO STOSO EOKA
-
-. POSTĘPOWANIE WEWNĄTRZSPÓŁDZIELCZE A
-
-. ORGANY SPÓŁDZIELNI............--- eee ae oaza aaa year za aa oa owada
-
-4.1. Walne Zgromadzenie ..............-.-seesse ae oa owa z oo wio wwa ooo wwa rawa A 00»
-d.2 Nuda Dado OOOO ORZEKA TCA AAAA NACEA
-
-. TYTUŁY PRAWNE DO LOKALL......................--1.214224224--------0e0ouoee one ozoonaezzewieee
-
-5.1. Spółdzielcze lokatorskie prawo do lokalu mieszkalnego ............-1:-1111111:111111:11:++
-5.2. Spółdzielcze własnościowe prawo do lokalu mieszkalnego (domu
-jednorodzinnego)........----.------esesesenowaowowowow owo aaa 0 0009090003
-5.3. Spółdzielcze własnościowe prawo do lokalu użytkowego oraz miejsca
-postojowego w garażu wielostanowiskowym..........-2--------n--s-ssnszezezeerarazazazaanzez enea
-5.4. Odrębna własność lokalu...........o.uesoseon owa an aa aaa owane AAAA
-5.5. Najem lokalu.........-.----2---e-eeonononow wne
-
-ZASADY ZASPOKAJANIA PORZEB LOKALOWYCH CZŁONKÓW
-
-OSCI ONE
-
-r
-
-6.1. Zasady ustalania kolejności zaspokajania potrzeb lokalowych
-członków  - (skreślony) ........--------eeeeaaa anawa A AAA
-6.2. Zamiana lokali - (skreślony)..........--sss=-ssseseoseoneawoiz rowów O WWO WY OOO
-
-ZASADY WNOSZENIA WKŁADÓW ORAZ ICH ROZLICZANIA
-
-W RAZIE WYGAŚNIĘCIA PRAWA DO LOKALU ..........................1.1-.1-11-1---.-
-7.1. Zasady ogólne - (skreślony)..........--:-e-e-eeea anawa oaza AAAA
-
-7.2. Wkłady mieszkaniowe - (skreślony) .......-1-12142::-:---e-e-eeenoe een azer ea zaraza
-
-7.3. Wkłady budowlane - (skreślony) .......122:1----e-s-ss-neneee ewent a aa az0a
-7.4. Rozliczenia w razie wygaśnięcia prawa do lokalu .........-.2-.-1----------sesnoneszenezaze
-
-—
-
-Ot RB R DND DN
-
-16
-20
-22
-23
-
-24
-24
-
-28
-31
-
-31
-32
-
-33
-
-## Strona 3
-
-8. PRZEKSZTAŁCANIE TYTUŁÓW PRAWNYCH DO LOKALI ..................
-8.1. Przekształcanie spółdzielczego lokatorskiego prawa do lokalu
-mieszkalnego w spółdzielcze własnościowe prawo do lokalu - (skreślony) ..
-8.2. Przeniesienie własności lokalu, do którego członkowi
-przysługuje spółdzielcze lokatorskie prawo do lokalu mieszkalnego...............
-8.3. Przeniesienie własności lokalu, do którego członkowi przysługuje
-spółdzielcze własnościowe prawo do lokalu mieszkalnego, użytkowego,
-
-8.4. Przeniesienie ułamkowego udziału we współwłasności garażu
-WIEIOKITANÓWISŁKOWEGE = (BRTEŻIGRY) usosawacanwocwwiowociawiwiciwizwa ZY EO EE
-8.5. Przekształcenie najmu lokali - (skreślony) ..........--------seaaeaaoa ana anawa aeaaeaacwaawaca
-
-9..GOSPODARKA. SPÓŁDZIELNIE osocza ARGwi
-9.1. Zasady ogólne ..............--.---eeeoeea aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaeaaenaaeaacaaee
-9.2. Inwestycje mieszkaniowe  -Gkreślomy aacassnaskicwiG REWA
-9.3. ZaTZĄCZAMEDIEMUCHOMOŚCAM | aasoai oO AWA COS
-
-10. PRZEPISY PRZEJŚCIOWE I KOŃCOWE.....................11..1442244-1444:144211-111:-
-
-34
-
-36
-
-36
-
-37
-
-38
-38
-
-38
-
-39
-40
-
-43
-
-## Strona 4
 
 1. POSTANOWIENIA OGÓLNE ORAZ CEL I PRZEDMIOT DZIAŁALNOŚCI
 SPÓŁDZIELNI
 
-$1
+§ 1
 
 1. Nazwa Spółdzielni brzmi: Spółdzielnia Mieszkaniowa „Doły — Marysińska” zwana
 dalej Spółdzielnią.
 
-2 Siedzibą Spółdzielni jest: Łódź ul. Nowopolska nr 12/14.
+2. Siedzibą Spółdzielni jest: Łódź ul. Nowopolska nr 12/14.
 
 3. Czas trwania Spółdzielni jest nieograniczony.
 
-$2
+§ 2
 
 Spółdzielnia prowadzi działalność na podstawie statutu, ustawy z dnia 16 września 1982
-r. Prawo spółdzielcze (t.j. Dz.U. z 20177. poz.1560 ) ustawy z dnia 15 grudnia 2000 r. o
+r. Prawo spółdzielcze (t.j. Dz.U. z 2017r. poz.1560 ) ustawy z dnia 15 grudnia 2000 r. o
 spółdzielniach mieszkaniowych (tj. Dz. U. z 2013r. poz. 1222 ze zm.)
 i innych ustaw.
 
-83
+§ 3
 
 Celem Spółdzielni jest zaspokajanie potrzeb mieszkaniowych i innych potrzeb człon-
 ków oraz ich rodzin, przez dostarczanie członkom samodzielnych lokali mieszkalnych, a
 także lokali o innym przeznaczeniu.
 
-$ 4
+§ 4
 Przedmiotem działalności Spółdzielni jest:
 1) obsługa nieruchomości na własny rachunek,
 2) zagospodarowanie i sprzedaż nieruchomości na własny rachunek,
@@ -161,35 +89,35 @@ Przedmiotem działalności Spółdzielni jest:
 4) wynajem nieruchomości na własny rachunek,
 5) zarządzanie nieruchomościami na zlecenie.
 
-$5
+§ 5
 
-Dla realizacji zadań określonych w $ 4 Spółdzielnia:
+Dla realizacji zadań określonych w § 4 Spółdzielnia:
 1) (skreślony)
 2) zarządza nieruchomościami stanowiącymi własność Spółdzielni, jak również
 nieruchomościami stanowiącymi własność członków Spółdzielni.
 
-$6
+§ 6
 
 Spółdzielnia nie może odnosić korzyści majątkowych kosztem swoich członków,
 a w szczególności z tytułu przekształceń prawa do lokalu.
 
-$ 7
+§ 7
 
 1. Spółdzielnia może tworzyć lub przystępować do innych organizacji gospodarczych,
 
-## Strona 5
+## Strona 2
 
-dla realizacji zadań określonych w $ 4.
+dla realizacji zadań określonych w § 4.
 
 2. Organem uprawnionym do podejmowania decyzji o utworzeniu lub przystąpieniu
 do innych organizacji gospodarczych oraz wystąpieniu z nich jest Walne
 Zgromadzenie, które również podejmuje decyzję w przedmiocie zbycia części
 udziałów (akcji) tych organizacji.
 
-88
+§ 8
 (skreślony)
 
-2. CZŁONKOWIE, ICH_PRAWA I OBOWIĄZKI
+2. CZŁONKOWIE, ICH PRAWA I OBOWIĄZKI
 
 2.1. Członkostwo w Spółdzielni
 89
@@ -205,7 +133,7 @@ odrębnej własności lokalu.
 3. Członkiem Spółdzielni może być osoba prawna, jednakże takiej osobie nie
 przysługuje spółdzielcze lokatorskie prawo do lokalu mieszkalnego.
 
-$ 10
+§ 10
 
 —
 
@@ -224,7 +152,7 @@ tego terminu jedna z osób, o których mowa w art. 15 ust. 2 lub 3 ustawy usm, z
 pisemne zapewnienie o gotowości zawarcia umowy o ustanowienie spółdzielczego
 lokatorskiego prawa do lokalu mieszkalnego, z zastrzeżeniem ust. 6,
 
-## Strona 6
+## Strona 3
 
 6) prawomocnego rozstrzygnięcia przez sąd w postępowaniu nieprocesowym
 lub wyboru dokonanego przez Spółdzielnię, o których mowa w art. 15 ust. 4 ustawy
@@ -264,7 +192,7 @@ odwołania.
 3. Członek, który nabył prawo odrębnej własności lokalu, zachowuje członkostwo
 w Spółdzielni.
 
-$ 11
+§ 11
 
 1. Zarząd prowadzi rejestr członków, zawierający ich imiona i nazwiska, w odniesieniu
 do członków będących osobami prawnymi, ich nazwę i siedzibę oraz nr KRS, datę
@@ -274,13 +202,13 @@ mieszkaniowych lub budowlanych.
 2. Członek Spółdzielni, jego małżonek i wierzyciel członka lub Spółdzielni mają prawo
 wglądu do rejestru.
 
-## Strona 7
+## Strona 4
 
 2.2. Tryb i zasady przyjmowania w poczet członków Spółdzielni - (skreślony)
 2.3. Wpisowe i udział - (skreślony)
 
 2.4. Prawa członków
-$ 15
+§ 15
 
 1. Członkowi Spółdzielni przysługuje:
 l) czynne i bierne prawo wyborcze do organów Spółdzielni,
@@ -321,7 +249,7 @@ podjętych przez organy Spółdzielni,
 13) prawo do korzystania, wraz z osobami wspólnie zamieszkującymi z wszystkich
 wspólnych pomieszczeń, urządzeń, usług i świadczeń Spółdzielni,
 
-## Strona 8
+## Strona 5
 
 14) prawo żądania przedstawienia kalkulacji zmiany wysokości opłat za używanie
 lokalu oraz kwestionowania zasadności zmiany opłat bezpośrednio na drodze
@@ -358,7 +286,7 @@ są przez osoby zainteresowane w siedzibie Spółdzielni Mieszkaniowej (w
 sekretariacie), w terminie do 7 dni przed posiedzeniem Rady Nadzorczej.
 
 2.5. Obowiązki członków
-$ 16
+§ 16
 1. Członek obowiązany jest:
 |) przestrzegać postanowień statutu, regulaminów i innych uchwał organów
 Spółdzielni,
@@ -372,7 +300,7 @@ w którym członkowi przysługuje spółdzielcze prawo do lokalu,
 
 5) uiszczać terminowo opłaty związane z eksploatacją i utrzymaniem nieruchomości
 
-## Strona 9
+## Strona 6
 
 6
 
@@ -424,10 +352,10 @@ do lokalu przysługiwało obojgu małżonkom,
 2. Pismo wysłane listem poleconym na wskazany przez członka adres, nie odebrane
 w terminie, pozostawia się w aktach Spółdzielni ze skutkiem doręczenia.
 
-## Strona 10
+## Strona 7
 
 2.6. Ustanie członkostwa
-$ 17
+§ 17
 1. Członkostwo w Spółdzielni ustaje w przypadku:
 1) wygaśnięcia spółdzielczego lokatorskiego prawa do lokalu mieszkalnego,
 2) zbycia spółdzielczego własnościowego prawa do lokalu lub udziału w tym prawie,
@@ -445,35 +373,35 @@ i art. 26 ustawy usm.
 będący podstawą uzyskania członkostwa, utrata członkostwa następuje dopiero
 z chwilą utraty wszystkich tytułów prawnych do lokali w ramach Spółdzielni.
 
-$ 18
+§ 18
 (skreślony)
 
-$ 19
+§ 19
 (skreślony)
 
-$ 20
+§ 20
 (skreślony)
 
-$ 21
+§ 21
 (skreślony)
 
-$ 22
+§ 22
 (skreślony)
 
-$ 23
+§ 23
 (skreślony)
 
-$ 24
+§ 24
 
 (skreślony)
 
-## Strona 11
+## Strona 8
 
 8
 
 3. POSTĘPOWANIE WEWNĄTRZSPÓŁDZIELCZE
 
-$ 25
+§ 25
 Od uchwały podjętej w sprawie między członkiem, a Spółdzielnią członek może odwołać
 się w postępowaniu wewnątrzspółdzielczym.
 
@@ -494,7 +422,7 @@ z jej uzasadnieniem w terminie 14 dni od dnia podjęcia uchwały. Uchwała Rady
 Nadzorczej podjęta w trybie odwoławczym jest ostateczna w postępowaniu
 wewnątrzspółdzielczym.
 
-$ 27
+§ 27
 
 1. Od uchwały Rady Nadzorczej podjętej w pierwszej instancji członkowi przysługuje
 prawo odwołania do Walnego Zgromadzenia w terminie 30 dni od dnia jej doręczenia
@@ -507,7 +435,7 @@ wewnątrzspółdzielczym. Odpis uchwały wraz z uzasadnieniem przesyła się
 odwołującemu członkowi w terminie 14 dni od jej podjęcia.
 
 4. ORGANY SPÓŁDZIELNI
-$ 28
+§ 28
 
 1. Organami Spółdzielni są:
 1) Walne Zgromadzenie ,
@@ -521,7 +449,7 @@ w głosowaniu tajnym.
 3. Do organów Spółdzielni wchodzą kandydaci, którzy uzyskali kolejno największą
 liczbę głosów.
 
-## Strona 12
+## Strona 9
 
 9
 
@@ -541,7 +469,7 @@ R -H
 
 p—
 
-$ 29
+§ 29
 
 „ Walne Zgromadzenie jest najwyższym organem Spółdzielni.
 
@@ -570,7 +498,7 @@ więcej niż jednego członka.
 
 udzielone na piśmie.
 
-$ 31
+§ 31
 
 „Walne Zgromadzenie zwołuje Zarząd przynajmniej raz w roku w terminie do 30
 
@@ -584,7 +512,7 @@ każdym czasie.
 1) Rady Nadzorczej,
 2) przynajmniej 1/10 członków zamieszkujących w zasobach Spółdzielni
 
-## Strona 13
+## Strona 10
 
 10
 
@@ -647,13 +575,13 @@ przez członków Spółdzielni.
 
 . Walne Zgromadzenie może podejmować uchwały jedynie w sprawach objętych
 
-porządkiem obrad podanym do wiadomości członków w sposób określony w $ 32.
+porządkiem obrad podanym do wiadomości członków w sposób określony w § 32.
 
 Walne Zgromadzenie jest ważne niezależnie od liczby obecnych na nim członków.
 
 „ Uchwałę uważa się za podjętą, jeżeli była poddana pod głosowanie obydwu części
 
-## Strona 14
+## Strona 11
 
 11
 
@@ -677,7 +605,7 @@ Nadzorczej lub inny upoważniony członek Rady.
 2.Każda część obrad Walnego Zgromadzenia wybiera prezydium w składzie:
 przewodniczący, zastępca przewodniczącego i sekretarz.
 
-$ 35
+§ 35
 
 1. Zakończenie każdej części obrad Walnego Zgromadzenia następuje:
 
@@ -704,7 +632,7 @@ bądź odwołanych z Rady Nadzorczej członków wraz z wynikami głosowań. Prot
 ten oraz uchwały przyjęte przez Walne Zgromadzenie podpisują Przewodniczący i
 Sekretarz tej części obrad Walnego Zgromadzenia.
 
-## Strona 15
+## Strona 12
 
 12
 
@@ -713,7 +641,7 @@ członków w terminie 14 dni od dnia zakończenia ostatniej części obrad Walne
 Zgromadzenia poprzez zamieszczenie ich treści na stronie internetowej Spółdzielni
 oraz w siedzibie Spółdzielni.
 
-$ 36
+§ 36
 
 Do wyłącznej właściwości Walnego Zgromadzenia należy:
 1) uchwalanie kierunków rozwoju działalności gospodarczej,
@@ -756,12 +684,12 @@ ze związku oraz upoważnienie Zarządu do podejmowania działań w tym zakresie
 
 16) uchwalanie regulaminu Rady Nadzorczej.
 
-$ 37
+§ 37
 
 1. Z obrad każdej części obrad Walnego Zgromadzenia sporządza się protokół, który
 podpisują przewodniczący i sekretarz danej części Walnego Zgromadzenia.
 
-## Strona 16
+## Strona 13
 
 13
 
@@ -771,18 +699,18 @@ Spółdzielczej, którzy mogą wnosić uwagi do protokołu.
 
 3. Termin do wniesienia uwag wynosi 2 tygodnie od jego sporządzenia.
 
-4.0 uzupełnieniu bądź sprostowaniu protokołu wskutek wniesionych uwag rozstrzyga
+4. O uzupełnieniu bądź sprostowaniu protokołu wskutek wniesionych uwag rozstrzyga
 prezydium danej części obrad Walnego Zgromadzenia w terminie 2 tygodni
 od wpływu pisemnych uwag.
 
-$.W przypadku braku uwzględnienia wniosku członka o uzupełnienie lub sprostowanie
+5. W przypadku braku uwzględnienia wniosku członka o uzupełnienie lub sprostowanie
 protokołu — ostateczną decyzję w sprawie podejmuje następne Walne Zgromadzenie
 danej części członków.
 
 6. Protokoły z obrad Walnego Zgromadzenia przechowuje Zarząd Spółdzielni
 co najmniej przez 10 lat.
 
-$ 38
+§ 38
 1. Uchwały Walnego Zgromadzenia obowiązują wszystkich członków Spółdzielni.
 2. Członek Spółdzielni może zaskarżyć do sądu uchwałę Walnego Zgromadzenia
 
@@ -801,19 +729,19 @@ Zgromadzenia.
 5. Szczegółowy tryb zwoływania Walnego Zgromadzenia , obradowania i podejmowania
 uchwał określa regulamin obrad uchwalony przez Walne Zgromadzenie.
 
-$ 39 - $ 45
+§ 39 - § 45
 
 (skreślono)
 
 4.2. Rada Nadzorcza
 
-$ 46
+§ 46
 
 1. Członków Rady Nadzorczej wybiera Walne Zgromadzenie w głosowaniu tajnym
 spośród członków Spółdzielni. Walne Zgromadzenie przed dokonaniem wyboru
 ustala liczbę członków Rady Nadzorczej na daną kadencję.
 
-## Strona 17
+## Strona 14
 
 14
 
@@ -859,7 +787,7 @@ wyklucza możliwości jego wyboru.
 na którym Rada została wybrana do Walnego Zgromadzenia, które dokona wyboru
 Rady na następną kadencję.
 
-$ 47
+§ 47
 
 . Mandat członka Rady Nadzorczej wygasa z chwila wyboru członka na następną
 
@@ -872,7 +800,7 @@ Rady Nadzorczej.
 Członkiem Rady Nadzorczej nie może być pracownik Spółdzielni. Uchwała
 w sprawie wyboru takiej osoby do Rady Nadzorczej jest nieważna.
 
-$ 48
+§ 48
 Utrata mandatu przed upływem kadencji następuje w przypadkach:
 
 1) odwołania większością 2/3 głosów członków biorących udział w głosowaniu na
@@ -886,7 +814,7 @@ Walnym Zgromadzeniu,
 
 5) śmierci członka Rady Nadzorczej
 
-## Strona 18
+## Strona 15
 
 15
 
@@ -898,7 +826,7 @@ z danej części Walnego Zgromadzenia.
 stanowiące o uprawnieniach Walnego Zgromadzenia mają zastosowanie do Zebrania
 Przedstawicieli.
 
-$ 49
+§ 49
 
 1. Do zakresu działania Rady Nadzorczej należy:
 1) uchwalanie planów gospodarczych,
@@ -955,7 +883,7 @@ i ustalania opłat za używanie lokali,
 15) uchwalanie zasad rozliczenia kosztów dostawy ciepła do lokali oraz pobierania
 opłat za centralne ogrzewanie i podgrzanie wody, zużycie zimnej wody,
 
-## Strona 19
+## Strona 16
 
 16
 
@@ -985,7 +913,7 @@ wu
 pracowników Spółdzielni wszelkich sprawozdań i wyjaśnień, przeglądać księgi i
 dokumenty oraz sprawdzać bezpośrednio stan majątku Spółdzielni.
 
-$ 50
+§ 50
 
 . Rada Nadzorcza wybiera ze swego grona prezydium. W skład prezydium Rady
 wchodzą: przewodniczący, jego zastępca, sekretarz i przewodniczący stałych komisji
@@ -1002,7 +930,7 @@ Prezydium i komisje Rady Nadzorczej, mają tylko charakter pomocniczy dla Rady
 l nie mogą podejmować żadnych decyzji ani formułować wiążących zaleceń pod
 adresem członków, organów Spółdzielni czy jej służb etatowych.
 
-$ 51
+§ 51
 
 „ Posiedzenia Rady Nadzorczej zwołuje jej przewodniczący, a w razie jego
 
@@ -1025,22 +953,22 @@ połowy składu Rady, określonego statutem Spółdzielni.
 
 z głosem doradczym członkowie Zarządu oraz inne zaproszone osoby.
 
-## Strona 20
+## Strona 17
 
 17
-$ 52
+§ 52
 
 Praca w Radzie Nadzorczej wykonywana jest społecznie i nie przysługuje za jej
 wykonanie wynagrodzenie.
 
-$ 53
+§ 53
 
 Wewnętrzną strukturę Rady Nadzorczej, szczegółowy zakres i sposób jej działania, tryb
 zwoływania posiedzeń, obradowania i podejmowania uchwał oraz inne sprawy
 organizacyjne Rady określa regulamin uchwalony przez Walne Zgromadzenie.
 
 4.3. Zarząd
-$ 54
+§ 54
 
 Zarząd kieruje działalnością Spółdzielni oraz reprezentuje ją na zewnątrz.
 8 55
@@ -1050,7 +978,7 @@ Zarząd kieruje działalnością Spółdzielni oraz reprezentuje ją na zewnątr
 2. Członków Zarządu, w tym prezesa i jego zastępców, wybiera na czas nieokreślony
 i odwołuje Rada Nadzorcza. Odwołanie wymaga pisemnego uzasadnienia.
 
-$ 56
+§ 56
 
 1. Rada Nadzorcza podejmuje decyzję, z którymi członkami Zarządu będzie nawiązany
 stosunek pracy.
@@ -1081,7 +1009,7 @@ na odrębną własność lokalu,
 9)prowadzenie gospodarki Spółdzielni na podstawie uchwalonych planów
 i wykonywanie związanych z tym czynności organizacyjnych i finansowych,
 
-## Strona 21
+## Strona 18
 
 10) zabezpieczanie majątku Spółdzielni,
 
@@ -1104,7 +1032,7 @@ postanowienia komornika sądowego egzekucja jest bezskuteczna,
 2. Zarząd składa sprawozdanie ze swej działalności Walnemu Zgromadzeniu i Radzie
 Nadzorczej .
 
-$ 58
+§ 58
 
 l. Zarząd działa kolegialnie na odbywanych okresowo posiedzeniach. Posiedzenia
 Zarządu są zwoływane przez prezesa Zarządu, a w jego nieobecności — przez zastępcę
@@ -1114,7 +1042,7 @@ prezesa, co najmniej jeden raz na 2 tygodnie.
 posiedzeń, obradowania i podejmowania uchwał oraz inne sprawy organizacyjne
 określa regulamin Zarządu uchwalony przez Radę Nadzorczą.
 
-$59
+§ 59
 
 1. Oświadczenie woli za Spółdzielnię składają łącznie co najmniej dwaj członkowie
 Zarządu lub jeden członek Zarządu i pełnomocnik.
@@ -1122,7 +1050,7 @@ Zarządu lub jeden członek Zarządu i pełnomocnik.
 2. Oświadczenie, o którym mowa w ust. 1, składa się w ten sposób, ze pod nazwą
 Spółdzielni osoby upoważnienie do ich składania zamieszczają swoje podpisy.
 
-$ 60
+§ 60
 Zarząd może za zgodą Rady Nadzorczej udzielić jednemu z członków Zarządu lub innej
 
 osobie pełnomocnictwa do dokonywania czynności prawnych związanych z
@@ -1131,12 +1059,12 @@ organizacyjnie i gospodarczo jednostki, a także pełnomocnictwa do dokonywania
 czynności określonego rodzaju lub czynności szczególnych.
 
 - Przepisy wspólne dla Rady Nadzorczej i Zarządu
-$ 61
+§ 61
 
 1. Nie można być jednocześnie członkiem Rady Nadzorczej i Zarządu.
 2. W razie konieczności Rada Nadzorcza może wyznaczyć jednego lub kilku ze swoich
 
-## Strona 22
+## Strona 19
 
 19
 
@@ -1207,7 +1135,7 @@ uprzednio odwołanej z wyżej wymienionej funkcji.
 osoby prawomocnie skazane za popełnienie przestępstwa. Koszt zaświadczenia z
 KRK ponosi Spółdzielnia. Wybór osoby zadłużonej lub skazanej jest nieważny.
 
-## Strona 23
+## Strona 20
 
 20
 
@@ -1215,11 +1143,11 @@ KRK ponosi Spółdzielnia. Wybór osoby zadłużonej lub skazanej jest nieważny
 Spółdzielni oraz prawomocnie skazane za popełnienie przestępstwa.
 
 4.4 Zebrania Grup Członkowskich.
-$ 63 -$ 65
+§ 63 - § 65
 (skreślono)
 
 5. TYTUŁY PRAWNE DO LOKALI
-$ 66
+§ 66
 Dla zaspokojenia potrzeb mieszkaniowych członków Spółdzielnia może:
 
 |) ustanawiać na rzecz członków spółdzielcze lokatorskie prawo do lokalu
@@ -1235,7 +1163,7 @@ lokalu o innym przeznaczeniu,
 budynkach stanowiących własność lub współwłasność Spółdzielni.
 
 5.1. Spółdzielcze lokatorskie prawo do lokalu mieszkalnego
-$ 67
+§ 67
 
 l. Przez umowę o ustanowienie spółdzielczego lokatorskiego prawa do lokalu
 mieszkalnego Spółdzielnia zobowiązuje się oddać członkowi lokal mieszkalny
@@ -1259,7 +1187,7 @@ w
 między członkiem, a Spółdzielnią umowy o ustanowienie spółdzielczego lokatorskiego
 prawa do lokalu mieszkalnego. Umowa powinna być zawarta pod rygorem
 
-## Strona 24
+## Strona 21
 
 21
 
@@ -1290,16 +1218,16 @@ o tej czynności.
 części wygasają najpóźniej z chwilą wygaśnięcia spółdzielczego lokatorskiego prawa
 do tego lokalu.
 
-$ 68
+§ 68
 (skreślony )
 
-$ 69
+§ 69
 (skreślony)
 
 8 70
 (skreślony)
 
-$ 71
+§ 71
 
 —=
 
@@ -1308,7 +1236,7 @@ członkostwa oraz innych wypadkach określonych w statucie. W wypadku gdy
 przysługuje ono małżonkom, wygaśnięcie prawa następuje z chwilą ustania członkostwa
 obojga małżonków.
 
-$ 72
+§ 72
 Po ustaniu małżeństwa wskutek rozwodu lub po unieważnieniu małżeństwa,
 małżonkowie zawiadamiają Spółdzielnię, któremu z nich przypadło spółdzielcze
 lokatorskie prawo do lokalu mieszkalnego.
@@ -1319,12 +1247,12 @@ wyznaczy im w tym celu dodatkowy termin, nie krótszy niż 6 miesięcy, uprzedza
 o skutkach, jakie może spowodować jego niezachowanie. Po bezskutecznym upływie
 tego terminu Spółdzielnia może podjąć uchwałę o wygaśnięciu spółdzielczego
 
-## Strona 25
+## Strona 22
 
 22
 
 lokatorskiego prawa do lokalu.
-$ 73
+§ 73
 
 1. Z chwilą śmierci jednego z małżonków spółdzielcze lokatorskie prawo do lokalu
 mieszkalnego, które przysługiwało obojgu małżonkom, przypada drugiemu
@@ -1332,10 +1260,10 @@ małżonkowi.
 
 2. (skreślony)
 3. Przepis ust. 1 nie narusza uprawnień spadkobierców do dziedziczenia wkładu.
-$ 74
+§ 74
 
 1. W wypadku wygaśnięcia spółdzielczego lokatorskiego prawa do lokalu mieszkalnego
-w następstwie niedokonania czynności, o których mowa w $ 72, roszczenia
+w następstwie niedokonania czynności, o których mowa w § 72, roszczenia
 o przyjęcie do Spółdzielni i zawarcie umowy o ustanowienie spółdzielczego
 lokatorskiego prawa do lokalu mieszkalnego przysługują osobom bliskim.
 
@@ -1348,7 +1276,7 @@ W wypadku zgłoszenia się kilku uprawnionych rozstrzyga sąd w postępowaniu
 nieprocesowym. Po bezskutecznym upływie wyznaczonego przez spółdzielnię terminu
 wystąpienia do sądu, wyboru dokonuje Spółdzielnia.
 
-$ 75
+§ 75
 
 1. Spółdzielcze lokatorskie prawo do lokalu mieszkalnego wygasa z chwilą ustania
 członkostwa oraz w innych wypadkach określonych w ustawie lub statucie.
@@ -1372,7 +1300,7 @@ lokalu.
 
 5. Spółdzielnia nie przenosi odrębnej własności lokalu, jeżeli:
 
-## Strona 26
+## Strona 23
 
 23
 
@@ -1421,14 +1349,14 @@ w art. 4 ust. 1 ustawy usm, a także koszty określenia wartości rynkowej lokal
 prawa do lokalu mieszkalnego, do którego wygasło prawo przysługujące innej osobie,
 wnosi wymagany wkład mieszkaniowy.
 
-$ 76
+§ 76
 
 Po wygaśnięciu spółdzielczego lokatorskiego prawa do lokalu mieszkalnego członek oraz
 zamieszkujące w tym lokalu osoby, które prawa swoje od niego wywodzą,
 są obowiązani do opróżnienia lokalu w terminie 3 miesięcy. Na Spółdzielni nie ciąży
 obowiązek dostarczenia innego lokalu.
 
-## Strona 27
+## Strona 24
 
 24
 
@@ -1442,7 +1370,7 @@ W
 
 jednorodzinnego)
 
-$ 77
+§ 77
 
 . Spółdzielcze własnościowe prawo do lokalu może należeć do kilku osób, z tym ze
 
@@ -1480,18 +1408,18 @@ własnościowego prawa do lokalu zawarta bezwarunkowo albo bez zawiadomienia
 uprawnionych o zbyciu lub z podaniem im do wiadomości istotnych postanowień
 umowy niezgodnie z rzeczywistością jest nieważna.
 
-$ 79
+§ 79
 
 Spółdzielnia prowadzi rejestr lokali, dla których zostały założone oddzielne księgi
 wieczyste spółdzielczego własnościowego prawa do lokalu.
 
-$ 80
+§ 80
 
 Jeżeli w toku likwidacji, postępowania upadłościowego albo postępowania
 egzekucyjnego z nieruchomości Spółdzielni , nabywcą budynku albo udziału
 w budynku nie będzie spółdzielnia mieszkaniowa , spółdzielcze własnościowe prawo
 
-## Strona 28
+## Strona 25
 
 25
 do lokalu przekształca się w prawo odrębnej własności lokalu lub we własność domu
@@ -1499,7 +1427,7 @@ do lokalu przekształca się w prawo odrębnej własności lokalu lub we własno
 jednorodzinnego. W wypadku nabycia budynku przez inną spółdzielnię mieszkaniową
 byłemu członkowi przysługuje roszczenie o przyjęcie do tej spółdzielni.
 
-$ 81
+§ 81
 
 —=
 
@@ -1525,7 +1453,7 @@ nieruchomości wspólnej uciążliwym, przepis art. 16 ustawy z dnia 24 czerwca 
 o własności lokali stosuje się odpowiednio. Z żądaniem, o którym mowa w tym przepisie,
 występuje Zarząd Spółdzielni na wniosek Rady Nadzorczej.
 
-$ 83
+§ 83
 
 1.W wypadkach gdy ustawa przewiduje wygaśnięcie spółdzielczego własnościowego
 prawa do lokalu, prawo to, jeżeli jest obciążone hipoteką, nie wygasa, lecz przechodzi
@@ -1543,7 +1471,7 @@ Spółdzielni powstaje dopiero z chwilą zbycia prawa w drodze przetargu.
 
 4. W wypadku wygaśnięcia spółdzielczego własnościowego prawa do lokalu
 
-## Strona 29
+## Strona 26
 
 26
 
@@ -1562,12 +1490,12 @@ spółdzielczym własnościowym prawem danego lokalu mieszkalnego.
 6. Warunkiem wypłaty równowartości spółdzielczego własnościowego prawa do lokalu
 jest opróżnienie lokalu.
 
-$ 84
+§ 84
 
 Do egzekucji ze spółdzielczego własnościowego prawa do lokalu stosuje się odpowiednio
 przepisy o egzekucji z nieruchomości .
 
-$ 85
+§ 85
 
 1. Wynajmowanie lub oddawanie w bezpłatne używanie przez członka całego lub części
 lokalu nie wymaga zgody Spółdzielni, chyba ze byłoby to związane ze zmianą sposobu
@@ -1578,7 +1506,7 @@ członek obowiązany jest do pisemnego powiadomienia Spółdzielni o tej czynno�
 2. Umowy zawarte przez członka w sprawie korzystania z lokalu lub jego części
 wygasają najpóźniej z chwilą wygaśnięcia spółdzielczego prawa do tego lokalu.
 
-$ 86
+§ 86
 
 Po wygaśnięciu spółdzielczego własnościowego prawa do lokalu mieszkalnego członek
 oraz zamieszkujące w tym lokalu osoby, które prawa swoje od niego wywodzą, są
@@ -1588,9 +1516,9 @@ obowiązek dostarczenia innego lokalu.
 5.3. Spółdzielcze własnościowe prawo do lokalu użytkowego oraz miejsca postojowego
 w garażu wielostanowiskowy
 
-$ 87
+§ 87
 
-## Strona 30
+## Strona 27
 
 27
 
@@ -1613,10 +1541,10 @@ podlega egzekucji. Jest ono ograniczonym prawem rzeczowym.
 
 5. 4. Odrębna własność lokalu
 
-$ 89
+§ 89
 (skreślony)
 
-$ 90
+§ 90
 (skreślony)
 
 891
@@ -1628,23 +1556,23 @@ $ 90
 93
 (skreślony)
 
-$ 94
+§ 94
 
 (skreślony)
 
-## Strona 31
+## Strona 28
 
 28
 
-$ 95
+§ 95
 (skreślony)
-$ 96
+§ 96
 
 Właściciel lokalu nie będący członkiem Spółdzielni może zaskarżyć do sądu uchwałę
 Walnego Zgromadzenia w takim zakresie, w jakim dotyczy ona jego prawa odrębnej
 własności lokal , na zasadach obowiązujących członków Spółdzielni.
 
-$ 97
+§ 97
 
 Jeżeli właściciel lokalu zalega długotrwale z zapłatą należnych od niego opłat lub
 wykracza w sposób rażący lub uporczywy przeciwko obowiązującemu porządkowi
@@ -1655,11 +1583,11 @@ może w trybie procesu żądać sprzedaży lokalu w drodze licytacji na podstawi
 Kodeksu postępowania cywilnego o egzekucji z nieruchomości. Właścicielowi, którego
 lokal został sprzedany, nie przysługuje prawo do lokalu zamiennego.
 
-$ 98
+§ 98
 (skreślony)
 5.5. Najem lokalu
 
-$ 99
+§ 99
 
 1. Spółdzielnia może wynajmować lokale mieszkalne wolne w sensie prawnym,
 do których nie może ustanowić spółdzielczego prawa do lokalu lub prawa odrębnej
@@ -1680,11 +1608,11 @@ pochodzą wyłącznie od członków Spółdzielni decyduje kolejność zgłosze�
 roszczenie o przyjęcie w poczet członków i o ustanowienie prawa własności lokalu
 mieszkalnego.
 
-## Strona 32
+## Strona 29
 
 29
 
-$ 100
+§ 100
 
 1. Spółdzielnia może wynajmować osobom fizycznym i prawnym lokale użytkowe,
 garaże, miejsca postojowe w garażu wielostanowiskowym wolne w sensie prawnym.
@@ -1707,7 +1635,7 @@ lokalu.
 - (skreślony)
 
 6. 2. Zamiana lokali - (skreślony)
-1. ZASADY WNOSZENIA WKŁADÓW ORAZ ICH ROZLICZANIA W
+7. ZASADY WNOSZENIA WKŁADÓW ORAZ ICH ROZLICZANIA W
 RAZIE WYGAŚNIĘCIA PRAWA DO LOKALU
 
 7.1. Zasady ogólne - (skreślony)
@@ -1716,14 +1644,14 @@ RAZIE WYGAŚNIĘCIA PRAWA DO LOKALU
 7.3. Wkłady budowlane - (skreślony)
 
 Rozliczenia w razie wygaśnięcia prawa do lokalu
-$ 119
+§ 119
 
 1. W przypadku wygaśnięcia lokatorskiego prawa do lokalu mieszkalnego Spółdzielnia
 zwraca osobie uprawnionej wniesiony wkład mieszkaniowy, zwaloryzowany według
 wartości rynkowej lokalu na dzień wygaśnięcia prawa. Z wartości rynkowej lokalu
 potrąca się zobowiązania wobec Spółdzielni.
 
-## Strona 33
+## Strona 30
 
 30
 
@@ -1738,7 +1666,7 @@ uzyskać od członka obejmującego dany lokal w trybie przetargu przeprowadzoneg
 przez Spółdzielnię.
 
 4. Roszczenie o zwrot wkładu mieszkaniowego jest zbywalne i podlega egzekucji.
-$ 120
+§ 120
 
 l. W wypadku wygaśnięcia spółdzielczego własnościowego prawa do lokalu po dniu
 23.04.2001r. Spółdzielnia obowiązana jest uiścić uprawnionemu wartość rynkową tego
@@ -1751,11 +1679,11 @@ opróżnienie lokalu. Jeżeli jednak należność jest ustalana w trybie przetar
 należności z tytułu wygasłego prawa następuje w terminie wynikającym
 z rozstrzygnięcia przetargowego.
 
-$ 121
+§ 121
 (skreślony)
 
 8. PRZEKSZTAŁCANIE TYTUŁÓW PRAWNYCH DO LOKALI
-$ 122
+§ 122
 
 l. Członek, któremu przysługuje spółdzielcze lokatorskie prawo do lokalu
 mieszkalnego, jest uprawniony do żądania, by Spółdzielnia:
@@ -1764,27 +1692,27 @@ mieszkalnego, jest uprawniony do żądania, by Spółdzielnia:
 2) przeniosła na członka własność lokalu.
 
 2. (skreślony).
-$ 123
+§ 123
 
 Członek, któremu przysługuje spółdzielcze własnościowe prawo do lokalu, jest
 uprawniony do żądania by Spółdzielnia przeniosła na niego własność lokalu.
 
-## Strona 34
+## Strona 31
 
 31
 
-$ 124
+§ 124
 
 Na pisemne żądanie członka będącego najemcą lokalu użytkowego, w tym garażu,
 a także najemcy pracowni wykorzystywanej przez twórcę do prowadzenia działalności w
 dziedzinie kultury i sztuki, który poniósł w pełnym zakresie koszty budowy tego lokalu,
 Spółdzielnia jest obowiązana zawrzeć z tą osobą umowę przeniesienia własności lokalu.
 
-$ 125
+§ 125
 
 (skreślony)
 
-$ 126
+§ 126
 
 1. Wnioski członków a także wnioski najemców o ustanowienie własności lokalu
 powinny być rozpatrzone w terminie 6 miesięcy od daty ich wpływu do Spółdzielni.
@@ -1800,7 +1728,7 @@ Spółdzielni określającej przedmiot odrębnej własności lokali w danej nier
 Zarząd Spółdzielni obowiązany jest przekazać na piśmie zainteresowanej osobie
 decyzję o rozpatrzeniu jej wniosku o przeniesienie własności lokalu.
 
-$ 127
+§ 127
 
 —
 
@@ -1824,20 +1752,20 @@ rozpatrzenia wniosku o zmianę tytułu prawnego do lokalu.
 
 2. W przypadku własności lokalu termin, o którym mowa w ust. 1, nie może być
 
-## Strona 35
+## Strona 32
 
 32
 
 dłuższy niż 6 miesięcy od zawiadomienia członka lub najemcy o rozpatrzeniu wniosku
 o przeniesienie własności lokalu.
 
-$ 129
+§ 129
 
 Spółdzielnia powinna przystąpić do podpisania umowy o przeniesienie własności lokalu
 w terminie 3o dni od dnia uregulowania przez członka lub najemcę należności
 warunkujących zmianę tytułu prawnego do lokalu.
 
-$ 130
+§ 130
 
 Koszty zawarcia notarialnej umowy przeniesienia własności lokalu oraz koszty założenia
 księgi wieczystej dla lokalu oraz wpisu do księgi wieczystej ponosi członek lub najemca,
@@ -1849,7 +1777,7 @@ spółdzielcze własnościowe prawo do lokalu - (skreślony )
 8.2. Przeniesienie własności lokalu, do którego członkowi przysługuje spółdzielcze
 lokatorskie prawo do lokalu mieszkalnego
 
-$ 132
+§ 132
 
 Na pisemne żądanie członka, któremu przysługuje spółdzielcze lokatorskie prawo
 do lokalu mieszkalnego, Spółdzielnia jest obowiązana zawrzeć z tym członkiem umowę
@@ -1866,20 +1794,20 @@ modernizacji budynku,
 4) spłaty zadłużenia z tytułu opłat, o których mowa w art. 4 ust. 1 ustawy
 o spółdzielniach mieszkaniowych i innych zobowiązań wobec Spółdzielni.
 
-$ 133
+§ 133
 
-Wpłaty, o których mowa w $ 113, wyliczone przez Spółdzielnię członek obowiązany jest
+Wpłaty, o których mowa w § 113, wyliczone przez Spółdzielnię członek obowiązany jest
 wpłacić do Spółdzielni w terminie nie przekraczającym 1 miesiąca, od dnia pisemnego
 powiadomienia członka o warunkach finansowych przeniesienia własności lokalu.
 
-## Strona 36
+## Strona 33
 
-$ 134
+§ 134
 (skreślony)
-$ 135
+§ 135
 
 Po śmierci członka Spółdzielni, który wystąpił z żądaniem przeniesienia własności lokalu
-określonym w $ 132, jeżeli brak jest osób uprawnionych, małżonka, dzieci i innych
+określonym w § 132, jeżeli brak jest osób uprawnionych, małżonka, dzieci i innych
 osób bliskich, którym przysługuje roszczenie o przyjęcie do Spółdzielni
 i zawarcie umowy o ustanowienie spółdzielczego lokatorskiego prawa do lokalu, jego
 spadkobiercy mogą żądać przeniesienia na nich własności lokalu, nawet jeżeli żaden
@@ -1887,7 +1815,7 @@ z nich nie jest członkiem Spółdzielni. W tym przypadku uznaje się, iż wnios
 o przeniesienie własności lokalu został złożony w dniu pierwszego wystąpienia
 z żądaniem przez członka Spółdzielni.
 
-$ 136
+§ 136
 
 Jeżeli Spółdzielnia, na mocy jednostronnej czynności prawnej, ustanowiła dla siebie
 odrębną własność lokalu mieszkalnego, przeniesienie własności lokalu mieszkalnego
@@ -1897,7 +1825,7 @@ tego lokalu.
 8.3. Przeniesienie własności lokalu, do którego członkowi przysługuje spółdzielcze
 własnościowe prawo do lokalu mieszkalnego, użyt kowego. garażu
 
-$ 137
+§ 137
 
 Na pisemne żądanie członka, któremu przysługuje spółdzielcze własnościowe prawo
 do lokalu, Spółdzielnia mieszkaniowa jest obowiązana zawrzeć z tym członkiem umowę
@@ -1912,7 +1840,7 @@ modernizacji budynku,
 3) spłaty zadłużenia z tytułu opłat, o których mowa w art. 4 ust. 1 ustawy
 o spółdzielniach mieszkaniowych i innych zobowiązań wobec Spółdzielni.
 
-$ 138
+§ 138
 
 Po śmierci członka Spółdzielni, który wystąpił z żądaniem przeniesienia własności
 lokalu określonym w art. 17!* usm, jego spadkobiercy mogą żądać przeniesienia na
@@ -1920,11 +1848,11 @@ nich własności lokalu, nawet jeżeli żaden z nich nie jest członkiem Spółd
 W tym przypadku uznaje się, iż wniosek o przeniesienie własności lokalu został
 złożony w dniu pierwszego wystąpienia z żądaniem przez członka Spółdzielni.
 
-## Strona 37
+## Strona 34
 
 34
 
-$ 139
+§ 139
 
 1. Z chwilą zawarcia umowy przeniesienia własności lokalu, do którego członkowi
 przysługiwało spółdzielcze własnościowe prawo do lokalu mieszkalnego lub
@@ -1937,7 +1865,7 @@ lokalu była zabezpieczona hipoteką na ograniczonym prawie rzeczowym, może
 dochodzić zaspokojenia z lokalu stanowiącego odrębną własność, powstałą w wyniku
 zawarcia tej umowy.
 
-$ 140
+§ 140
 
 W razie przekształcenia spółdzielczego własnościowego prawa do lokalu mieszkalnego,
 spółdzielczego prawa do lokalu użytkowego w Spółdzielni w prawo odrębnej własności
@@ -1945,14 +1873,14 @@ lokalu księga wieczysta prowadzona dla tego prawa staje się księgą wieczyst�
 nieruchomości zgodnie z art. 24! ust. 2 ustawy z dnia 6 lipca 1982 r o księgach
 wieczystych i hipotece (Dz. U. z 2017 r. poz. 107).
 
-$ 141
+§ 141
 
 Jeżeli Spółdzielnia, na mocy jednostronnej czynności prawnej, ustanowiła dla siebie
 odrębną własność lokalu, przeniesienie własności lokalu może nastąpić wyłącznie na
 rzecz członka, któremu przysługuje spółdzielcze własnościowe prawo do tego lokalu (art.
 9 ust. 8).
 
-$ 142
+§ 142
 
 (skreślony)
 
@@ -1964,12 +1892,12 @@ wielostanowiskowego - (skreślony)
 9. GOSPODARKA SPÓŁDZIELNI
 
 9.1. Zasady ogólne
-$ 148
+§ 148
 
 Spółdzielnia prowadzi działalność gospodarczą na zasadach rachunku ekonomicznego,
 przy zapewnieniu korzyści dla członków Spółdzielni.
 
-## Strona 38
+## Strona 35
 
 35
 
@@ -1980,7 +1908,7 @@ przekraczającej najwyższej sumy zobowiązań, jaką Spółdzielnia może zaci�
 oznaczonej przez Walne Zgromadzenie . Zaciągnięcie przez Spółdzielnię kredytu lub
 pożyczki wymaga zgody Rady Nadzorczej.
 
-$ 150
+§ 150
 
 1. Spółdzielnia prowadzi rachunkowość i sporządza sprawozdania statystyczne zgodnie z
 powszechnie obowiązującymi przepisami. Szczegółowe zasady ewidencji księgowej
@@ -1992,7 +1920,7 @@ a) ewidencję przychodów i kosztów związanych z eksploatacją i utrzymaniem
 nieruchomości,
 
 b) ewidencję wpływów i wydatków funduszu remontowego nieruchomości.
-$ 151
+§ 151
 
 1. Fundusze spółdzielni stanowią:
 1) fundusz udziałowy
@@ -2002,10 +1930,10 @@ $ 151
 5)zakładowy fundusz świadczeń socjalnych.
 2. Spółdzielnia może tworzyć inne fundusze na podstawie uchwały Rady Nadzorczej.
 
-$ 152
+§ 152
 
 Rokiem obrachunkowym jest rok kalendarzowy.
-$ 153
+§ 153
 
 1. Nadwyżkę bilansową Spółdzielni przeznacza się zgodnie z uchwałą Walnego
 Zgromadzenia
@@ -2017,7 +1945,7 @@ w uchwale Walnego Zgromadzenia .
 
 9.2. Inwestycje mieszkaniowe - (skreślony)
 
-## Strona 39
+## Strona 36
 
 36
 
@@ -2027,7 +1955,7 @@ w uchwale Walnego Zgromadzenia .
 
 wW
 
-$ 155
+§ 155
 
 Członkowie Spółdzielni, którym przysługują spółdzielcze prawa do lokali
 mieszkalnych, wnoszą do Spółdzielni opłaty na pokrycie kosztów eksploatacji
@@ -2069,7 +1997,7 @@ g. koszty obowiązkowych przeglądów i badań sprawności instalacji
 
 technicznych, określonych w prawie budowlanym
 
-## Strona 40
+## Strona 37
 
 37
 
@@ -2094,12 +2022,12 @@ lokalu mieszkalnego, użytkowego, garażu zobowiązani są do pokrycia kosztów
 korespondencji wysyłanej przez Spółdzielnię za pośrednictwem poczty na wskazany
 adres korespondencyjny poza siedzibą Spółdzielni.
 
-$ 156
+§ 156
 
-Wysokość opłat, o których mowa w $ 155 jest ustalana na podstawie planów finansowo
+Wysokość opłat, o których mowa w § 155 jest ustalana na podstawie planów finansowo
 — gospodarczych.
 
-$ 157
+§ 157
 
 1. Różnica między faktycznymi kosztami i przychodami gospodarki zasobami
 mieszkaniowymi, z zastrzeżeniem ust. 2, zwiększa odpowiednio koszty lub przychody
@@ -2110,16 +2038,16 @@ c.o. i podgrzanie wody (nadpłata bądź niedobór) danej nieruchomości podlega
 rozliczeniu między Spółdzielnią, a poszczególnymi użytkownikami lokali po
 zakończeniu okresu rozliczeniowego.
 
-$ 158
+§ 158
 
-1. Opłaty, o których mowa w $ 155, powinny być uiszczane co miesiąc z góry do dnia 15
+1. Opłaty, o których mowa w § 155, powinny być uiszczane co miesiąc z góry do dnia 15
 każdego miesiąca.
 
 2. O zmianie wysokości opłat niezależnych od Spółdzielni Zarząd jest zobowiązany
 powiadomić członków co najmniej 14 dni przed upływem terminu wnoszenia opłat,
 ale nie później niż ostatniego dnia miesiąca poprzedzającego ten termin.
 
-## Strona 41
+## Strona 38
 
 38
 
@@ -2136,7 +2064,7 @@ sądową ponoszą oni opłaty w dotychczasowej wysokości.
 5. Od nie wpłaconych w terminie należności Spółdzielnia pobiera odsetki ustawowe
 za opóźnienie.
 
-$ 159
+§ 159
 
 l. Pożytki i inne przychody z nieruchomości wspólnej służą pokrywaniu wydatków
 związanych z jej eksploatacją i utrzymaniem, a w części przekraczającej te wydatki
@@ -2166,17 +2094,17 @@ może zostać przeznaczona na pokrycie należności, które wystąpią w danym m
 miesiącach następnych. Na żądanie uprawnionego nadwyżka jest mu wypłacana w
 wysokości pomniejszonej o kwotę należną Spółdzielni z tytułu opłat już wymagalnych.
 
-$ 160
+§ 160
 
 Podział obowiązków w zakresie napraw wewnątrz lokali określa regulamin rozliczania
 kosztów gospodarki zasobami mieszkaniowymi i ustalania opłat za używanie lokali.
 
-## Strona 42
+## Strona 39
 
 39
 
 10. PRZEPISY PRZEJŚCIOWE I KOŃCOWE
-$ 161
+§ 161
 
 1. Statut został zarejestrowany w KRS postanowieniem z dnia 31.12.2010 r.
 
@@ -2187,10 +2115,10 @@ Zebrania Przedstawicieli S.M. „Doły — Marysińska” z dnia 22.06.2010 r., 
 Zgromadzenia nr 9/M/18 z dn. 05.06.2018 r., nr 9/D/18 z dn. 07.06.2018 r., nr 9/18 z
 dnia 07.06.2018 r.
 
-$ 162
+§ 162
 
 (skreślony)
-$ 163
+§ 163
 
 W razie likwidacji Spółdzielni pozostała do dyspozycji Walnego Zgromadzenia część
 majątku Spółdzielni jest dzielona między członków w ten sposób, ze każdy z nich
@@ -2202,12 +2130,3 @@ Za zgodność z treścią postanowienia Sądu Rejonowego dla Łodzi — Śródmi
 w Łodzi Sądu Gospodarczego XX Wydziału Gospodarczego Krajowego Rejestru
 Sądowego z dnia 19.11.2025 r. sygn. sprawy LD.XX NS-REJ.KRS/027597/25/729:
 
-WZŁONEK ZARZĄDU Człon ądu
-- "eehmiczno-Elsoidetacyjnych GŁÓ żowy
-Olga Zuchmańska Martyna Gawrońska
-
-SPÓŁDZIELNIA MIESZKANIOWA
-
-"DOŁY MARYSIŃSKA"
-ZARZĄD
-91-712 Łódź, ul. Nowopolska 12/14
