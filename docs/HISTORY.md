@@ -1,5 +1,26 @@
 # Historia projektu
 
+## 2026-08-26
+
+- Zakończono przetwarzanie całej zawartości `input/audio/` (17 nagrań,
+  ~37h audio): transkrypcja + diaryzacja + propozycja mówców + czyszczenie
+  dla każdego. Uruchamiane partiami w tle (rosnąco wg długości), z
+  przerwami spowodowanymi przez usypianie/wyłączenie laptopa w nocy —
+  transcribe.py zapisuje wynik dopiero na końcu, więc przerwania nie
+  zostawiły uszkodzonych plików, wystarczyło wznowić od nowa dla
+  przerwanych plików.
+- Napotkane i rozwiązane problemy operacyjne, opisane w
+  `docs/INSTALLATION.md` (Rozwiązywanie problemów):
+  - timeout (600s) identyfikacji mówców przy równoległym uruchamianiu
+    z transkrypcją innego pliku — model Ollamy zostawał załadowany w
+    VRAM i kolidował z WhisperX. Rozwiązanie: `ollama stop <model>`
+    przed każdą transkrypcją w pętli wsadowej,
+  - `260415_0257` (260 min) failowało z CUDA OOM przy domyślnym
+    `--batch-size 16`, mimo że dłuższe nagranie (288 min) przeszło bez
+    problemu tuż obok — naprawione przez `--batch-size 8` dla tego
+    pliku; przyczyna niepewna (prawdopodobnie fragmentacja pamięci CUDA
+    przy długim przebiegu, nie sama długość nagrania).
+
 ## 2026-08-25
 
 - Naprawiono błąd w `scripts/identify_speakers.py` i `scripts/clean_transcript.py`:

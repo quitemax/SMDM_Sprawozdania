@@ -105,8 +105,19 @@ Kolejność uzgodniona z użytkownikiem:
       zrobione 2026-08-21, przetestowane na `test.mp3`.
 - [x] Test na rzeczywistym nagraniu (`2025.06.27`, 90 min, wielu mówców) —
       wynik bardzo dobry (patrz krok 3 planu sesji wyżej).
-- [ ] Test na kolejnym nagraniu, najlepiej o innej jakości dźwięku (dla
-      porównania), gdy będzie potrzeba.
+- [x] Przetworzono całą zawartość `input/audio/` (17 nagrań, ~37h audio) —
+      transkrypcja + diaryzacja + propozycja mówców + czyszczenie,
+      zakończone 2026-08-26. Napotkane i rozwiązane problemy
+      operacyjne (patrz `docs/HISTORY.md`):
+      - model Ollamy pozostający załadowany w VRAM powodował timeout
+        (600s) identyfikacji mówców przy równoległym przetwarzaniu —
+        rozwiązanie: `ollama stop <model>` przed każdą transkrypcją,
+      - jedno nagranie (`260415_0257`, 260 min) failowało z CUDA OOM przy
+        domyślnym `--batch-size 16`, mimo że dłuższe nagranie (288 min)
+        przeszło bez problemu — naprawione przez `--batch-size 8` dla
+        tego pliku; przyczyna nieznana (prawdopodobnie fragmentacja
+        pamięci CUDA przy długim pojedynczym przebiegu, nie sama
+        długość nagrania).
 
 ## Etap 3 — Przetwarzanie transkrypcji
 

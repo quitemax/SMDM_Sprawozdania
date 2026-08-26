@@ -240,3 +240,24 @@ python -m pip install pymupdf==1.28.2 pytesseract==0.3.13
 
 Problemy napotkane podczas pierwszej instalacji będą dokumentowane tutaj,
 aby można było odtworzyć środowisko na innych komputerach.
+
+### `identify_speakers.py` — timeout połączenia z Ollamą
+
+Jeśli `scripts/transcribe.py` (WhisperX) i `scripts/identify_speakers.py`
+(Ollama) uruchamiane są blisko siebie w czasie (np. przy przetwarzaniu
+wielu nagrań pod rząd), model Ollamy potrafi zostać załadowany w VRAM na
+tyle długo, że koliduje z kolejnym uruchomieniem WhisperX — objawia się to
+jako `ReadTimeoutError` (przekroczony limit 600s) przy zapytaniu do
+`localhost:11434`, albo spowolnienie/OOM po drugiej stronie. Rozwiązanie:
+przed każdym uruchomieniem `transcribe.py` w pętli przetwarzającej wiele
+plików wywołać `ollama stop <nazwa_modelu>`, żeby jawnie zwolnić VRAM.
+
+### CUDA out of memory przy długich nagraniach
+
+Pojedyncze, bardzo długie nagranie może przerwać `transcribe.py` błędem
+`RuntimeError: CUDA failed with error out of memory` w trakcie
+transkrypcji, mimo że dłuższe nagrania z tej samej partii przechodzą bez
+problemu (przyczyna niepewna — prawdopodobnie fragmentacja pamięci CUDA
+przy długim pojedynczym przebiegu, nie sama długość nagrania). Obejście:
+uruchomić ponownie z mniejszym batchem, np. `--batch-size 8` (domyślnie
+16, patrz `config/config.yaml`).
