@@ -1,5 +1,34 @@
 # Historia projektu
 
+## 2026-08-30 (2)
+
+- Przeanalizowano parę transkrypcja↔protokół (posiedzenie 27.06.2025) pod
+  kątem Etapu 4 (generowanie projektu sprawozdania). Wniosek: protokół to
+  silnie skompresowana, sformalizowana wersja przebiegu — dyskusje
+  osobiste są całkowicie pomijane, zostaje tylko treść proceduralna wg
+  powtarzalnych formuł. Przy okazji znaleziono realny przypadek błędnej
+  propozycji `identify_speakers.py` (etykieta mówcy niezgodna z
+  nazwiskiem w podpisie odpowiadającego protokołu historycznego) —
+  potwierdza to znane ograniczenie modelu 11B opisane w
+  `docs/PROJECT_MEMORY.md`. Szczegóły ustaleń: `docs/ROADMAP.md`, Etap 4.
+- W odpowiedzi na to dodano dwa nowe skrypty:
+  - `scripts/extract_speaker_samples.py` — wycina dla każdego SPEAKER_XX
+    najdłuższe wypowiedzi z oryginalnego audio jako krótkie próbki .mp3,
+    żeby pracownik mógł rozpoznać mówcę po głosie zamiast (albo obok)
+    polegać na modelu. Przetestowano na posiedzeniu 27.06.2025 — poprawnie
+    wycięło próbki dla wszystkich 8 mówców.
+  - `scripts/init_meeting_info.py` — tworzy szablon
+    `<nazwa>.meeting_info.json` (lista obecności, protokolant, sekretarz,
+    przewodniczący) na dane niemożliwe do wiarygodnego wyciągnięcia z
+    samego nagrania.
+  Plik `<nazwa>.speakers.json` zyskał pole `source` ("model"/"manual")
+  rozróżniające propozycję modelu od ręcznie potwierdzonego wpisu;
+  `identify_speakers.py` i `extract_speaker_samples.py` scalają się
+  wzajemnie (nie nadpisują wpisów `manual`, zachowują `audio_samples`
+  niezależnie od kolejności uruchamiania) — zweryfikowano testem
+  jednostkowym funkcji scalającej. `clean_transcript.py` pokazuje wpisy
+  `manual` bez znaku zapytania w etykiecie.
+
 ## 2026-08-30
 
 - Dodano `scripts/docx_to_markdown.py`: konwersja historycznych protokołów

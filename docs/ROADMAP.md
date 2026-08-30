@@ -174,6 +174,23 @@ Kolejność uzgodniona z użytkownikiem:
       Utrzymuje to zasadę „tylko propozycja do weryfikacji” z
       `docs/PROJECT_MEMORY.md`, ale ułatwia przegląd bez ręcznego
       zerkania do osobnego pliku.
+- [x] Ręczna identyfikacja mówców po głosie — `scripts/extract_speaker_samples.py`
+      (zrobione 2026-08-30). Wycina dla każdego SPEAKER_XX 2 najdłuższe
+      wypowiedzi (do 20s) z oryginalnego pliku audio i dopisuje ścieżki do
+      `<nazwa>.speakers.json` (pole `audio_samples`) — do odsłuchania i
+      ręcznego uzupełnienia `proposed_name` (`source: "manual"`, wtedy
+      `clean_transcript.py` nie oznacza etykiety znakiem zapytania). Ten
+      sam plik jest współdzielony z `identify_speakers.py` i scalany
+      niezależnie od kolejności uruchamiania — żaden ze skryptów nie
+      nadpisuje wpisu potwierdzonego ręcznie. Motywacja: realny przypadek
+      błędnej propozycji modelu w parze z posiedzeniem 27.06.2025 (patrz
+      `docs/PROJECT_MEMORY.md`).
+- [x] Szablon metadanych spoza transkrypcji — `scripts/init_meeting_info.py`
+      (zrobione 2026-08-30). Tworzy `<nazwa>.meeting_info.json` (lista
+      obecności, protokolant, sekretarz, przewodniczący) do ręcznego
+      uzupełnienia — te dane nie są wiarygodnie odtwarzalne z samego
+      nagrania (patrz `docs/PROJECT_MEMORY.md`). Potrzebne jako wejście
+      dla Etapu 4.
 
 ## Etap 4 — Analiza treści i generowanie raportu
 
@@ -184,6 +201,25 @@ Kolejność uzgodniona z użytkownikiem:
       wzorców stylu i struktury raportu.
 - [ ] Integracja skryptu z lokalnym modelem przez Ollama, zapis wyniku do
       `output/reports/`.
+- [ ] Wstępna analiza par transkrypcja↔protokół (2026-08-30, na parze z
+      27.06.2025): protokół to silnie skompresowana, sformalizowana
+      wersja przebiegu — spory osobiste/dygresje całkowicie pomijane,
+      zostaje tylko treść proceduralna (kto zgłosił kandydaturę/wniosek,
+      wynik głosowania, numer i temat uchwały). Znaleziono stałe formuły
+      (np. „Rada Nadzorcza w obecności X członków, Y głosami za...
+      podjęła uchwałę Nr N/R/RR") powtarzające się we wszystkich 18
+      przekonwertowanych protokołach. Dwie niezależne numeracje w skali
+      roku kalendarzowego: `Protokół nr N/R/RR` (per spotkanie) i
+      `Uchwała Nr N/R/RR` (wspólny licznik przez wszystkie spotkania
+      roku — trzeba znać najwyższy dotąd użyty numer). Rozważana
+      architektura: LLM ekstrahuje fakty do sztywnego schematu JSON per
+      punkt porządku obrad (jak `identify_speakers.py`), a Python
+      deterministycznie renderuje finalny Markdown wg tych formuł —
+      model nie formatuje samodzielnie finalnego tekstu. Pola
+      niemożliwe do wyciągnięcia z transkrypcji uzupełnia
+      `<nazwa>.meeting_info.json` (patrz wyżej i `docs/PROJECT_MEMORY.md`).
+      Ustalenia jeszcze nie zapisane jako plik referencyjny w `prompts/` —
+      do zrobienia przy starcie właściwej implementacji.
 
 ## Etap 5 — Weryfikacja przez pracownika
 

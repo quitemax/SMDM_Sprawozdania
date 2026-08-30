@@ -5,6 +5,12 @@ po imieniu/nazwisku (np. "Panie Leonie"), i prosi lokalny model językowy
 (Ollama) o wywnioskowanie, kim jest dany mówca. Wynik to WYŁĄCZNIE propozycja
 do ręcznej weryfikacji przez pracownika (patrz docs/ROADMAP.md, Etap 5) —
 transkrypcja nie jest automatycznie modyfikowana.
+
+Plik <nazwa>.speakers.json jest współdzielony z extract_speaker_samples.py
+(próbki audio per mówca do ręcznej identyfikacji głosu) i scalany niezależnie
+od kolejności uruchamiania obu skryptów: wpisy ręcznie potwierdzone
+("source": "manual") nigdy nie są tu nadpisywane propozycją modelu, a pole
+"audio_samples" jest zawsze zachowywane.
 """
 
 import argparse
@@ -144,6 +150,41 @@ def identify_speakers(transcript_path: Path, model: str) -> dict:
     return result
 
 
+def merge_with_existing(new_result: dict, output_path: Path) -> dict:
+    """Scala nową propozycję modelu z istniejącym plikiem .speakers.json.
+
+    Wpisy ręcznie potwierdzone (source: "manual", patrz
+    extract_speaker_samples.py) zostają nietknięte — model nigdy nie
+    nadpisuje ustaleń człowieka. Pole "audio_samples" jest zawsze zachowywane.
+    """
+    existing: dict[str, dict] = {}
+    if output_path.exists():
+        existing_data = json.loads(output_path.read_text(encoding="utf-8"))
+        existing = {e["speaker_label"]: e for e in existing_data.get("speakers", [])}
+
+    merged = []
+    seen_labels = set()
+    for speaker in new_result.get("speakers", []):
+        label = speaker["speaker_label"]
+        seen_labels.add(label)
+        prior = existing.get(label)
+        if prior and prior.get("source") == "manual":
+            merged.append(prior)
+            continue
+        speaker["source"] = "model"
+        if prior and "audio_samples" in prior:
+            speaker["audio_samples"] = prior["audio_samples"]
+        merged.append(speaker)
+
+    # Mówcy obecni tylko w istniejącym pliku (nie powinno się zdarzać, bo zbiór
+    # mówców pochodzi z tej samej transkrypcji, ale na wszelki wypadek).
+    for label, prior in existing.items():
+        if label not in seen_labels:
+            merged.append(prior)
+
+    return {"speakers": merged}
+
+
 def main() -> None:
     config = load_config()
     ollama_cfg = config.get("ollama", {})
@@ -158,12 +199,14 @@ def main() -> None:
     result = identify_speakers(args.transcript, args.model)
 
     output_path = args.transcript.with_name(f"{args.transcript.stem}.speakers.json")
-    output_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    merged = merge_with_existing(result, output_path)
+    output_path.write_text(json.dumps(merged, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(f"Zapisano propozycję: {output_path}")
     print("Wymaga ręcznej weryfikacji (patrz docs/ROADMAP.md, Etap 5) przed użyciem w raporcie.")
-    for speaker in result.get("speakers", []):
-        print(f"  {speaker['speaker_label']}: {speaker['proposed_name']} ({speaker['confidence']})")
+    for speaker in merged["speakers"]:
+        tag = " [ręcznie potwierdzone, pominięto propozycję modelu]" if speaker.get("source") == "manual" else ""
+        print(f"  {speaker['speaker_label']}: {speaker['proposed_name']} ({speaker['confidence']}){tag}")
 
 
 if __name__ == "__main__":

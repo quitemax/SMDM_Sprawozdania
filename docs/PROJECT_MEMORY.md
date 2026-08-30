@@ -57,6 +57,47 @@ osoby, o której mowa, z faktycznym mówcą) mimo jawnych instrukcji w
 prompcie — zbyt duże ryzyko błędnego przypisania wypowiedzi w oficjalnym
 dokumencie spółdzielni, żeby robić to bez nadzoru człowieka.
 
+Potwierdzone realnym przykładem (posiedzenie 27.06.2025): model przypisał
+etykietę na podstawie mylącego poszlaki w rozmowie, podczas gdy faktyczna
+tożsamość osoby prowadzącej zebranie (widoczna dopiero w podpisie
+odpowiadającego protokołu historycznego) była inna. Stąd rozszerzenie
+2026-08-30: `scripts/extract_speaker_samples.py` wycina dla każdego
+SPEAKER_XX krótkie próbki audio (najdłuższe wypowiedzi danego mówcy) do
+pola `audio_samples` w tym samym `<nazwa>.speakers.json` — żeby
+pracownik mógł odsłuchać głos i wpisać imię/nazwisko ręcznie, zamiast
+polegać wyłącznie na wnioskowaniu modelu z treści. Plik rozróżnia teraz
+źródło wpisu przez pole `source`:
+- `"model"` (albo brak pola — starsze pliki) — propozycja modelu,
+  `clean_transcript.py` zawsze pokazuje ją ze znakiem zapytania
+  (`Leon (SPEAKER_07?)`),
+- `"manual"` — potwierdzone przez człowieka po odsłuchaniu próbki,
+  wyświetlane bez znaku zapytania.
+
+`identify_speakers.py` i `extract_speaker_samples.py` współdzielą ten sam
+plik i scalają się niezależnie od kolejności uruchomienia: żaden z nich
+nie nadpisuje wpisu ze `source: "manual"`, a pole `audio_samples` jest
+zawsze zachowywane przy ponownym uruchomieniu `identify_speakers.py`.
+
+## Metadane spotkania spoza transkrypcji (meeting_info.json)
+
+Decyzja projektowa (2026-08-30, przy planowaniu Etapu 4 — generowania
+projektu sprawozdania): część danych wymaganych w oficjalnym protokole RN
+nie da się wiarygodnie odtworzyć z samego nagrania:
+- **lista obecności** — to fizyczna lista podpisów (załącznik), nie plik
+  cyfrowy; identyfikacja mówców z nagrania obejmuje tylko osoby, które
+  faktycznie coś powiedziały, i to z niepewnością (patrz wyżej),
+- **kto protokołował / pełnił funkcję sekretarza / przewodniczącego** —
+  funkcje rotują między spotkaniami i nie zawsze są ogłaszane wprost w
+  nagraniu (w całym dostępnym korpusie historycznym protokołowała zawsze
+  ta sama osoba — Aleksandra Cecotka — ale to obserwacja, nie pewnik na
+  przyszłość).
+
+Zamiast zgadywać te pola modelem, `scripts/init_meeting_info.py` tworzy
+pusty szablon `<nazwa>.meeting_info.json` obok transkrypcji (jedyne pole
+wypełniane automatycznie to `date`, odczytywane z nazwy katalogu — fakt
+znany na pewno, nie wywnioskowany) do ręcznego uzupełnienia przez
+pracownika przed wygenerowaniem projektu sprawozdania.
+
 ## Baza wiedzy z dokumentów spółdzielni (input/knowledge/)
 
 Regulaminy, uchwały i umowy w `input/knowledge/` to w większości skany —

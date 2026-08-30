@@ -85,12 +85,15 @@ będące wyłącznie izolowanym wypełniaczem (np. samo "yyy"). Nie poprawia
 błędów w środku zdań.
 
 Jeśli obok transkrypcji istnieje `<nazwa>.speakers.json` (wynik
-`identify_speakers.py` — patrz niżej), wykryte imiona są od razu
-podstawiane w etykiecie mówcy, ale ZAWSZE oznaczone jako propozycja, np.
-`Leon (SPEAKER_07?)` — model bywa niedokładny (patrz
-`docs/PROJECT_MEMORY.md`), więc etykieta z `?` wymaga sprawdzenia przy
-weryfikacji (Etap 5). Uruchom `identify_speakers.py` **przed**
-`clean_transcript.py`, żeby podstawienie zadziałało:
+`identify_speakers.py` i/lub `extract_speaker_samples.py` — patrz niżej),
+wykryte imiona są od razu podstawiane w etykiecie mówcy. Propozycja modelu
+jest ZAWSZE oznaczona jako niepotwierdzona, np. `Leon (SPEAKER_07?)` —
+model bywa niedokładny (patrz `docs/PROJECT_MEMORY.md`), więc etykieta z
+`?` wymaga sprawdzenia przy weryfikacji (Etap 5). Wpis potwierdzony
+ręcznie po odsłuchaniu próbki audio (`"source": "manual"` w pliku
+`.speakers.json`) wyświetlany jest bez `?`. Uruchom `identify_speakers.py`
+i/lub `extract_speaker_samples.py` **przed** `clean_transcript.py`, żeby
+podstawienie zadziałało:
 
 ```powershell
 python scripts\identify_speakers.py "output\transcripts\2026.08.10\10.08.2026.json"
@@ -121,6 +124,59 @@ transkrypcja nie jest automatycznie modyfikowana. Model bywa niedokładny
 (patrz `docs/HISTORY.md`, `docs/PROJECT_MEMORY.md`) — zawsze sprawdzić
 przed użyciem.
 
+## Ręczna identyfikacja mówców po głosie
+
+Skrypt: `scripts/extract_speaker_samples.py`. Zamiast (albo obok) polegać
+na propozycji modelu, można odsłuchać, jak brzmi każdy `SPEAKER_XX`.
+Skrypt wycina z oryginalnego pliku audio 2 najdłuższe wypowiedzi każdego
+mówcy (do 20s) i dopisuje ścieżki do nich w polu `audio_samples` w
+`<nazwa>.speakers.json` (tworzy plik, jeśli jeszcze nie istnieje — nie
+trzeba wcześniej uruchamiać `identify_speakers.py`).
+
+```powershell
+python scripts\extract_speaker_samples.py "output\transcripts\2026.08.10\10.08.2026.json"
+```
+
+Próbki trafiają do `<nazwa>.speaker_samples\SPEAKER_XX_01.mp3` (i `_02.mp3`)
+obok transkrypcji. Po odsłuchaniu otwórz `<nazwa>.speakers.json` w edytorze
+tekstu i uzupełnij ręcznie dla każdego mówcy:
+
+```json
+{
+  "speaker_label": "SPEAKER_07",
+  "proposed_name": "Leon Michał Malkiewicz",
+  "confidence": "wysoka",
+  "source": "manual",
+  "evidence": "Rozpoznany po głosie",
+  "audio_samples": ["10.08.2026.speaker_samples\\SPEAKER_07_01.mp3", "..."]
+}
+```
+
+Pole `"source": "manual"` jest ważne — bez niego `clean_transcript.py`
+traktuje wpis jak niepotwierdzoną propozycję modelu (znak zapytania w
+etykiecie). Plik `.speakers.json` jest współdzielony z
+`identify_speakers.py` — oba skrypty można uruchamiać w dowolnej
+kolejności, żaden nie nadpisze już ręcznie potwierdzonego wpisu.
+
+Automatyczne wykrywanie oryginalnego pliku audio zakłada domyślne ścieżki
+z `config/config.yaml`; jeśli nie zadziała (np. plik audio przeniesiony),
+podaj go wprost: `--audio "input\audio\...\plik.MP3"`.
+
+## Szablon metadanych spotkania (poza transkrypcją)
+
+Skrypt: `scripts/init_meeting_info.py`. Tworzy pusty szablon
+`<nazwa>.meeting_info.json` obok transkrypcji — na dane, których nie da
+się wiarygodnie wyciągnąć z nagrania: lista obecności, protokolant,
+sekretarz i przewodniczący zebrania (patrz `docs/PROJECT_MEMORY.md`).
+Jedyne pole wypełniane automatycznie to `date` (z nazwy katalogu).
+
+```powershell
+python scripts\init_meeting_info.py "output\transcripts\2026.08.10\10.08.2026.json"
+```
+
+Nie nadpisuje istniejącego pliku (żeby nie zgubić uzupełnionych danych) —
+`--force`, żeby wymusić nadpisanie pustym szablonem.
+
 ## Konwersja dokumentów PDF na Markdown (baza wiedzy)
 
 Skrypt: `scripts/pdf_to_markdown.py`. Konwertuje PDF-y z `input/knowledge/`
@@ -146,3 +202,18 @@ Dokumenty rozpoznane (w całości lub częściowo) przez OCR mają na
 początku pliku `.md` notkę ostrzegawczą — OCR bywa niedokładny, zwłaszcza
 przy podpisach, pieczątkach i tabelach, więc kluczowe dane (daty, kwoty,
 nazwiska, numery uchwał) warto zweryfikować przed użyciem.
+
+## Konwersja historycznych protokołów DOCX na Markdown
+
+Skrypt: `scripts/docx_to_markdown.py`. Konwertuje protokoły z
+`input/historical_data/reports/` (.docx, natywny tekst Worda — bez OCR,
+wyższa jakość niż konwersja skanów) na pliki `.md` w
+`input/historical_data/reports_md/`. Gdy dla tego samego protokołu
+istnieje zarówno `.docx` jak i `.pdf` (duplikat eksportu), `.pdf` jest
+pomijany; używany jest tylko jako fallback (przez OCR), gdy `.docx` nie
+istnieje.
+
+```powershell
+python scripts\docx_to_markdown.py
+python scripts\docx_to_markdown.py --force   # wymuś ponowną konwersję wszystkiego
+```
