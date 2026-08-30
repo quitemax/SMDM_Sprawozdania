@@ -1,5 +1,29 @@
 # Historia projektu
 
+## 2026-08-30
+
+- Dodano `scripts/docx_to_markdown.py`: konwersja historycznych protokołów
+  RN z `input/historical_data/reports/` (.docx, natywny tekst Worda, bez
+  OCR) na Markdown w `input/historical_data/reports_md/`. Zachowuje
+  kolejność akapitów/tabel, pogrubienia/kursywę (wykrywane per fragment
+  tekstu, z łączeniem sąsiednich fragmentów o tym samym formatowaniu —
+  Word często dzieli jeden pogrubiony ciąg na kilka fragmentów) i listy
+  numerowane (renumerowane sekwencyjnie, bez odtwarzania formatu Worda
+  typu a/b/c). Gdy dla protokołu istnieje zarówno .docx jak i .pdf (ten
+  sam dokument wyeksportowany dwa razy), .pdf jest pomijany — .docx daje
+  wyższą jakość bez OCR; .pdf używany tylko jako fallback (przez
+  `scripts/pdf_to_markdown.py`), gdy .docx nie istnieje. Przekonwertowano
+  18 protokołów (2024-12 – 2026-06.22). Katalog wynikowy `reports_md/`
+  gitignorowany tak jak źródłowy `reports/` (dane poufne).
+- Dodano do `input/audio/` 13 nowych nagrań (2025.01.22 – 2026.06.22,
+  łącznie ~18h). Zweryfikowano ponownie token HF (nowy, poprzedni nie był
+  nigdzie zapisany zgodnie z zasadami poufności) — dostęp do wszystkich
+  trzech modeli pyannote potwierdzony (200). Uruchomiono pełne
+  przetwarzanie (transkrypcja + diaryzacja + propozycja mówców +
+  czyszczenie) w tle, partiami wg rosnącego czasu trwania, z
+  `ollama stop` przed każdą transkrypcją (patrz `docs/INSTALLATION.md`,
+  znany problem z VRAM).
+
 ## 2026-08-26
 
 - Zakończono przetwarzanie całej zawartości `input/audio/` (17 nagrań,

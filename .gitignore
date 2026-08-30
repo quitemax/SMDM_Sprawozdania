@@ -8,6 +8,9 @@ input/audio/*
 input/historical_data/reports/*
 !input/historical_data/reports/.gitkeep
 
+input/historical_data/reports_md/*
+!input/historical_data/reports_md/.gitkeep
+
 input/historical_data/transcripts/*
 !input/historical_data/transcripts/.gitkeep
 

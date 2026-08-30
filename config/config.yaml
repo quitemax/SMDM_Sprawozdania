@@ -8,6 +8,8 @@ paths:
   output_reports: output/reports
   input_knowledge: input/knowledge
   knowledge_md: input/knowledge_md
+  historical_reports: input/historical_data/reports
+  historical_reports_md: input/historical_data/reports_md
 
 whisperx:
   model: large-v3

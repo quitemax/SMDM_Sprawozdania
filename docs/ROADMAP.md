@@ -55,9 +55,18 @@ Kolejność uzgodniona z użytkownikiem:
 - [x] Uporządkowanie `input/temp/` — katalog usunięty, nagrania rozłożone
       do `input/audio/RRRR.MM.DD/` wg daty spotkania.
 - [x] Przygotowano `input/audio/test.mp3` — krótki plik do testów pipeline'u.
-- [ ] `input/historical_data/reports/` i `input/historical_data/transcripts/`
-      wciąż puste — historyczne raporty/transkrypcje do dodania, gdy będą
-      dostępne (potrzebne do Etapu 4 jako wzorce stylu).
+- [x] `input/historical_data/reports/` — uzupełnione historycznymi
+      protokołami RN (2024-2026, .docx i miejscami dodatkowo .pdf tego
+      samego dokumentu). Konwersja na Markdown (`input/historical_data/reports_md/`)
+      nowym `scripts/docx_to_markdown.py` (zrobione 2026-08-30) — 18 plików,
+      wszystkie natywne .docx (bez OCR, więc wyższa jakość niż konwersja
+      PDF); duplikaty .pdf (ten sam protokół wyeksportowany też do PDF)
+      pomijane, gdy istnieje odpowiadający .docx. Znane uproszczenia:
+      pogrubienie/kursywa wykrywane tylko z formatowania wprost na
+      fragmencie tekstu (nie ze stylu akapitu), listy numerowane
+      renumerowane sekwencyjnie od 1 (bez odtwarzania formatu a/b/c
+      z Worda).
+- [ ] `input/historical_data/transcripts/` wciąż puste.
 - [x] Katalog `input/knowledge/` (regulaminy, uchwały, umowy — w większości
       skany) konwertowany na Markdown w `input/knowledge_md/` przez nowy
       `scripts/pdf_to_markdown.py` (zrobione 2026-08-22) — baza wiedzy do
@@ -118,6 +127,11 @@ Kolejność uzgodniona z użytkownikiem:
         tego pliku; przyczyna nieznana (prawdopodobnie fragmentacja
         pamięci CUDA przy długim pojedynczym przebiegu, nie sama
         długość nagrania).
+- [ ] 2026-08-30: dodano 13 nowych nagrań do `input/audio/` (m.in.
+      2025.01.22–2025.06.03, 2025.12.10 x6, 2026.06.01, 2026.06.22,
+      łącznie ~18h) — przetwarzanie (transkrypcja + diaryzacja +
+      propozycja mówców + czyszczenie) uruchomione w tle wg rosnącego
+      czasu trwania, w toku.
 
 ## Etap 3 — Przetwarzanie transkrypcji
 

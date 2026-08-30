@@ -236,6 +236,17 @@ Pakiety Pythona:
 python -m pip install pymupdf==1.28.2 pytesseract==0.3.13
 ```
 
+## 9. python-docx (konwersja DOCX → Markdown)
+
+Używane przez `scripts/docx_to_markdown.py` do konwersji historycznych
+protokołów (`input/historical_data/reports/`) — natywny tekst Worda, OCR
+(Tesseract, patrz wyżej) używany tylko jako fallback dla plików .pdf bez
+odpowiadającego .docx.
+
+```powershell
+python -m pip install python-docx==1.2.0
+```
+
 ## Rozwiązywanie problemów
 
 Problemy napotkane podczas pierwszej instalacji będą dokumentowane tutaj,
