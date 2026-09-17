@@ -269,11 +269,25 @@ Kolejność uzgodniona z użytkownikiem:
 
 ## Etap 5 — Weryfikacja przez pracownika
 
-- [ ] Ustalenie formy weryfikacji projektu raportu (np. plik do edycji,
-      prosty interfejs) — decyzja projektowa do zapisania w
-      `docs/PROJECT_MEMORY.md`.
-- [ ] Jasne oznaczenie w wygenerowanym pliku, że to **projekt** raportu
-      wymagający sprawdzenia przez człowieka, nie wersja ostateczna.
+- [x] Jasne oznaczenie w wygenerowanym pliku, że to **projekt** raportu
+      wymagający sprawdzenia przez człowieka, nie wersja ostateczna —
+      ostrzeżenie na początku `output/reports/<data>/<nazwa>.draft.md`
+      (patrz `scripts/generate_report.py`).
+- [ ] Ustalenie formy weryfikacji projektu raportu (na razie: ręczna
+      edycja pliku `.md`) — decyzja projektowa do zapisania w
+      `docs/PROJECT_MEMORY.md`, jeśli dojdzie coś bardziej rozbudowanego.
+- [ ] **Do zrobienia po otrzymaniu zredagowanej wersji od pracownika
+      spółdzielni** (2026-09-17, dot. projektu z 10.08.2026): osobny krok
+      porównania draftu z wersją zredagowaną przez człowieka, żeby
+      dopracować prompt w `generate_report.py` pod kątem tego, co ludzie
+      faktycznie uznają za zbędne. Zgłoszony konkretny przykład: zdanie
+      „...jednak dyskutowano nad jego kompetencjami, szczególnie w
+      kontekście kontaktów z mieszkańcami” — komentarz/wątpliwość co do
+      kompetencji jest zbędny, powinien zostać sam fakt (rozważano
+      przeniesienie na stanowisko). Ogólniej: model czasem dorzuca do
+      streszczenia interpretacyjne niuanse/wątpliwości zamiast trzymać
+      się gołych faktów i decyzji — do zawężenia instrukcji w
+      `CHUNK_PROMPT_TEMPLATE`, gdy będzie więcej takich przykładów.
 
 ## Etap 6 — Dokumentacja końcowa
 
@@ -285,11 +299,14 @@ Kolejność uzgodniona z użytkownikiem:
 
 ## Etap 7 — Test end-to-end
 
-- [ ] Pełny przebieg: nagranie → transkrypcja → analiza → projekt raportu,
-      na rzeczywistym (uporządkowanym) nagraniu z `input/audio/`.
-- [ ] Porównanie projektu raportu z odpowiadającym mu raportem historycznym
-      (tam gdzie dostępne nagranie + gotowy raport) jako nieformalna miara
-      jakości.
+- [x] Porównanie projektu raportu z odpowiadającym mu raportem historycznym
+      (posiedzenie 22.06.2026) — patrz Etap 4, 4/4 uchwał trafionych.
+- [x] Pełny przebieg: nagranie → transkrypcja → identyfikacja mówców →
+      metadane spotkania → projekt raportu, na rzeczywistym nagraniu bez
+      gotowego raportu (10.08.2026, zrobione 2026-09-17) — pierwszy
+      kompletny przebieg całego pipeline'u na „żywym” przypadku. Ocena
+      użytkownika: dobra, jeden drobny przykład zbędnego detalu do
+      poprawy przy okazji (patrz Etap 5).
 
 ## Etap 8 — (opcjonalnie, rozważane) Konteneryzacja (Docker)
 
