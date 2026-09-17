@@ -1,5 +1,44 @@
 # Historia projektu
 
+## 2026-09-17 (4)
+
+- Zbudowano fundament Etapu 8, Kroku 2 (webowy interfejs) — Faza 0+1,
+  zaplanowana wcześniej w trybie Plan Mode (kolejność faz i decyzje
+  architektoniczne ustalone z użytkownikiem, patrz `docs/ROADMAP.md`,
+  Etap 8, Krok 2). Nowy katalog `web/`: `web/backend/` (Symfony 7.4 +
+  Doctrine ORM, scaffoldowany przez tymczasowy kontener `composer`),
+  `web/frontend/` (Nuxt 4, scaffoldowany przez tymczasowy kontener
+  `node`), `web/nginx/` (reverse proxy). Nowa nakładka
+  `docker-compose.web.yml` (usługi `mariadb`, `php-fpm`, `nginx`, `nuxt`)
+  — Krok 1 (`docker-compose.yml`, sam pipeline) zostaje nienaruszony.
+- Zaimplementowano i zweryfikowano end-to-end (bezpośrednimi wywołaniami
+  API): CRUD składu Rady Nadzorczej/Zarządu, `POST /api/meetings/rescan`
+  (poprawnie zaimportował 3 realne, istniejące pliki
+  `*.meeting_info.json` z prawidłowymi datami/numerami protokołów), oraz
+  `GET/PUT /api/meetings/{id}/meeting-info` — zapis z UI generuje plik na
+  dysku w formacie w 100% zgodnym z tym, co czyta
+  `scripts/generate_report.py` (potwierdzone uruchomieniem
+  `render_attendance()` na wygenerowanym pliku). Test zapisu zrobiono na
+  osobnym, sztucznym spotkaniu (nie na prawdziwych danych 2025.06.27 /
+  2026.06.22 / 2026.08.10), żeby nic nie nadpisać.
+- Napotkane problemy przy budowie obrazów, po drodze naprawione: `npm ci`
+  wymagało zgodnego `package-lock.json` (zmieniono na `npm install`),
+  Node 20 nie spełniał wymagań silnika jednej z zależności (podbito do
+  Node 22), composer.lock wyliczony pod PHP 8.4 (podbito bazowy obraz z
+  `php:8.3-fpm` na `php:8.4-fpm-bookworm`). Usunięto automatycznie
+  wygenerowane przez Symfony Flex `compose.yaml`/`compose.override.yaml`
+  (stub pod PostgreSQL) jako niepotrzebny duplikat naszej własnej,
+  świadomie innej architektury (MariaDB, jeden plik nakładki w korzeniu
+  repo).
+- Decyzja projektowa: `<nazwa>.meeting_info.json` na dysku zostaje
+  źródłem prawdy (czytają go bezpośrednio skrypty CLI), baza danych to
+  tylko indeks/cache do UI — zachowuje to działanie czystego workflow
+  CLI (Krok 1) równolegle z nowym interfejsem webowym.
+- Niezweryfikowane w tej sesji: rzeczywiste klikanie w formularzach Nuxt
+  w przeglądarce (sprawdzona tylko warstwa API) oraz zachowanie przy
+  przypisaniu tej samej osoby do dwóch ról specjalnych na raz (znane,
+  udokumentowane ograniczenie — patrz `docs/DOCKER.md`).
+
 ## 2026-09-17 (3)
 
 - Zweryfikowano konteneryzację Docker end-to-end na realnej maszynie

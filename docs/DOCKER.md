@@ -2,10 +2,16 @@
 
 Alternatywa dla ręcznej instalacji opisanej w `docs/INSTALLATION.md` —
 zamiast instalować Python/CUDA/WhisperX/Ollama bezpośrednio na komputerze,
-całość działa w kontenerach. Na razie obejmuje to samo, co instalacja
-natywna: pracę przez CLI, jednym skryptem na raz (`docker compose exec`).
-Webowy interfejs i baza danych to kolejny, osobny etap (patrz
-`docs/ROADMAP.md`, Etap 8).
+całość działa w kontenerach.
+
+Dwa niezależne poziomy:
+- **Krok 1** (ten dokument, sekcje niżej) — sam pipeline przez CLI
+  (`docker compose exec app python scripts/...`), dokładnie jak przy
+  instalacji natywnej.
+- **Krok 2** (sekcja „Webowy interfejs” niżej) — nakładka
+  `docker-compose.web.yml` dodająca przeglądarkowy interfejs (Symfony +
+  Nuxt + MariaDB) nad tym samym pipeline'em. Krok 1 działa dalej
+  samodzielnie, bez Kroku 2.
 
 **Status: zweryfikowane end-to-end na realnej maszynie (2026-09-17)** —
 build obrazu, GPU passthrough (`torch.cuda.is_available()` → `True`,
@@ -91,6 +97,78 @@ Ollamy zajmują po kilka GB — żeby nie pobierać ich od nowa przy każdym
 (`model_cache`, `ollama_data`), a nie w samym obrazie. Wolumeny przeżywają
 usunięcie i odtworzenie kontenerów (`docker compose down` bez `-v`);
 `docker compose down -v` skasuje je razem z pobranymi modelami.
+
+## Webowy interfejs (Krok 2, Faza 0+1)
+
+**Status: zweryfikowane end-to-end (2026-09-17)** — build obrazów, wszystkie
+kontenery wystartowane, `/api/health` odpowiada przez pełny łańcuch
+przeglądarka → nginx → php-fpm → Symfony, strony Nuxt (`/members`,
+`/meetings`) serwowane przez nginx, CRUD składu Rady/Zarządu i edycja
+`meeting_info.json` przetestowane bezpośrednimi wywołaniami API —
+`meetings/rescan` poprawnie odczytał 3 istniejące realne pliki
+`*.meeting_info.json` (z prawidłowymi datami i numerami protokołów), zapis
+przez `PUT .../meeting-info` wygenerował plik w formacie w 100% zgodnym z
+tym, czego oczekuje `scripts/generate_report.py` (`render_attendance()`
+poprawnie sparsowała wynik, łącznie z etykietą „(radca prawny)”).
+Weryfikacja samego frontendu (klikanie w formularzach w przeglądarce) nie
+została zrobiona — zrobiona tylko warstwa API, którą frontend woła.
+
+Zakres tej fazy, decyzje architektoniczne i pełna mapa kolejnych faz:
+`docs/ROADMAP.md`, Etap 8, Krok 2. Model danych i endpointy: plan
+`C:\Users\quite\.claude\plans\tender-bouncing-quail.md` (lokalny plik
+planu, nie w repo).
+
+### Uruchomienie
+
+```powershell
+copy .env.example .env
+notepad .env   # uzupełnij HF_TOKEN, MYSQL_ROOT_PASSWORD, MYSQL_PASSWORD
+
+docker compose -f docker-compose.yml -f docker-compose.web.yml up -d --build
+
+# Jednorazowo (albo po każdej zmianie encji Doctrine) — tworzy/aktualizuje
+# tabele w MariaDB na podstawie src/Entity/*.php. Na razie zamiast
+# formalnych migracji (Doctrine Migrations jest zainstalowane, ale
+# nieużywane w tej fazie — celowo, żeby nie komplikować MVP):
+docker compose -f docker-compose.yml -f docker-compose.web.yml exec php-fpm php bin/console doctrine:schema:update --force
+```
+
+Interfejs: **http://localhost:8080** (nginx — jeden punkt wejścia; `/api/*`
+trafia do Symfony, reszta do Nuxt). Krok 1 (`docker compose up -d`, bez
+nakładki) działa dalej niezależnie i nie jest tym dotknięty.
+
+### Struktura
+
+- `web/backend/` — Symfony 7.4 + Doctrine ORM (encje `Member`, `Meeting`,
+  `MeetingAttendee`), kontrolery REST w `src/Controller/Api/`.
+- `web/frontend/` — Nuxt 4 (tryb SPA, `ssr: false` — to wewnętrzne
+  narzędzie administracyjne, nie potrzebuje SSR/SEO), tryb dev
+  (`npm run dev`, hot reload) — build produkcyjny to temat na później.
+- `web/nginx/default.conf` — reverse proxy: `/api/` → php-fpm (fastcgi),
+  `/` → kontener `nuxt` (proxy_pass).
+- `docker-compose.web.yml` — nakładka na `docker-compose.yml` (usługi
+  `mariadb`, `php-fpm`, `nginx`, `nuxt`).
+
+### Źródło prawdy
+
+`<nazwa>.meeting_info.json` na dysku (`output/transcripts/<data>/`) zostaje
+źródłem prawdy — czytają go bezpośrednio `clean_transcript.py` i
+`generate_report.py`. Baza danych (`meetings`, `meeting_attendees`) to
+indeks/cache do UI, synchronizowany przy każdym zapisie z interfejsu
+(`PUT .../meeting-info`: najpierw plik, potem baza) oraz przez
+`POST /api/meetings/rescan`. Skład Rady Nadzorczej/Zarządu
+(tabela `members`) nie ma odpowiednika pliku — baza jest tu jedynym
+źródłem prawdy.
+
+### Znane ograniczenie: jedna osoba = jedna rola na spotkanie
+
+Jeśli ta sama osoba zostanie przypisana do dwóch ról specjalnych
+(protokolant/sekretarz/przewodniczący) na tym samym spotkaniu, druga
+przypisana rola po cichu nadpisuje pierwszą (jeden wiersz
+`meeting_attendees` ma tylko jedno pole `role`). W praktyce to zawsze trzy
+różne osoby (potwierdzone we wszystkich 18 historycznych protokołach), więc
+nie blokuje MVP — ale UI nie ostrzega, gdyby ktoś przez pomyłkę wybrał tę
+samą osobę dwa razy.
 
 ## Rozwiązywanie problemów
 

@@ -35,12 +35,33 @@ __pycache__/
 .mypy_cache/
 
 # ============================================================
+# Web (Etap 8, Krok 2 — Symfony + Nuxt)
+# ============================================================
+
+# Symfony
+web/backend/vendor/
+web/backend/var/
+web/backend/.env.local
+web/backend/.env.local.php
+web/backend/.env.*.local
+
+# Nuxt
+web/frontend/node_modules/
+web/frontend/.nuxt/
+web/frontend/.output/
+web/frontend/dist/
+
+# ============================================================
 # Środowisko / konfiguracja lokalna
 # ============================================================
 
 .env
 .env.*
 !.env.example
+# web/backend/.env jest plikiem Symfony z bezpiecznymi wartościami domyślnymi
+# (Symfony commituje .env, prawdziwe sekrety idą do gitignorowanego .env.local) —
+# patrz web/backend/.gitignore, gdzie Symfony Flex już to poprawnie skonfigurował.
+!web/backend/.env
 
 .vscode/
 .claude/

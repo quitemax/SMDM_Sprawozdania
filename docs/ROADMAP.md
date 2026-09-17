@@ -316,7 +316,7 @@ Etapy 1-7 ukończone 2026-09-17, więc odblokowane). Rozszerzony
 sam Docker (CLI z kontenera), interfejs webowy jako osobny, późniejszy
 etap.
 
-### Krok 1 — Docker, CLI z kontenera (zrobione 2026-09-17, NIEPRZETESTOWANE)
+### Krok 1 — Docker, CLI z kontenera (zrobione i zweryfikowane 2026-09-17)
 
 - [x] `Dockerfile` (`python:3.13-slim-bookworm` + ffmpeg + tesseract-ocr/pol
       + `requirements.txt` z indeksem `cu128` dla PyTorch).
@@ -350,24 +350,62 @@ etap.
       `wsl --install` w podniesionym PowerShell. Szczegóły i rozwiązywanie
       problemów: `docs/DOCKER.md`.
 
-### Krok 2 — Webowy interfejs (ustalone 2026-09-17, jeszcze nie rozpoczęte)
+### Krok 2 — Webowy interfejs
 
-Stack ustalony z użytkownikiem (jego codzienny stack, więc bez przeszkód
-we współpracy): nginx + PHP-FPM + framework backendowy (API) + Nuxt (Vue)
-jako frontend, plus baza danych. Zakres (do doprecyzowania przy starcie):
+Stack ustalony z użytkownikiem (jego codzienny stack): nginx + PHP-FPM +
+**Symfony** (backend API) + **Nuxt (Vue)** jako frontend + **MySQL/MariaDB**.
+Kolejność faz ustalona z użytkownikiem: najpierw fundament (skład
+Rady/Zarządu + edycja meeting_info), job runner (uruchamianie/ponawianie
+akcji pipeline'u z przeglądarki, na wzór "deploy" w CI/CD) dopiero potem,
+osobno planowany. Pełna architektura (decyzje o kolejce zadań, źródle
+prawdy, kompozycji Dockera) i mapa wszystkich faz: plan zapisany podczas
+sesji planistycznej 2026-09-17 (Plan Mode) — szczegóły odtworzone niżej i
+w `docs/DOCKER.md`.
 
-- [ ] Baza danych: skład Rady Nadzorczej/Zarządu (do tej pory ręcznie w
-      `meeting_info.json` per spotkanie) — konfigurowalna, żeby nie
-      przepisywać tych samych osób za każdym razem.
-  - [ ] CRUD dla nagrań/transkrypcji/próbek audio na dysku (obecnie: pliki
-      + skrypty CLI) — interfejs zamiast ręcznej edycji JSON w edytorze.
-  - [ ] Ponawianie akcji pipeline'u (transkrypcja/identyfikacja
-      mówców/generowanie raportu) z poziomu przeglądarki — coś w rodzaju
-      przycisku "deploy"/"re-run" znanego z CI/CD.
-- [ ] To osobny, większy projekt niż sam Docker — nowa warstwa aplikacji
-      nad obecnym modelem "pliki + skrypty" (baza danych, usługa działająca
-      cały czas, więcej ruchomych części). Do zaplanowania osobno, gdy
-      przyjdzie kolej (nie zaczynać równolegle z Krokiem 1).
+- [x] **Faza 0+1 — fundament** (zrobione i zweryfikowane 2026-09-17):
+  - `web/backend/` — szkielet Symfony 7.4 + Doctrine ORM, encje `Member`,
+    `Meeting`, `MeetingAttendee`; `web/frontend/` — szkielet Nuxt 4 (SPA,
+    `ssr: false`); `web/nginx/` — reverse proxy (`/api/` → php-fpm,
+    `/` → Nuxt); `docker-compose.web.yml` — nakładka na `docker-compose.yml`
+    (usługi `mariadb`, `php-fpm`, `nginx`, `nuxt`; Krok 1 pozostaje
+    nienaruszony i działa niezależnie).
+  - CRUD składu Rady/Zarządu (`/api/members`) i edycja metadanych spotkania
+    (`/api/meetings/{id}/meeting-info`) — **plik na dysku
+    (`<nazwa>.meeting_info.json`) zostaje źródłem prawdy**, baza to
+    indeks/cache do UI (decyzja architektoniczna — zachowuje działanie
+    czystego CLI/Kroku 1 równolegle z UI).
+    `POST /api/meetings/rescan` odczytuje istniejące pliki z dysku.
+  - Zweryfikowane bezpośrednimi wywołaniami API (nie klikaniem w
+    przeglądarce): `/api/health` end-to-end przez cały łańcuch proxy,
+    CRUD members, `rescan` poprawnie zaimportował 3 realne istniejące
+    `meeting_info.json` (z poprawnymi datami/numerami protokołów), zapis
+    `PUT .../meeting-info` wygenerował plik w formacie w 100% zgodnym z
+    `scripts/generate_report.py::render_attendance()` (w tym etykieta
+    "(radca prawny)"). Test zrobiono na osobnym, testowym spotkaniu
+    (`_webtest/`), nie na prawdziwych danych — po teście usunięty.
+  - Migracje: na razie `doctrine:schema:update --force` zamiast formalnych
+    Doctrine Migrations (zainstalowane, ale świadomie nieużywane w tej
+    fazie — mniej narzutu przy jednoosobowym, lokalnym projekcie bez
+    wielu środowisk).
+  - Znane ograniczenie: jedna osoba przypisana do dwóch ról specjalnych
+    (protokolant/sekretarz/przewodniczący) na tym samym spotkaniu — druga
+    rola po cichu nadpisuje pierwszą (jeden wiersz `meeting_attendees` ma
+    jedno pole `role`). Nieistotne w praktyce (zawsze trzy różne osoby w
+    historycznych danych), ale UI o tym nie ostrzega.
+  - Niezweryfikowane: rzeczywiste klikanie w formularzach w przeglądarce
+    (sprawdzona tylko warstwa API, którą frontend woła).
+- [ ] **Faza 2** (nie rozpoczęta) — przeglądanie transkryptów, odtwarzanie
+      próbek audio mówców w przeglądarce, formularz identyfikacji głosu
+      (zamiast ręcznego `extract_speaker_samples.py` + edycji JSON).
+- [ ] **Faza 3** (nie rozpoczęta) — job runner: kolejka zadań w MySQL +
+      worker Pythona (`scripts/job_worker.py`, nowy plik) w kontenerze
+      `app` odpytujący kolejkę i uruchamiający te same skrypty CLI co dziś;
+      przyciski uruchom/ponów w UI z podglądem logu na żywo. Odrzucone
+      alternatywy: montowanie `/var/run/docker.sock` do kontenera PHP
+      (realny dostęp roota do hosta) i łączenie PHP-FPM z obrazem
+      CUDA/PyTorch w jeden kontener (miesza cykle życia).
+- [ ] **Faza 4** (zakres otwarty) — podgląd/edycja/eksport projektu
+      sprawozdania z poziomu przeglądarki.
 
 ## Uwagi
 
