@@ -1,0 +1,49 @@
+# Uruchomienie: docker compose up -d
+# Praca z CLI: docker compose exec app python scripts/transcribe.py "input/audio/..."
+# Wymaga pliku .env obok tego pliku z HF_TOKEN (patrz .env.example) i hosta
+# z GPU NVIDIA + NVIDIA Container Toolkit (patrz docs/INSTALLATION.md).
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    restart: unless-stopped
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434" # opcjonalne — wygodne do debugowania z hosta (curl/ollama CLI)
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  app:
+    build: .
+    depends_on:
+      - ollama
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+      - OLLAMA_HOST=http://ollama:11434
+    env_file:
+      - .env
+    volumes:
+      - ./input:/app/input
+      - ./output:/app/output
+      - ./config:/app/config
+      - ./prompts:/app/prompts
+      # Pamięć podręczna modeli (WhisperX/Hugging Face) — bez tego każde
+      # odtworzenie kontenera pobierałoby modele (kilka GB) od nowa.
+      - model_cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  ollama_data:
+  model_cache:

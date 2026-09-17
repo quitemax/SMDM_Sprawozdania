@@ -54,6 +54,7 @@ nigdy nie jest to gotowy, zatwierdzony dokument.
 import argparse
 import difflib
 import json
+import os
 import re
 from pathlib import Path
 
@@ -61,7 +62,11 @@ import requests
 
 from config import load_config
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
+# Adres Ollamy: config/config.yaml (ollama.host), nadpisywalny zmienną
+# środowiskową OLLAMA_HOST — w kontenerze Docker wskazuje na usługę
+# "ollama" w sieci compose zamiast na localhost.
+_OLLAMA_HOST = os.environ.get("OLLAMA_HOST", load_config().get("ollama", {}).get("host", "http://localhost:11434"))
+OLLAMA_URL = f"{_OLLAMA_HOST.rstrip('/')}/api/generate"
 OLLAMA_TIMEOUT = 900
 CHUNK_NUM_CTX = 8192
 

@@ -10,6 +10,7 @@ lokalnych modeli sztucznej inteligencji.
 
 - [Instrukcja obsługi](docs/HOW_TO_USE.md)
 - [Instalacja i konfiguracja](docs/INSTALLATION.md)
+- [Uruchomienie przez Docker (alternatywa, niepotwierdzona)](docs/DOCKER.md)
 - [Plan dalszych prac](docs/ROADMAP.md)
 - [Historia zmian](docs/HISTORY.md)
 - [Pamięć projektu i ustalenia](docs/PROJECT_MEMORY.md)

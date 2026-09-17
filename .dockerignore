@@ -1,0 +1,22 @@
+# Dane poufne i duże pliki — nie powinny trafiać do kontekstu builda ani
+# do obrazu (są montowane jako wolumeny w docker-compose.yml, patrz tam).
+input/
+output/
+examples/
+
+# Środowisko lokalne / narzędziowe — niepotrzebne w obrazie, obraz ma
+# własne środowisko Python.
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+.git/
+.claude/
+.vscode/
+*.code-workspace
+
+.env
+.env.*
+
+docs/

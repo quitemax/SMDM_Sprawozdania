@@ -1,5 +1,28 @@
 # Historia projektu
 
+## 2026-09-17 (2)
+
+- Przetestowano `scripts/generate_report.py` na prawdziwym przypadku bez
+  gotowego sprawozdania (10.08.2026): ręczna identyfikacja mówców po głosie
+  (10 mówców), uzupełnienie `meeting_info.json`, pełny przebieg pipeline'u.
+  Wynik oceniony przez użytkownika jako dobry — jeden przykład zbędnego
+  interpretacyjnego detalu odnotowany w `docs/ROADMAP.md` (Etap 5) do
+  poprawy przy okazji porównania z wersją zredagowaną przez pracownika
+  spółdzielni.
+- Zaczęto konteneryzację (Docker) — ustalona z użytkownikiem kolejność:
+  najpierw sam Docker z pracą przez CLI z kontenera, potem osobno webowy
+  interfejs (nginx + PHP-FPM + backend API + Nuxt/Vue + baza danych).
+  Dodano `Dockerfile`, `docker-compose.yml` (usługi `app` + `ollama`,
+  rezerwacja GPU, wolumeny na `input/`/`output/`/`config/`/`prompts/` i
+  pamięć podręczną modeli), `requirements.txt`, `.dockerignore`,
+  `.env.example`. Sparametryzowano adres Ollamy w `identify_speakers.py` i
+  `generate_report.py` (`config/config.yaml` → `ollama.host`, nadpisywalne
+  `OLLAMA_HOST`) — instalacja natywna dalej działa bez zmian
+  (`localhost`), Docker Compose ustawia nazwę usługi (`ollama`).
+  **Nie przetestowano** — środowisko sesji nie miało zainstalowanego
+  Dockera; do zweryfikowania przez użytkownika (patrz `docs/DOCKER.md`,
+  `docs/ROADMAP.md` Etap 8).
+
 ## 2026-09-17
 
 - Zbudowano `scripts/generate_report.py` — pierwszy działający generator

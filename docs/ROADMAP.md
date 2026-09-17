@@ -308,25 +308,61 @@ Kolejność uzgodniona z użytkownikiem:
       użytkownika: dobra, jeden drobny przykład zbędnego detalu do
       poprawy przy okazji (patrz Etap 5).
 
-## Etap 8 — (opcjonalnie, rozważane) Konteneryzacja (Docker)
+## Etap 8 — Konteneryzacja (Docker) i docelowo webowy interfejs
 
-Pomysł zgłoszony 2026-08-21, jeszcze nie zaplanowany do realizacji.
+Pomysł zgłoszony 2026-08-21 (wtedy odłożony do ustabilizowania pipeline'u —
+Etapy 1-7 ukończone 2026-09-17, więc odblokowane). Rozszerzony
+2026-09-17 o docelowy webowy interfejs — ustalona kolejność: najpierw
+sam Docker (CLI z kontenera), interfejs webowy jako osobny, późniejszy
+etap.
 
-- [ ] Cel: uprościć instalację na nowym komputerze — jeden `Dockerfile`/
-      `docker-compose.yml` zamiast ręcznego dobierania wersji sterownika
-      NVIDIA/CUDA/PyTorch/WhisperX (obecnie napięte na sztywno, patrz
-      `docs/INSTALLATION.md`).
-- [ ] Wymaga na Windows: Docker Desktop + WSL2 + NVIDIA Container Toolkit
-      (dostęp kontenera do GPU) — dodatkowa warstwa konfiguracji, ale
-      obecnie dobrze wspierana.
-- [ ] Narzut na czas obliczeń (transkrypcja/inferencja) powinien być
-      pomijalny — GPU passthrough jest niemal bezpośredni. Narzut dotyczy
-      głównie rozmiaru obrazu (PyTorch+CUDA to kilka GB) i czasu builda.
-- [ ] Cache modeli (WhisperX `large-v3`, kilka GB z Hugging Face) musi być
-      zamontowanym wolumenem, nie wypiekany w obraz.
-- [ ] Ollama najlepiej jako osobny kontener/serwis obok głównego.
-- [ ] Do decyzji: czy warto teraz, czy dopiero po ustabilizowaniu pipeline'u
-      (Etapy 1–7) — na razie odłożone.
+### Krok 1 — Docker, CLI z kontenera (zrobione 2026-09-17, NIEPRZETESTOWANE)
+
+- [x] `Dockerfile` (`python:3.13-slim-bookworm` + ffmpeg + tesseract-ocr/pol
+      + `requirements.txt` z indeksem `cu128` dla PyTorch).
+- [x] `docker-compose.yml` — usługa `app` (pipeline) + `ollama` (osobny
+      kontener, `ollama/ollama:latest`), obie z rezerwacją GPU (składnia
+      Compose `deploy.resources.reservations.devices`, bez osobnej
+      instalacji NVIDIA Container Toolkit na Windows — Docker Desktop 4.x+
+      wykrywa GPU w WSL2 samodzielnie).
+- [x] Wolumeny: `input/`, `output/`, `config/`, `prompts/` montowane z
+      hosta (te same ścieżki co przy instalacji natywnej); `model_cache` i
+      `ollama_data` jako nazwane wolumeny, żeby nie pobierać modeli od nowa
+      przy każdym `docker compose down`/`up`.
+- [x] Adres Ollamy sparametryzowany: `config/config.yaml` → `ollama.host`,
+      nadpisywalny zmienną `OLLAMA_HOST` — `docker-compose.yml` ustawia
+      `http://ollama:11434` (nazwa usługi), instalacja natywna zostaje przy
+      `http://localhost:11434` bez żadnej zmiany.
+- [x] `requirements.txt`, `.dockerignore`, `.env.example` (HF_TOKEN, wzorzec
+      do skopiowania jako `.env` — gitignorowany, ale sam `.env.example`
+      jawnie wyłączony z `.gitignore`, żeby trafił do repo).
+- [x] Dokumentacja: `docs/DOCKER.md`.
+- [ ] **Weryfikacja przez użytkownika** — środowisko, w którym pisano te
+      pliki, nie miało zainstalowanego Dockera, więc build/uruchomienie/GPU
+      passthrough nie zostały przetestowane. Do zrobienia po instalacji
+      Docker Desktop: `docker compose build`, `docker compose up -d`,
+      sprawdzenie `torch.cuda.is_available()` w kontenerze, pełny przebieg
+      pipeline'u (transkrypcja → diaryzacja → identyfikacja mówców →
+      projekt sprawozdania) przez `docker compose exec app ...`.
+
+### Krok 2 — Webowy interfejs (ustalone 2026-09-17, jeszcze nie rozpoczęte)
+
+Stack ustalony z użytkownikiem (jego codzienny stack, więc bez przeszkód
+we współpracy): nginx + PHP-FPM + framework backendowy (API) + Nuxt (Vue)
+jako frontend, plus baza danych. Zakres (do doprecyzowania przy starcie):
+
+- [ ] Baza danych: skład Rady Nadzorczej/Zarządu (do tej pory ręcznie w
+      `meeting_info.json` per spotkanie) — konfigurowalna, żeby nie
+      przepisywać tych samych osób za każdym razem.
+  - [ ] CRUD dla nagrań/transkrypcji/próbek audio na dysku (obecnie: pliki
+      + skrypty CLI) — interfejs zamiast ręcznej edycji JSON w edytorze.
+  - [ ] Ponawianie akcji pipeline'u (transkrypcja/identyfikacja
+      mówców/generowanie raportu) z poziomu przeglądarki — coś w rodzaju
+      przycisku "deploy"/"re-run" znanego z CI/CD.
+- [ ] To osobny, większy projekt niż sam Docker — nowa warstwa aplikacji
+      nad obecnym modelem "pliki + skrypty" (baza danych, usługa działająca
+      cały czas, więcej ruchomych części). Do zaplanowania osobno, gdy
+      przyjdzie kolej (nie zaczynać równolegle z Krokiem 1).
 
 ## Uwagi
 

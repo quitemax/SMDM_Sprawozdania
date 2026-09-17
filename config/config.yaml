@@ -19,3 +19,7 @@ whisperx:
 
 ollama:
   model: SpeakLeash/bielik-11b-v3.0-instruct:Q4_K_M
+  # Adres serwera Ollama. Nadpisywalny zmienną środowiskową OLLAMA_HOST —
+  # w Dockerze wskazuje na nazwę usługi w sieci compose (http://ollama:11434),
+  # lokalnie zostaje domyślny localhost.
+  host: http://localhost:11434
