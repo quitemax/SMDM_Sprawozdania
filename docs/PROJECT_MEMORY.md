@@ -98,6 +98,39 @@ wypełniane automatycznie to `date`, odczytywane z nazwy katalogu — fakt
 znany na pewno, nie wywnioskowany) do ręcznego uzupełnienia przez
 pracownika przed wygenerowaniem projektu sprawozdania.
 
+## Generowanie projektu sprawozdania (scripts/generate_report.py)
+
+Decyzja projektowa (2026-09-17): priorytetem generatora jest wierna i
+KOMPLETNA relacja z przebiegu spotkania, a nie imitacja zwięzłej,
+sformalizowanej struktury historycznych protokołów. Wynikowy dokument może
+być dłuższy niż typowy historyczny protokół — to świadomy wybór, nie wada.
+
+Powód: trzy kolejne próby wymuszenia ścisłego przypisania każdej wypowiedzi
+do jednego z ponumerowanych punktów porządku obrad (cała transkrypcja na
+raz → sztywne okna czasowe → osobny przebieg "tagujący") kończyły się
+błędami wynikającymi WŁAŚNIE z tego wymuszenia: ucinanie kontekstu,
+mieszanie treści sąsiednich punktów, zawyżone/nakładające się zakresy
+przypisań i fikcyjne uchwały. Rozwiązaniem nie było poprawianie promptów
+w ramach tej architektury, tylko zmiana samego wymagania — zrezygnowanie
+z sztywnego podziału na rzecz chronologicznej relacji, dzielonej na kawałki
+tylko ze względu na limit kontekstu modelu (~45 wypowiedzi/kawałek),
+bez wymuszania przynależności do konkretnego punktu. Szczegóły
+architektury i porównanie wersji: `docs/ROADMAP.md`, Etap 4.
+
+Pochodna decyzja: uchwały wykryte w kilku kawałkach transkrypcji (bo
+dyskusja do tematu wraca później) są deduplikowane po podobieństwie tematu
+(`difflib.SequenceMatcher` ≥ 0.65) przed nadaniem numeru — bez tego ten sam
+temat dostawał kilka numerów pod rząd, przesuwając numerację kolejnych,
+prawdziwych uchwał.
+
+Test na posiedzeniu 22.06.2026 (dla którego istnieje gotowe sprawozdanie
+`Protokół 8 RN 22.06.2026.md`, więc dało się bezpośrednio porównać): 4/4
+uchwały trafione (temat i numeracja), pełna chronologiczna relacja, zero
+treści o sporach osobistych. Nadal zdarzają się pojedyncze dosłowne cytaty
+z transkrypcji zamiast parafrazy (częściowe zabezpieczenie w kodzie,
+`strip_verbatim_quotes`) — stąd wynik to zawsze WYŁĄCZNIE projekt do
+weryfikacji przez pracownika (Etap 5), nigdy gotowy dokument.
+
 ## Baza wiedzy z dokumentów spółdzielni (input/knowledge/)
 
 Regulaminy, uchwały i umowy w `input/knowledge/` to w większości skany —

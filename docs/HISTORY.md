@@ -1,5 +1,40 @@
 # Historia projektu
 
+## 2026-09-17
+
+- Zbudowano `scripts/generate_report.py` — pierwszy działający generator
+  PROJEKTU sprawozdania z posiedzenia RN (Etap 4), przetestowany na
+  posiedzeniu 22.06.2026 (dla którego istnieje gotowe sprawozdanie
+  `Protokół 8 RN 22.06.2026.md`, więc dało się bezpośrednio porównać wynik
+  z rzeczywistością). Ręcznie zidentyfikowano mówców po głosie
+  (`extract_speaker_samples.py`, `source: manual`) i uzupełniono
+  `meeting_info.json` na podstawie gotowego protokołu — dobre wejście dla
+  testu generatora.
+- Cztery kolejne iteracje w jednej sesji, każda testowana na żywym
+  przebiegu (Ollama, model 11B):
+  1. Cała transkrypcja (~27k tokenów) w jednym zapytaniu — przekroczyła
+     limit kontekstu, Ollama ucięła początek (porządek obrad), model
+     kompletnie zmyślił 4 fałszywe punkty porządku obrad.
+  2. Sztywne okna po 45 wypowiedzi, streszczane od razu z przypisaniem do
+     punktu — poprawna agenda (7/7), ale mieszanie treści sąsiednich
+     punktów i zgubiony wynik jednego głosowania.
+  3. Osobny przebieg "tagujący" (przypisanie wypowiedzi do punktów przed
+     streszczaniem) — pogorszenie: model przypisywał zbyt szerokie,
+     nakładające się zakresy (suma przypisań: 529 wypowiedzi przy 406
+     rzeczywistych), więc 6 z 7 punktów dostało fikcyjną uchwałę.
+  4. Zmiana podejścia na sugestię użytkownika: rezygnacja z wymuszania
+     ścisłego podziału na punkty porządku obrad na rzecz wiernej,
+     kompletnej, chronologicznej relacji (decyzja projektowa, patrz
+     `docs/PROJECT_MEMORY.md`) — praktycznie zero cytatów z dialogu, zero
+     treści o sporach osobistych, bogata sekcja "Sprawy wniesione".
+     Jedyny pozostały problem: duplikaty uchwał (ten sam temat wykryty w
+     kilku kawałkach transkrypcji) — naprawione deduplikacją po
+     podobieństwie tematu (`difflib.SequenceMatcher` ≥ 0.65). Finalny
+     wynik: 4/4 uchwały zgodne z prawdziwym protokołem (temat i numeracja
+     51-54/R/26).
+- Zaktualizowano `docs/ROADMAP.md` (Etap 4) i `docs/PROJECT_MEMORY.md` o
+  architekturę, odrzucone podejścia i uzasadnienie decyzji projektowej.
+
 ## 2026-08-30 (2)
 
 - Przeanalizowano parę transkrypcja↔protokół (posiedzenie 27.06.2025) pod

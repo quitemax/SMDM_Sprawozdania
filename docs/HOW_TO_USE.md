@@ -177,6 +177,39 @@ python scripts\init_meeting_info.py "output\transcripts\2026.08.10\10.08.2026.js
 Nie nadpisuje istniejącego pliku (żeby nie zgubić uzupełnionych danych) —
 `--force`, żeby wymusić nadpisanie pustym szablonem.
 
+## Generowanie projektu sprawozdania (Etap 4)
+
+Skrypt: `scripts/generate_report.py`. Na podstawie oczyszczonej
+transkrypcji (`.clean.json`) generuje PROJEKT sprawozdania z posiedzenia —
+chronologiczną, wierną relację z przebiegu, wykaz podjętych uchwał
+(z automatycznie wyliczonym kolejnym numerem) i sprawy wniesione. Wymaga
+działającej Ollamy. Zanim uruchomisz, warto mieć uzupełnione (nie jest to
+wymagane, ale bez tego dokument będzie miał więcej `[DO UZUPEŁNIENIA]`):
+- `<nazwa>.speakers.json` — najlepiej z ręcznie potwierdzonymi
+  (`source: "manual"`) mówcami, patrz wyżej,
+- `<nazwa>.meeting_info.json` — lista obecności, protokolant, sekretarz,
+  przewodniczący.
+
+```powershell
+python scripts\generate_report.py "output\transcripts\2026.08.10\10.08.2026.clean.json"
+```
+
+Przetwarza transkrypcję w kawałkach (żeby zmieścić się w limicie kontekstu
+modelu) — dla dłuższych nagrań może to zająć kilkanaście-kilkadziesiąt
+minut. Wynik: `output/reports/<data>/<nazwa>.draft.md` (dokument) oraz
+`<nazwa>.draft.facts.json` (surowe dane wyekstrahowane przez model, do
+debugowania). Dokument zawsze zaczyna się od jawnego ostrzeżenia, że to
+projekt wymagający weryfikacji (Etap 5) — nigdy nie jest to gotowy dokument
+do wysłania. Numer kolejnej uchwały liczony jest automatycznie na
+podstawie `input/historical_data/reports_md/` (`--reports-md-root`, żeby
+zmienić lokalizację).
+
+Architektura i historia podejść (dlaczego akurat tak, a nie np. sztywny
+podział na punkty porządku obrad) opisane w docstringu modułu oraz w
+`docs/ROADMAP.md` (Etap 4) i `docs/PROJECT_MEMORY.md`. Znane ograniczenie:
+model czasem kopiuje pojedyncze nieformalne zdania z transkrypcji zamiast
+je parafrazować — zawsze przejrzyj dokument przed użyciem.
+
 ## Konwersja dokumentów PDF na Markdown (baza wiedzy)
 
 Skrypt: `scripts/pdf_to_markdown.py`. Konwertuje PDF-y z `input/knowledge/`

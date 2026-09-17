@@ -194,32 +194,78 @@ Kolejność uzgodniona z użytkownikiem:
 
 ## Etap 4 — Analiza treści i generowanie raportu
 
-- [ ] Prompty w `prompts/` do: (a) analizy/streszczenia przebiegu
-      spotkania, (b) wygenerowania długiego, narracyjnego raportu w stylu
-      zgodnym z wcześniejszymi raportami spółdzielni.
-- [ ] Wykorzystanie danych historycznych (`input/historical_data/`) jako
-      wzorców stylu i struktury raportu.
-- [ ] Integracja skryptu z lokalnym modelem przez Ollama, zapis wyniku do
-      `output/reports/`.
-- [ ] Wstępna analiza par transkrypcja↔protokół (2026-08-30, na parze z
+- [x] Wstępna analiza par transkrypcja↔protokół (2026-08-30, na parze z
       27.06.2025): protokół to silnie skompresowana, sformalizowana
       wersja przebiegu — spory osobiste/dygresje całkowicie pomijane,
-      zostaje tylko treść proceduralna (kto zgłosił kandydaturę/wniosek,
-      wynik głosowania, numer i temat uchwały). Znaleziono stałe formuły
-      (np. „Rada Nadzorcza w obecności X członków, Y głosami za...
-      podjęła uchwałę Nr N/R/RR") powtarzające się we wszystkich 18
-      przekonwertowanych protokołach. Dwie niezależne numeracje w skali
-      roku kalendarzowego: `Protokół nr N/R/RR` (per spotkanie) i
-      `Uchwała Nr N/R/RR` (wspólny licznik przez wszystkie spotkania
-      roku — trzeba znać najwyższy dotąd użyty numer). Rozważana
-      architektura: LLM ekstrahuje fakty do sztywnego schematu JSON per
-      punkt porządku obrad (jak `identify_speakers.py`), a Python
-      deterministycznie renderuje finalny Markdown wg tych formuł —
-      model nie formatuje samodzielnie finalnego tekstu. Pola
-      niemożliwe do wyciągnięcia z transkrypcji uzupełnia
-      `<nazwa>.meeting_info.json` (patrz wyżej i `docs/PROJECT_MEMORY.md`).
-      Ustalenia jeszcze nie zapisane jako plik referencyjny w `prompts/` —
-      do zrobienia przy starcie właściwej implementacji.
+      zostaje tylko treść proceduralna. Stałe formuły (np. „Rada
+      Nadzorcza w obecności X członków, Y głosami za... podjęła uchwałę
+      Nr N/R/RR") powtarzające się we wszystkich 18 przekonwertowanych
+      protokołach. Dwie niezależne numeracje w skali roku kalendarzowego:
+      `Protokół nr N/R/RR` (per spotkanie) i `Uchwała Nr N/R/RR` (wspólny
+      licznik przez wszystkie spotkania roku).
+- [x] `scripts/generate_report.py` — generator PROJEKTU sprawozdania
+      (zrobione 2026-09-17, przetestowane na posiedzeniu 22.06.2026, dla
+      którego istnieje już gotowe sprawozdanie `Protokół 8 RN 22.06.2026.md`
+      — pozwoliło to bezpośrednio porównać wynik z rzeczywistością).
+      **Decyzja projektowa (2026-09-17):** zamiast wymuszać dokładne
+      odtworzenie zwięzłej struktury historycznych protokołów (ścisłe
+      przypisanie każdej wypowiedzi do jednego z ponumerowanych punktów
+      porządku obrad), priorytetem jest wierna i kompletna relacja z
+      przebiegu spotkania — nawet jeśli wynikowy dokument jest dłuższy niż
+      typowy historyczny protokół. Decyzja podjęta po trzech nieudanych
+      próbach wymuszenia ścisłego podziału (patrz niżej) — pokazały one,
+      że to sztywne wymaganie samo w sobie generowało błędy.
+      Architektura (patrz też docstring modułu):
+      1. Porządek obrad — małe zapytanie o początek transkrypcji (tylko
+         nagłówek informacyjny w dokumencie, bez wymuszania przypisania).
+      2. Chronologiczna relacja — transkrypcja w kawałkach po ~45
+         wypowiedzi (mieszczą się w kontekście modelu); każdy kawałek
+         zwraca: wierny akapit o przebiegu, uchwały faktycznie podjęte (z
+         wynikiem głosowania), sprawy załatwione nieformalnie.
+      3. Deduplikacja uchwał (`deduplicate_resolutions`, próg podobieństwa
+         tematów `difflib.SequenceMatcher` ≥ 0.65) — ten sam temat bywa
+         wykryty w kilku, niekoniecznie sąsiednich kawałkach (np. gdy
+         dyskusja do niego wraca później), co bez deduplikacji dawało
+         zawyżoną liczbę „uchwał" i przesuwało numerację.
+      4. Renderowanie — deterministyczne (czysty Python), stałe formuły
+         głosowań/uchwał; numer kolejnej uchwały liczony automatycznie
+         (skan `input/historical_data/reports_md/` w poszukiwaniu
+         najwyższego użytego numeru w danym roku + 1).
+      Wynik testu na posiedzeniu 22.06.2026: 4/4 uchwały zgodne z
+      prawdziwym protokołem (temat i numeracja 51-54/R/26), pełna,
+      chronologiczna i rzeczowa relacja z przebiegu, brak treści o
+      sporach osobistych, sekcja „Sprawy wniesione" bogatsza niż w
+      oryginale (19 pozycji vs. jedno zdanie w historycznym protokole).
+      **Znane, nieusunięte do końca ograniczenie:** model czasem mimo
+      instrukcji kopiuje fragmenty dosłownych, nieformalnych wypowiedzi
+      zamiast parafrazować (częściowe zabezpieczenie:
+      `strip_verbatim_quotes` w kodzie) — projekt zawsze wymaga redakcji
+      przez człowieka przed użyciem, nigdy nie jest to gotowy dokument.
+      Odrzucone wcześniejsze podejścia (i dlaczego):
+      - cała transkrypcja w jednym zapytaniu — przy dłuższych nagraniach
+        (~27k+ tokenów) przekraczało limit kontekstu, Ollama ucinała
+        początek promptu (akurat porządek obrad), model zmyślał resztę;
+      - sztywne okna czasowe streszczane od razu z przypisaniem do punktu
+        porządku obrad — okna przecinały dyskusję w połowie punktu,
+        mieszając treść sąsiednich punktów, czasem gubiąc wynik głosowania;
+      - osobny przebieg „tagujący" przypisujący wypowiedzi do punktów
+        przed streszczaniem — model przypisywał zbyt szerokie, nakładające
+        się zakresy (suma przypisanych wypowiedzi przekraczała łączną
+        liczbę wypowiedzi w nagraniu), więc niemal każdy punkt
+        „dziedziczył" cudze treści i fikcyjne uchwały.
+- [ ] Walidacja na kolejnych parach transkrypcja↔protokół (mamy więcej niż
+      jedną — patrz `input/historical_data/reports_md/` i odpowiadające
+      daty w `output/transcripts/`) — jedno udane porównanie to za mało,
+      żeby uznać podejście za w pełni sprawdzone.
+      Uwaga metodologiczna: `speakers.json` dla tamtej pary miał ręcznie
+      potwierdzone (`source: manual`) etykiety mówców — przy meczach bez
+      takiej ręcznej weryfikacji jakość wejścia (a więc i wyniku) może być
+      niższa.
+- [ ] Zapisanie ustaleń o strukturze/formułach protokołu jako plik
+      referencyjny w `prompts/` (na razie tylko w kodzie i tutaj).
+- [ ] Generowanie dla nagrania bez istniejącego sprawozdania (np.
+      najnowsze RN z 10.08.2026) — dotąd testowane tylko na meczu z
+      gotowym protokołem do porównania.
 
 ## Etap 5 — Weryfikacja przez pracownika
 
