@@ -337,13 +337,18 @@ etap.
       do skopiowania jako `.env` — gitignorowany, ale sam `.env.example`
       jawnie wyłączony z `.gitignore`, żeby trafił do repo).
 - [x] Dokumentacja: `docs/DOCKER.md`.
-- [ ] **Weryfikacja przez użytkownika** — środowisko, w którym pisano te
-      pliki, nie miało zainstalowanego Dockera, więc build/uruchomienie/GPU
-      passthrough nie zostały przetestowane. Do zrobienia po instalacji
-      Docker Desktop: `docker compose build`, `docker compose up -d`,
-      sprawdzenie `torch.cuda.is_available()` w kontenerze, pełny przebieg
-      pipeline'u (transkrypcja → diaryzacja → identyfikacja mówców →
-      projekt sprawozdania) przez `docker compose exec app ...`.
+- [x] **Weryfikacja end-to-end** (2026-09-17) — build obrazu, oba
+      kontenery (`app` + `ollama`) wystartowane, GPU passthrough
+      potwierdzony (`torch.cuda.is_available()` → `True`, RTX 4060
+      widoczna także przez `nvidia-smi` w kontenerze), ffmpeg + tesseract
+      (`pol`) obecne, Ollama osiągalna z `app` pod `http://ollama:11434`,
+      pełny łańcuch `transcribe.py` (z diaryzacją) → `identify_speakers.py`
+      → `clean_transcript.py` → `generate_report.py` zakończony sukcesem na
+      `input/audio/test.mp3`, wynik poprawnie widoczny na dysku hosta przez
+      wolumeny. Po drodze: na maszynie użytkownika WSL2 okazał się w ogóle
+      niezainstalowany (nie tylko wymagający restartu) — naprawione przez
+      `wsl --install` w podniesionym PowerShell. Szczegóły i rozwiązywanie
+      problemów: `docs/DOCKER.md`.
 
 ### Krok 2 — Webowy interfejs (ustalone 2026-09-17, jeszcze nie rozpoczęte)
 

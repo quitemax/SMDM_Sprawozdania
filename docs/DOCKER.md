@@ -7,9 +7,16 @@ natywna: pracę przez CLI, jednym skryptem na raz (`docker compose exec`).
 Webowy interfejs i baza danych to kolejny, osobny etap (patrz
 `docs/ROADMAP.md`, Etap 8).
 
-**Status: pliki napisane, ale NIEPRZETESTOWANE** — środowisko, w którym
-powstał ten dokument, nie miało zainstalowanego Dockera. Traktuj to jako
-pierwszą wersję do zweryfikowania, nie gotowe rozwiązanie.
+**Status: zweryfikowane end-to-end na realnej maszynie (2026-09-17)** —
+build obrazu, GPU passthrough (`torch.cuda.is_available()` → `True`,
+RTX 4060 widoczna), ffmpeg + tesseract (`pol`), Ollama osiągalna z
+kontenera `app`, pełny przebieg `transcribe.py` (z diaryzacją) →
+`identify_speakers.py` → `clean_transcript.py` → `generate_report.py`,
+wynik poprawnie widoczny na dysku hosta przez wolumeny. Jedyny problem po
+drodze: Docker Desktop wymagał wcześniej ręcznej instalacji WSL2
+(`wsl --install` w PowerShell jako Administrator) — bez tego kontener
+silnika w ogóle się nie uruchamiał (patrz sekcja „Rozwiązywanie
+problemów” niżej).
 
 ## Wymagania
 
@@ -85,15 +92,38 @@ Ollamy zajmują po kilka GB — żeby nie pobierać ich od nowa przy każdym
 usunięcie i odtworzenie kontenerów (`docker compose down` bez `-v`);
 `docker compose down -v` skasuje je razem z pobranymi modelami.
 
-## Znane ograniczenia / do zweryfikowania
+## Rozwiązywanie problemów
 
-- Nie sprawdzono realnie, czy `nvidia/cuda`-owe biblioteki wciągnięte przez
-  pip (`nvidia-cublas-cu12`, `nvidia-cudnn-cu12` itd., zależności paczki
-  `torch==2.8.0+cu128`) wystarczają bez dodatkowego obrazu bazowego
-  `nvidia/cuda` — teoretycznie tak (tak działają oficjalne obrazy PyTorch
-  GPU), ale wymaga potwierdzenia na tej konkretnej karcie/sterowniku.
+### Docker Desktop w kółko się restartuje / `wslexec` error
+
+Jeśli po starcie Docker Desktop widać powtarzający się błąd w stylu
+`running wslexec: ... wsl.exe --version: exit status 1`, WSL2 nie jest
+w ogóle zainstalowany (nie tylko nieaktywny) — samo dodanie funkcji
+Windows przy instalacji Docker Desktop może nie wystarczyć. Napraw przez:
+
+```powershell
+# W PowerShell uruchomionym JAKO ADMINISTRATOR:
+wsl --install
+```
+
+Zwykle nie wymaga to kolejnego restartu, ale jeśli `wsl --status` dalej
+zwraca błąd, zrestartuj system i spróbuj ponownie.
+
+### `docker`/`docker compose` „nie rozpoznano” w terminalu
+
+Świeżo zainstalowany Docker Desktop może nie być jeszcze w `PATH` bieżącej
+sesji terminala (podobnie jak przy instalacji Ollamy, patrz
+`docs/INSTALLATION.md`) — otwórz nowe okno terminala. Gdyby to nie
+pomogło, pełna ścieżka do CLI to zwykle:
+
+```
+%LOCALAPPDATA%\Programs\DockerDesktop\resources\bin\docker.exe
+```
+
+## Znane ograniczenia
+
 - `tesseract-ocr-pol` w Debianie (obraz bazowy) może być starszą wersją
   pakietu językowego niż ta z `winget` używana w instalacji natywnej —
-  jakość OCR może się nieznacznie różnić.
-- Rozmiar obrazu (PyTorch + CUDA to kilka GB) i czas pierwszego builda nie
-  zostały zmierzone.
+  jakość OCR może się nieznacznie różnić (nieprzetestowane porównawczo).
+- Rozmiar obrazu i czas pierwszego builda nie zostały dokładnie zmierzone
+  (build z zimnym cache pip trwał orientacyjnie ~15 minut).

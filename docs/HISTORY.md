@@ -1,5 +1,22 @@
 # Historia projektu
 
+## 2026-09-17 (3)
+
+- Zweryfikowano konteneryzację Docker end-to-end na realnej maszynie
+  użytkownika. Po drodze: WSL2 okazał się w ogóle niezainstalowany (nie
+  tylko wymagający restartu, jak początkowo podejrzewano) — naprawione
+  przez `wsl --install` w podniesionym PowerShell. Po naprawie: build
+  obrazu (`docker compose build`, ~15 min z zimnym cache), oba kontenery
+  wystartowane, GPU passthrough potwierdzony (`nvidia-smi` i
+  `torch.cuda.is_available()` w kontenerze widzą RTX 4060), ffmpeg i
+  tesseract (`pol`) obecne, Ollama osiągalna z kontenera `app`. Pełny
+  łańcuch `transcribe.py` (z diaryzacją, prawdziwy token HF) →
+  `identify_speakers.py` → `clean_transcript.py` → `generate_report.py`
+  zakończony sukcesem na `input/audio/test.mp3` — wynik poprawnie widoczny
+  na dysku hosta przez wolumeny bind-mount. Zaktualizowano `docs/DOCKER.md`
+  (status, nowa sekcja rozwiązywania problemów z WSL2) i `docs/ROADMAP.md`
+  (Etap 8, Krok 1 oznaczony jako zweryfikowany).
+
 ## 2026-09-17 (2)
 
 - Przetestowano `scripts/generate_report.py` na prawdziwym przypadku bez
