@@ -6,7 +6,7 @@ use App\Entity\Meeting;
 use App\Entity\MeetingAttendee;
 use App\Repository\MemberRepository;
 use App\Repository\MeetingRepository;
-use App\Service\MeetingInfoFileManager;
+use App\Service\OutputFileManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,7 +23,7 @@ class MeetingController extends AbstractController
         private readonly EntityManagerInterface $em,
         private readonly MeetingRepository $meetings,
         private readonly MemberRepository $members,
-        private readonly MeetingInfoFileManager $files,
+        private readonly OutputFileManager $files,
     ) {
     }
 

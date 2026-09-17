@@ -1,5 +1,35 @@
 # Historia projektu
 
+## 2026-09-17 (5)
+
+- Faza 2 Kroku 2 (webowy interfejs): `SpeakerController.php` —
+  identyfikacja mówców i podgląd transkrypcji w przeglądarce, zastępujące
+  ręczne odsłuchiwanie próbek + edycję `.speakers.json` w edytorze.
+  Przemianowano `MeetingInfoFileManager` na `OutputFileManager` (obsługuje
+  teraz też `.speakers.json`, `.clean.txt` i próbki audio, nie tylko
+  `meeting_info.json`). Strony Nuxt `/meetings/{id}/speakers` i
+  `/meetings/{id}/transcript`, plus przeniesienie `meetings/[id].vue` do
+  `meetings/[id]/index.vue`, żeby zrobić miejsce na te podstrony.
+  Zweryfikowano poprawność API bezpośrednimi wywołaniami (odczyt
+  prawdziwego `.speakers.json` z posiedzenia 27.06.2025) — nie
+  zweryfikowano klikania w przeglądarce (audio, formularz).
+- Napotkano poważny, nierozwiązany problem wydajności: po serii
+  restartów kontenerów (php-fpm, nginx) w trakcie tej pracy, każde
+  zapytanie do API — łącznie z trywialnym `/api/health` bez dostępu do
+  bazy — zaczęło trwać niespójnie 3-30 sekund. Zdiagnozowano metodycznie:
+  bezpośrednie połączenie PHP→MariaDB błyskawiczne (~2ms), `docker stats`
+  nie pokazuje podwyższonego zużycia CPU/RAM żadnego kontenera, spowolnienie
+  występuje nawet przy komunikacji kontener-kontener z pominięciem
+  publikowanego portu hosta. Dodano osobny nazwany wolumen na
+  `web/backend/var/` (podejrzenie: wolny bind mount Windows/WSL2 przy
+  wielu małych zapisach cache) — nie pomogło samo w sobie, ale zostaje
+  jako słuszna optymalizacja niezależnie od tego konkretnego problemu.
+  Najbardziej prawdopodobna przyczyna: Windows Defender skanujący w
+  czasie rzeczywistym pliki WSL2/Dockera (częsta, znana przyczyna
+  dokładnie takich objawów) — nie potwierdzone ostatecznie, opisane w
+  `docs/DOCKER.md` z konkretną sugerowaną poprawką (wykluczenia w Windows
+  Security) do zweryfikowania przez użytkownika.
+
 ## 2026-09-17 (4)
 
 - Zbudowano fundament Etapu 8, Kroku 2 (webowy interfejs) — Faza 0+1,

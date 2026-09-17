@@ -30,6 +30,10 @@ services:
     volumes:
       - ./web/backend:/app
       - ./output:/var/www/output
+      # var/ (cache, logi) osobnym wolumenem — bind mount Windows/WSL2 jest
+      # bardzo wolny przy wielu małych zapisach (cache Symfony w dev), co
+      # bez tego potrafiło wydłużać pojedyncze zapytanie do >10s.
+      - backend_var:/app/var
 
   nginx:
     image: nginx:alpine
@@ -53,3 +57,4 @@ services:
 volumes:
   mariadb_data:
   frontend_node_modules:
+  backend_var:

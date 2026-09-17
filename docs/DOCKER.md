@@ -170,7 +170,57 @@ różne osoby (potwierdzone we wszystkich 18 historycznych protokołach), więc
 nie blokuje MVP — ale UI nie ostrzega, gdyby ktoś przez pomyłkę wybrał tę
 samą osobę dwa razy.
 
+## Faza 2 — Identyfikacja mówców i podgląd transkrypcji w przeglądarce
+
+Zastępuje ręczne odsłuchiwanie próbek w Eksploratorze + edycję
+`<nazwa>.speakers.json` w edytorze tekstu (patrz
+`scripts/extract_speaker_samples.py`).
+
+- `GET /api/meetings/{id}/speakers` — lista mówców z pliku `.speakers.json`.
+- `PUT /api/meetings/{id}/speakers/{label}` — zapisuje `proposed_name`;
+  zawsze ustawia `source: "manual"` (wpis z UI = potwierdzony przez
+  człowieka, tak samo jak przy ręcznej edycji, patrz
+  `docs/PROJECT_MEMORY.md`).
+- `GET /api/meetings/{id}/speakers/{label}/sample/{n}` — strumieniuje plik
+  `.mp3` (`BinaryFileResponse`, wsparcie dla zakresów HTTP "za darmo" —
+  potrzebne, żeby `<audio>` w przeglądarce mogło przewijać).
+- `GET /api/meetings/{id}/transcript` — zwraca treść `.clean.txt` do
+  podglądu (tylko odczyt).
+
+Strony Nuxt: `/meetings/{id}/speakers` (odtwarzacze audio + pole na
+imię/nazwisko per mówca) i `/meetings/{id}/transcript` (podgląd tekstu).
+
+**Zweryfikowane:** poprawność samych endpointów (odczyt istniejącego
+`.speakers.json`, w tym prawdziwego pliku z posiedzenia 27.06.2025).
+**Niezweryfikowane:** faktyczne odtwarzanie audio i klikanie w formularzu w
+przeglądarce — do sprawdzenia przez użytkownika.
+
 ## Rozwiązywanie problemów
+
+### Bardzo wolne odpowiedzi API (3-30 sekund na zapytanie)
+
+Zaobserwowane przy pracy nad Fazą 2 (2026-09-17): każdy request do
+Symfony — nawet trywialny `/api/health` bez dostępu do bazy — bywał wolny
+w sposób niespójny (raz 3s, raz 30s), mimo że bezpośrednie połączenie
+PHP→MariaDB było błyskawiczne (~2ms) i żaden kontener nie pokazywał
+wysokiego zużycia CPU/RAM (`docker stats`). To wskazuje na spowolnienie na
+poziomie hosta (Windows/WSL2), nie na błąd w kodzie Symfony/Nuxt.
+
+Najbardziej prawdopodobna przyczyna i pierwsza rzecz do sprawdzenia:
+**Windows Defender skanujący w czasie rzeczywistym pliki WSL2/Dockera** —
+bardzo częsta przyczyna właśnie takich niespójnych, wielosekundowych
+opóźnień przy operacjach na plikach w kontenerach. Warto dodać wykluczenia
+w Windows Security (Wirus i zagrożenia → Ustawienia ochrony przed wirusami
+i zagrożeniami → Wykluczenia) dla:
+- katalogu danych WSL (`%LOCALAPPDATA%\Docker\wsl\`),
+- katalogu repozytorium projektu (`C:\SMDM` czy gdziekolwiek leży).
+
+Inne rzeczy do sprawdzenia, jeśli to nie pomoże: pełny restart Docker
+Desktop (nie tylko kontenerów — sam proces `Docker Desktop.exe` i usługę
+WSL2, `wsl --shutdown` w PowerShell), limity zasobów WSL2 w
+`%UserProfile%\.wslconfig`. Nie zdiagnozowano ostatecznie w tej sesji —
+funkcjonalność (poprawność odpowiedzi) jest potwierdzona, tylko wydajność
+wymaga dalszej weryfikacji na docelowej maszynie.
 
 ### Docker Desktop w kółko się restartuje / `wslexec` error
 

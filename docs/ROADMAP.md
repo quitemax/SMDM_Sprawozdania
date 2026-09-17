@@ -394,9 +394,25 @@ w `docs/DOCKER.md`.
     historycznych danych), ale UI o tym nie ostrzega.
   - Niezweryfikowane: rzeczywiste klikanie w formularzach w przeglądarce
     (sprawdzona tylko warstwa API, którą frontend woła).
-- [ ] **Faza 2** (nie rozpoczęta) — przeglądanie transkryptów, odtwarzanie
-      próbek audio mówców w przeglądarce, formularz identyfikacji głosu
-      (zamiast ręcznego `extract_speaker_samples.py` + edycji JSON).
+- [x] **Faza 2 — identyfikacja mówców i podgląd transkrypcji** (zrobione
+      2026-09-17): `GET/PUT /api/meetings/{id}/speakers` (edycja
+      `proposed_name`, zawsze ustawia `source: "manual"`),
+      `GET .../speakers/{label}/sample/{n}` (strumieniowanie próbek audio,
+      `BinaryFileResponse` — wsparcie HTTP Range "za darmo", potrzebne do
+      przewijania w `<audio>`), `GET .../transcript` (podgląd
+      `.clean.txt`). Strony Nuxt: `/meetings/{id}/speakers`,
+      `/meetings/{id}/transcript`. Zweryfikowano poprawność odczytu
+      istniejącego, prawdziwego `.speakers.json` (posiedzenie 27.06.2025)
+      przez API. **Niezweryfikowane**: klikanie w formularzu i
+      odtwarzanie audio w przeglądarce.
+      Napotkano (i udokumentowano w `docs/DOCKER.md`, nie rozwiązano
+      ostatecznie) poważny problem wydajności: każde zapytanie do API —
+      nawet trywialne, bez dostępu do bazy — trwało niespójnie 3-30s,
+      mimo błyskawicznego (~2ms) połączenia PHP→MariaDB i niskiego
+      zużycia CPU/RAM kontenerów. Najbardziej prawdopodobna przyczyna:
+      Windows Defender skanujący pliki WSL2/Dockera w czasie
+      rzeczywistym — do zweryfikowania przez użytkownika (wykluczenia w
+      Windows Security).
 - [ ] **Faza 3** (nie rozpoczęta) — job runner: kolejka zadań w MySQL +
       worker Pythona (`scripts/job_worker.py`, nowy plik) w kontenerze
       `app` odpytujący kolejkę i uruchamiający te same skrypty CLI co dziś;

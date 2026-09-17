@@ -6,13 +6,13 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Czyta i zapisuje <nazwa>.meeting_info.json na dysku — dokładnie ten sam
- * format, który tworzy scripts/init_meeting_info.py i czyta
- * scripts/generate_report.py. Plik na dysku jest źródłem prawdy (patrz
+ * Czyta i zapisuje pliki pod output/ (transkrypcje, meeting_info.json,
+ * speakers.json, próbki audio mówców) — dokładnie te same pliki, które
+ * tworzą i czytają scripts/*.py. Pliki na dysku są źródłem prawdy (patrz
  * decyzja projektowa w docs/PROJECT_MEMORY.md / plan Kroku 2) — ta klasa
  * nigdy nie trzyma stanu poza tym, co właśnie przeczytała/zapisała.
  */
-class MeetingInfoFileManager
+class OutputFileManager
 {
     public function __construct(
         #[Autowire(param: 'app.output_dir')]
@@ -49,10 +49,20 @@ class MeetingInfoFileManager
         return $results;
     }
 
+    public function resolvePath(string $relativePath): string
+    {
+        return $this->outputDir . '/' . ltrim($relativePath, '/');
+    }
+
+    public function exists(string $relativePath): bool
+    {
+        return is_file($this->resolvePath($relativePath));
+    }
+
     /** @return array<string, mixed>|null */
     public function read(string $relativePath): ?array
     {
-        $fullPath = $this->outputDir . '/' . ltrim($relativePath, '/');
+        $fullPath = $this->resolvePath($relativePath);
         if (!is_file($fullPath)) {
             return null;
         }
@@ -61,10 +71,16 @@ class MeetingInfoFileManager
         return is_array($decoded) ? $decoded : null;
     }
 
+    public function readText(string $relativePath): ?string
+    {
+        $fullPath = $this->resolvePath($relativePath);
+        return is_file($fullPath) ? file_get_contents($fullPath) : null;
+    }
+
     /** @param array<string, mixed> $data */
     public function write(string $relativePath, array $data): void
     {
-        $fullPath = $this->outputDir . '/' . ltrim($relativePath, '/');
+        $fullPath = $this->resolvePath($relativePath);
         $dir = dirname($fullPath);
         if (!is_dir($dir)) {
             mkdir($dir, 0775, true);
