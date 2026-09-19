@@ -7,6 +7,22 @@
 # (patrz .env.example).
 
 services:
+  # Nadpisuje tylko `command`/`environment`/`depends_on` usługi `app` z
+  # docker-compose.yml (Krok 1) — reszta (build, wolumeny, GPU) zostaje bez
+  # zmian. `sleep infinity` zostaje obok workera, żeby `docker compose exec
+  # app ...` dalej działało nawet gdyby worker padł.
+  app:
+    depends_on:
+      - ollama
+      - mariadb
+    environment:
+      SMDM_DB_HOST: mariadb
+      SMDM_DB_PORT: "3306"
+      SMDM_DB_NAME: smdm
+      SMDM_DB_USER: smdm
+      SMDM_DB_PASSWORD: ${MYSQL_PASSWORD}
+    command: ["sh", "-c", "python scripts/job_worker.py & sleep infinity"]
+
   mariadb:
     image: mariadb:11
     restart: unless-stopped

@@ -5,6 +5,7 @@
       <NuxtLink to="/recordings">Nagrania</NuxtLink>
       <NuxtLink to="/members">Skład Rady/Zarządu</NuxtLink>
       <NuxtLink to="/meetings">Spotkania</NuxtLink>
+      <NuxtLink to="/jobs">Zadania</NuxtLink>
     </nav>
     <main class="main">
       <NuxtPage />

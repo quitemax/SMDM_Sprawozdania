@@ -35,6 +35,33 @@
   efekt uboczny testowania formularza edycji spotkania w przeglądarce
   przy niepełnym jeszcze składzie osób w bazie. Nieistotne dla dalszej
   pracy (walidacja już wykonana i udokumentowana wcześniej).
+- Zbudowano Fazę 3: job runner. Tabela `jobs` (MariaDB) +
+  `scripts/job_worker.py` — nowy proces w kontenerze `app`, obok
+  `sleep infinity` (nadpisany `command` w `docker-compose.web.yml`),
+  odpytujący kolejkę i uruchamiający dokładnie te same skrypty CLI co
+  dziś (`subprocess`), dopisujący log na bieżąco do wiersza. Zależność
+  `pymysql` celowo w osobnym `requirements-web.txt`/warstwie Dockera, żeby
+  jej dodanie nie wymusiło pełnej przebudowy warstwy torch/whisperx
+  (potwierdzone przy przebudowie: zbudowała się tylko nowa, mała warstwa).
+  `JobController.php` (`GET/POST /api/jobs`, `GET /api/jobs/{id}`, `POST
+  /api/jobs/{id}/retry`) waliduje typ i ścieżkę przed wstawieniem wiersza.
+  `GET /api/recordings` rozszerzone o flagi pipeline'u (`has_speakers`,
+  `has_clean`, `has_meeting_info`). Strony Nuxt: `/recordings` (przyciski
+  kolejnych kroków per nagranie z podglądem statusu), `/jobs` (lista +
+  log na żywo + „Ponów”).
+  **Zweryfikowano end-to-end przez API wszystkie 5 typów zadań** (nie
+  tylko wstawienie do kolejki — rzeczywiste uruchomienie przez workera):
+  `transcribe` na `input/audio/test.mp3` (diaryzacja GPU), `identify_speakers`
+  i `generate_report` (oba wywołały Ollamę), `clean_transcript`,
+  `init_meeting_info`. Przy okazji dokończono naprawdę pierwszy krok
+  pipeline'u dla nagrania `2026.07.17/20260717_091933`: pusty szablon
+  `.meeting_info.json` i wygenerowany na jego podstawie projekt
+  sprawozdania — sekcja obecności w tym projekcie jest pusta, dopóki dane
+  spotkania nie zostaną uzupełnione przez `/meetings` i raport nie
+  zostanie wygenerowany ponownie (to nie jest gotowy dokument). Testowe
+  artefakty pod `output/transcripts/test.*` (z uruchomienia na pliku
+  `test.mp3`) posprzątane po weryfikacji.
+  Niezweryfikowane: klikanie w przeglądarce (testowano samo API + worker).
 
 ## 2026-09-17 (5)
 

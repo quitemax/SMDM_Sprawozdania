@@ -221,6 +221,56 @@ upload i usuwanie na pliku testowym. **Niezweryfikowane:** upload
 naprawdę dużego (setki MB) pliku audio z przeglądarki — testowano tylko
 małym plikiem przez `curl`.
 
+## Faza 3 — job runner (uruchamianie pipeline'u z przeglądarki)
+
+Przycisk „uruchom” zamiast `docker compose exec app python scripts/...`
+ręcznie w terminalu. Architektura: kolejka zadań w tabeli `jobs` (MariaDB)
++ `scripts/job_worker.py`, nowy proces działający **w tym samym
+kontenerze `app`**, który już ma GPU/WhisperX/Ollama.
+
+- `scripts/job_worker.py` odpytuje `jobs` co 2s, uruchamia dokładnie ten
+  sam skrypt CLI co dziś (`subprocess.Popen`, `cwd` = korzeń repo),
+  dopisuje stdout+stderr do kolumny `log` na bieżąco (żeby UI mógł pokazać
+  log „na żywo” przez odpytywanie), na koniec ustawia `status`
+  (`success`/`failed`) i `exit_code`.
+- `docker-compose.web.yml`, usługa `app`: nadpisuje tylko `command`
+  (`sh -c "python scripts/job_worker.py & sleep infinity"`) —
+  `sleep infinity` zostaje obok workera, więc `docker compose exec app
+  ...` działa nawet gdyby worker padł. Dodaje `SMDM_DB_*` (worker łączy
+  się z MariaDB przez `pymysql`) i `depends_on: [ollama, mariadb]`.
+- Zależność `pymysql` żyje w osobnym pliku `requirements-web.txt`
+  (osobna warstwa Dockera w root `Dockerfile`, instalowana *po*
+  `requirements.txt`) — celowo, żeby dopisanie małej zależności workera
+  nie unieważniało drogiej w cache'owaniu warstwy torch/whisperx.
+- Backend: `JobController` (`GET/POST /api/jobs`, `GET /api/jobs/{id}` ze
+  szczegółami/logiem, `POST /api/jobs/{id}/retry`) — waliduje `type` +
+  `path` (plik musi istnieć na dysku, ścieżka musi pasować do typu
+  zadania), sam niczego nie uruchamia, tylko wstawia wiersz.
+- Typy zadań (dokładnie kolejność ręcznego pipeline'u, patrz
+  `docs/HOW_TO_USE.md`): `transcribe` → `identify_speakers` /
+  `clean_transcript` (niezależne) → `init_meeting_info` →
+  `generate_report` (wymaga `.clean.json` i `.meeting_info.json`).
+- `GET /api/recordings` rozszerzone o `has_speakers`, `has_clean`,
+  `has_meeting_info`, `transcript_path`, `clean_transcript_path` — żeby
+  UI wiedziało, jaki jest następny krok dla danego nagrania.
+- Strony Nuxt: `/recordings` (przyciski kolejnych kroków pipeline'u per
+  nagranie, z podglądem statusu ostatniego zadania), `/jobs` (pełna lista
+  zadań + podgląd logu na żywo, przycisk „Ponów” dla nieudanych).
+
+Tabela `jobs` tworzona przez `doctrine:schema:update --force` (tak samo
+jak reszta schematu w tej fazie projektu — patrz `docs/ROADMAP.md`).
+
+`init_meeting_info` tworzy pusty szablon `.meeting_info.json` (tak jak
+`scripts/init_meeting_info.py` z CLI) — dopiero to sprawia, że spotkanie
+może się pojawić na liście `/meetings` po kliknięciu „Przeskanuj dysk”
+(rescan wymaga istnienia tego pliku na dysku).
+
+Odrzucone alternatywy (ustalone już w planie architektury Kroku 2, nie
+rewidowane): montowanie `/var/run/docker.sock` do kontenera PHP (realny
+dostęp roota do hosta bez wymiernej korzyści), łączenie PHP-FPM z obrazem
+CUDA/PyTorch w jeden kontener (miesza cykle życia — restart web UI nie
+powinien ruszać wielogodzinnego zadania transkrypcji).
+
 ## Rozwiązywanie problemów
 
 ### Zapytania do API całkowicie się zawieszają po `docker compose up --build php-fpm`/`nuxt`

@@ -424,13 +424,38 @@ w `docs/DOCKER.md`.
       Niezweryfikowany: upload naprawdę dużego pliku z przeglądarki.
       Uruchomienie samej transkrypcji z przeglądarki zostaje w Fazie 3
       (job runner) — to celowe rozgraniczenie, nie przeoczenie.
-- [ ] **Faza 3** (nie rozpoczęta) — job runner: kolejka zadań w MySQL +
-      worker Pythona (`scripts/job_worker.py`, nowy plik) w kontenerze
-      `app` odpytujący kolejkę i uruchamiający te same skrypty CLI co dziś;
-      przyciski uruchom/ponów w UI z podglądem logu na żywo. Odrzucone
-      alternatywy: montowanie `/var/run/docker.sock` do kontenera PHP
-      (realny dostęp roota do hosta) i łączenie PHP-FPM z obrazem
-      CUDA/PyTorch w jeden kontener (miesza cykle życia).
+- [x] **Faza 3 — job runner** (zbudowane 2026-09-19): tabela `jobs` +
+      `scripts/job_worker.py` (nowy proces w kontenerze `app`, obok
+      `sleep infinity`, żeby CLI zostało dostępne nawet gdyby worker padł)
+      odpytujący kolejkę i uruchamiający te same skrypty CLI co dziś,
+      dopisujący log na bieżąco. `JobController`
+      (`GET/POST /api/jobs`, `GET /api/jobs/{id}`, `POST
+      /api/jobs/{id}/retry`) — 5 typów zadań: `transcribe`,
+      `identify_speakers`, `clean_transcript`, `init_meeting_info`,
+      `generate_report`. `GET /api/recordings` rozszerzone o flagi
+      pipeline'u (`has_speakers`, `has_clean`, `has_meeting_info`).
+      Strony Nuxt: `/recordings` (przyciski kolejnych kroków per
+      nagranie), `/jobs` (lista + podgląd logu na żywo + „Ponów”).
+      Zależność `pymysql` w osobnym `requirements-web.txt` (osobna
+      warstwa Dockera), żeby nie unieważniać cache'u warstwy
+      torch/whisperx w głównym `Dockerfile`. Odrzucone alternatywy:
+      montowanie `/var/run/docker.sock` do kontenera PHP (realny dostęp
+      roota do hosta) i łączenie PHP-FPM z obrazem CUDA/PyTorch w jeden
+      kontener (miesza cykle życia). Patrz `docs/DOCKER.md`.
+      **Zweryfikowane end-to-end przez API** (wszystkie 5 typów zadań
+      przez rzeczywistego workera, nie tylko wstawienie do kolejki):
+      `transcribe` (na `input/audio/test.mp3`, z diaryzacją GPU),
+      `identify_speakers` i `generate_report` (oba wywołały Ollamę),
+      `clean_transcript`, `init_meeting_info`. Przy okazji realnie
+      dokończono pierwszy krok pipeline'u dla nagrania
+      `2026.07.17/20260717_091933` (pusty szablon `.meeting_info.json` +
+      projekt sprawozdania wygenerowany na jego podstawie — sekcja
+      obecności w projekcie będzie pusta, dopóki dane spotkania nie
+      zostaną uzupełnione przez `/meetings` i raport nie zostanie
+      wygenerowany ponownie). **Niezweryfikowane:** klikanie w
+      przeglądarce (testowano samo API + worker), oraz wydajność UI przy
+      wielu jednoczesnych zadaniach (worker przetwarza jedno na raz,
+      celowo — pipeline i tak jest sekwencyjny).
 - [ ] **Faza 4** (zakres otwarty) — podgląd/edycja/eksport projektu
       sprawozdania z poziomu przeglądarki.
 

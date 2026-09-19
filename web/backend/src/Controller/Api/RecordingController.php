@@ -30,8 +30,17 @@ class RecordingController extends AbstractController
 
         foreach ($recordings as &$recording) {
             $stem = pathinfo($recording['filename'], PATHINFO_FILENAME);
-            $recording['has_transcript'] = $this->output->exists(
-                sprintf('transcripts/%s/%s.json', $recording['date_dir'], $stem)
+            $transcriptPath = sprintf('transcripts/%s/%s.json', $recording['date_dir'], $stem);
+
+            $recording['transcript_path'] = $transcriptPath;
+            $recording['has_transcript'] = $this->output->exists($transcriptPath);
+            $recording['has_speakers'] = $this->output->exists(
+                sprintf('transcripts/%s/%s.speakers.json', $recording['date_dir'], $stem)
+            );
+            $recording['clean_transcript_path'] = sprintf('transcripts/%s/%s.clean.json', $recording['date_dir'], $stem);
+            $recording['has_clean'] = $this->output->exists($recording['clean_transcript_path']);
+            $recording['has_meeting_info'] = $this->output->exists(
+                sprintf('transcripts/%s/%s.meeting_info.json', $recording['date_dir'], $stem)
             );
         }
         unset($recording);

@@ -24,6 +24,12 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \
         --extra-index-url https://download.pytorch.org/whl/cu128
 
+# Osobna warstwa/plik dla zależności job_worker.py (Faza 3) — patrz komentarz
+# w requirements-web.txt: to małe, częściej zmieniane zależności, nie mają
+# unieważniać drogiej warstwy powyżej (torch/whisperx).
+COPY requirements-web.txt .
+RUN pip install --no-cache-dir -r requirements-web.txt
+
 COPY scripts/ scripts/
 COPY config/ config/
 COPY prompts/ prompts/

@@ -1,0 +1,5 @@
+# Zależność scripts/job_worker.py (Etap 8, Krok 2, Faza 3) — osobny plik od
+# requirements.txt celowo: requirements.txt zmienia się rzadko i jego warstwa
+# Dockera jest droga w cache'owaniu (torch/whisperx, kilka GB pobierania);
+# edycja tego pliku nie powinna unieważniać tamtej warstwy.
+pymysql==1.1.1
