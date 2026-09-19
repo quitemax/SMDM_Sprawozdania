@@ -4,6 +4,7 @@ interface Member {
   full_name: string
   default_body: string
   active: boolean
+  role_label: string | null
 }
 
 interface Attendee {
@@ -12,6 +13,20 @@ interface Attendee {
   full_name: string
   body: string
   role: string | null
+  role_label: string | null
+}
+
+// Tylko podpowiedzi (datalist) — można też wpisać dowolny tekst. Musi się
+// zgadzać z listą w members.vue (tam to samo, dla domyślnej funkcji osoby).
+const ROLE_LABEL_PRESETS: Record<string, string[]> = {
+  rada_nadzorcza: [
+    'Przewodniczący Rady Nadzorczej',
+    'Zastępca Przewodniczącego Rady Nadzorczej',
+    'Sekretarz Rady Nadzorczej',
+    'Członek Rady Nadzorczej delegowany do czasowego pełnienia funkcji Członka Zarządu',
+  ],
+  zarzad: ['Prezes Zarządu', 'Członek Zarządu ds. technicznych', 'Członek Zarządu – Główna Księgowa'],
+  inny: [],
 }
 
 const route = useRoute()
@@ -23,6 +38,12 @@ const error = ref('')
 const saved = ref(false)
 
 const protocolNumber = ref('')
+// Prawdziwe dane historyczne mogą istnieć TYLKO w pliku (np. spotkania
+// zaimportowane przed Fazą 1, zanim baza w ogóle śledziła uczestników) —
+// jeśli baza nie ma ani jednego wiersza, a plik ma jakąkolwiek listę
+// obecności, zapisanie formularza bez ręcznego zaznaczenia osób
+// NADPISAŁOBY plik pustą listą. Ostrzegamy przed tym wprost.
+const fileHasUnmatchedAttendees = ref(false)
 const selected = reactive<Record<string, Set<number>>>({
   rada_nadzorcza: new Set(),
   zarzad: new Set(),
@@ -33,15 +54,29 @@ const roles = reactive<Record<string, number | null>>({
   sekretarz: null,
   przewodniczacy: null,
 })
+// member_id -> funkcja/tytuł NA TYM SPOTKANIU. Wczytywane z zapisanego wcześniej
+// stanu spotkania (nie z bieżącej domyślnej funkcji osoby!) — patrz load().
+const titles = reactive<Record<number, string>>({})
 
-const membersByBody = computed(() => (body: string) =>
-  members.value.filter((m) => m.default_body === body || selected[body].has(m.id))
-)
+// Osoba może na danym spotkaniu pełnić inną funkcję niż jej domyślna (np.
+// delegacja Członka RN do Zarządu) — więc każda aktywna osoba jest wybieralna
+// w każdym z trzech organów, nie tylko w swoim domyślnym.
+function membersByBody(body: string): Member[] {
+  return [...members.value].sort((a, b) => {
+    const aMatch = a.default_body === body ? 0 : 1
+    const bMatch = b.default_body === body ? 0 : 1
+    return aMatch - bMatch || a.full_name.localeCompare(b.full_name)
+  })
+}
 
-function toggle(body: string, memberId: number) {
+function toggle(body: string, member: Member) {
   const set = selected[body]
-  if (set.has(memberId)) set.delete(memberId)
-  else set.add(memberId)
+  if (set.has(member.id)) {
+    set.delete(member.id)
+  } else {
+    set.add(member.id)
+    if (titles[member.id] === undefined) titles[member.id] = member.role_label ?? ''
+  }
 }
 
 async function load() {
@@ -58,12 +93,36 @@ async function load() {
   for (const a of attendees) {
     if (selected[a.body]) selected[a.body].add(a.member_id)
     if (a.role) roles[a.role] = a.member_id
+    // Zapisany wcześniej stan TEGO spotkania ma pierwszeństwo przed bieżącą
+    // domyślną funkcją osoby — to jest właśnie ochrona historii przed
+    // późniejszymi zmianami składu (np. koniec delegacji).
+    titles[a.member_id] = a.role_label ?? ''
   }
+
+  const fileAttendees = infoData.meeting_info?.attendees ?? {}
+  const fileHasAnyone =
+    (fileAttendees.rada_nadzorcza?.length ?? 0) > 0 ||
+    (fileAttendees.zarzad?.length ?? 0) > 0 ||
+    (fileAttendees.inni?.length ?? 0) > 0
+  fileHasUnmatchedAttendees.value = attendees.length === 0 && fileHasAnyone
 }
 
 async function submit() {
   error.value = ''
   saved.value = false
+  if (fileHasUnmatchedAttendees.value) {
+    const totalSelected = selected.rada_nadzorcza.size + selected.zarzad.size + selected.inny.size
+    if (
+      totalSelected === 0 &&
+      !confirm(
+        'Ta lista obecności istnieje TYLKO w pliku na dysku (baza nie ma jeszcze ' +
+          'dopasowanych osób do tego spotkania) — nie zaznaczono nikogo. Zapisanie ' +
+          'teraz NADPISZE plik pustą listą obecności. Kontynuować mimo to?'
+      )
+    ) {
+      return
+    }
+  }
   try {
     await $fetch(`/api/meetings/${meetingId}/meeting-info`, {
       method: 'PUT',
@@ -77,6 +136,7 @@ async function submit() {
         protokolant_member_id: roles.protokolant,
         sekretarz_member_id: roles.sekretarz,
         przewodniczacy_member_id: roles.przewodniczacy,
+        role_labels: { ...titles },
       },
     })
     saved.value = true
@@ -99,6 +159,11 @@ onMounted(load)
     </p>
     <p class="error" v-if="error">{{ error }}</p>
     <p v-if="saved">Zapisano — plik <code>meeting_info.json</code> zaktualizowany na dysku.</p>
+    <p class="error" v-if="fileHasUnmatchedAttendees">
+      ⚠️ Lista obecności dla tego spotkania istnieje na razie tylko w pliku na dysku —
+      poniższe pola startują puste. Zaznacz osoby ręcznie przed zapisaniem, w przeciwnym
+      razie zapis nadpisze plik pustą listą obecności.
+    </p>
 
     <form @submit.prevent="submit" v-if="meeting">
       <div class="card">
@@ -108,33 +173,31 @@ onMounted(load)
         </div>
       </div>
 
-      <div class="card">
-        <h3>Rada Nadzorcza</h3>
+      <div class="card" v-for="body in ['rada_nadzorcza', 'zarzad', 'inny']" :key="body">
+        <h3>
+          {{ body === 'rada_nadzorcza' ? 'Rada Nadzorcza' : body === 'zarzad' ? 'Zarząd' : 'Inni (radca prawny, obserwatorzy…)' }}
+        </h3>
+        <p style="color:#6b7280; margin-top: -0.5rem;" v-if="body !== 'inny'">
+          Funkcja obok nazwiska dotyczy WYŁĄCZNIE tego spotkania — zmiana funkcji danej
+          osoby na przyszłość (w <NuxtLink to="/members">składzie</NuxtLink>) nie zmieni tego, co tu zapisane.
+        </p>
+        <datalist :id="`presets-${body}`">
+          <option v-for="preset in ROLE_LABEL_PRESETS[body]" :key="preset" :value="preset" />
+        </datalist>
         <div class="checkbox-list">
-          <label v-for="m in membersByBody('rada_nadzorcza')" :key="m.id" class="row">
-            <input type="checkbox" :checked="selected.rada_nadzorcza.has(m.id)" @change="toggle('rada_nadzorcza', m.id)" />
-            {{ m.full_name }}
-          </label>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Zarząd</h3>
-        <div class="checkbox-list">
-          <label v-for="m in membersByBody('zarzad')" :key="m.id" class="row">
-            <input type="checkbox" :checked="selected.zarzad.has(m.id)" @change="toggle('zarzad', m.id)" />
-            {{ m.full_name }}
-          </label>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Inni (radca prawny, obserwatorzy…)</h3>
-        <div class="checkbox-list">
-          <label v-for="m in membersByBody('inny')" :key="m.id" class="row">
-            <input type="checkbox" :checked="selected.inny.has(m.id)" @change="toggle('inny', m.id)" />
-            {{ m.full_name }}
-          </label>
+          <div v-for="m in membersByBody(body)" :key="m.id" style="display:flex; flex-direction:column; gap:0.25rem;">
+            <label class="row">
+              <input type="checkbox" :checked="selected[body].has(m.id)" @change="toggle(body, m)" />
+              {{ m.full_name }}
+            </label>
+            <input
+              v-if="selected[body].has(m.id)"
+              v-model="titles[m.id]"
+              :list="`presets-${body}`"
+              placeholder="Funkcja na tym spotkaniu (opcjonalnie)"
+              style="margin-left: 1.5rem; margin-bottom: 0.4rem;"
+            />
+          </div>
         </div>
       </div>
 

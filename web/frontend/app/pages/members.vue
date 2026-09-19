@@ -14,6 +14,41 @@ const BODY_LABELS: Record<string, string> = {
   inny: 'Inny',
 }
 
+// Podpowiedzi funkcji per organ — domyślna (najczęstsza) wartość to brak
+// funkcji szczególnej ("zwykły" członek), stąd pusta opcja na początku.
+// Można też wpisać własną etykietę — to tylko podpowiedzi, nie sztywny enum.
+const ROLE_LABEL_PRESETS: Record<string, string[]> = {
+  rada_nadzorcza: [
+    'Przewodniczący Rady Nadzorczej',
+    'Zastępca Przewodniczącego Rady Nadzorczej',
+    'Sekretarz Rady Nadzorczej',
+    'Członek Rady Nadzorczej delegowany do czasowego pełnienia funkcji Członka Zarządu',
+  ],
+  zarzad: [
+    'Prezes Zarządu',
+    'Członek Zarządu ds. technicznych',
+    'Członek Zarządu – Główna Księgowa',
+  ],
+  inny: [],
+}
+
+const CUSTOM_LABEL = '__custom__'
+const roleLabelMode = ref<'preset' | 'custom'>('preset')
+
+function presetsFor(body: string): string[] {
+  return ROLE_LABEL_PRESETS[body] ?? []
+}
+
+function onRoleLabelSelect(value: string) {
+  if (value === CUSTOM_LABEL) {
+    roleLabelMode.value = 'custom'
+    form.role_label = ''
+  } else {
+    roleLabelMode.value = 'preset'
+    form.role_label = value
+  }
+}
+
 const members = ref<Member[]>([])
 const showInactive = ref(false)
 const error = ref('')
@@ -43,6 +78,7 @@ function resetForm() {
   form.default_body = 'rada_nadzorcza'
   form.role_label = ''
   form.notes = ''
+  roleLabelMode.value = 'preset'
 }
 
 function edit(member: Member) {
@@ -51,6 +87,8 @@ function edit(member: Member) {
   form.default_body = member.default_body
   form.role_label = member.role_label ?? ''
   form.notes = member.notes ?? ''
+  roleLabelMode.value =
+    form.role_label && !presetsFor(member.default_body).includes(form.role_label) ? 'custom' : 'preset'
 }
 
 async function submit() {
@@ -105,6 +143,23 @@ onMounted(load)
         <div class="field" v-if="form.default_body === 'inny'">
           <label>Etykieta roli (widoczna w sprawozdaniu, np. "radca prawny")</label>
           <input v-model="form.role_label" placeholder="radca prawny" />
+        </div>
+        <div class="field" v-else>
+          <label>Funkcja (opcjonalnie — domyślna, można nadpisać per spotkanie)</label>
+          <select
+            :value="roleLabelMode === 'custom' ? CUSTOM_LABEL : form.role_label"
+            @change="onRoleLabelSelect(($event.target as HTMLSelectElement).value)"
+          >
+            <option value="">— brak (zwykły członek)</option>
+            <option v-for="preset in presetsFor(form.default_body)" :key="preset" :value="preset">{{ preset }}</option>
+            <option :value="CUSTOM_LABEL">Inna (wpisz ręcznie)…</option>
+          </select>
+          <input
+            v-if="roleLabelMode === 'custom'"
+            v-model="form.role_label"
+            placeholder="Wpisz funkcję"
+            style="margin-top: 0.4rem"
+          />
         </div>
         <div class="field">
           <label>Notatki (opcjonalnie)</label>

@@ -25,10 +25,13 @@ class Member
     private bool $active = true;
 
     /**
-     * Etykieta roli używana WYŁĄCZNIE przy eksporcie osób z default_body="inny"
-     * do meeting_info.json (np. "radca prawny", "obserwator") — odtwarza
-     * format "Imię Nazwisko (rola)", który scripts/generate_report.py już
-     * umie parsować (patrz render_attendance()). Puste dla rada_nadzorcza/zarzad.
+     * Domyślna funkcja/tytuł osoby (np. "Prezes Zarządu", "Przewodniczący
+     * Rady Nadzorczej", "radca prawny") — tylko PODPOWIEDŹ przy dodawaniu tej
+     * osoby do nowego spotkania. Format "Imię Nazwisko (funkcja)" umie
+     * wyrenderować scripts/generate_report.py (patrz render_attendance()).
+     * Rzeczywista wartość zapisana dla konkretnego spotkania żyje na
+     * MeetingAttendee::$roleLabel — ZMIANA TUTAJ NIE ZMIENIA HISTORII
+     * już zapisanych spotkań (patrz MeetingController::putMeetingInfo()).
      */
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $roleLabel = null;

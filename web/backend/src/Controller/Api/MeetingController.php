@@ -119,6 +119,16 @@ class MeetingController extends AbstractController
             $attendeeIdsByBody[$body] = array_map('intval', $attendeeIdsByBody[$body] ?? []);
         }
 
+        // member_id => tytuł/funkcja TAK, JAK BYŁ NA TYM SPOTKANIU (patrz komentarz
+        // przy MeetingAttendee::$roleLabel) — frontend wysyła to, co ma zapisane
+        // (stary, zapisany wcześniej wpis) albo domyślną etykietę Membera TYLKO dla
+        // osób dodawanych do tego spotkania pierwszy raz. Kontroler nigdy sam nie
+        // podmienia tego na aktualną wartość z Member — po prostu zapisuje, co dostał.
+        $roleLabels = [];
+        foreach ((array) ($payload['role_labels'] ?? []) as $memberId => $label) {
+            $roleLabels[(int) $memberId] = $this->emptyToNull(is_string($label) ? $label : null);
+        }
+
         $roleMemberIds = [];
         foreach (self::ROLES as $role) {
             $key = $role . '_member_id';
@@ -153,6 +163,7 @@ class MeetingController extends AbstractController
                 $attendee = new MeetingAttendee();
                 $attendee->setMember($membersById[$memberId]);
                 $attendee->setBody($body);
+                $attendee->setRoleLabel($roleLabels[$memberId] ?? null);
                 $meeting->addAttendee($attendee);
                 $attendeeByMemberId[$memberId] = $attendee;
             }
@@ -172,6 +183,7 @@ class MeetingController extends AbstractController
                 $attendee->setMember($membersById[$memberId]);
                 $attendee->setBody('inny');
                 $attendee->setRole($role);
+                $attendee->setRoleLabel($roleLabels[$memberId] ?? null);
                 $meeting->addAttendee($attendee);
                 $attendeeByMemberId[$memberId] = $attendee;
             }
@@ -205,31 +217,32 @@ class MeetingController extends AbstractController
         ]);
     }
 
-    /** @return list<string> */
+    /**
+     * Nazwiska osób z danego body na TYM spotkaniu, z tytułem/funkcją w
+     * nawiasie, jeśli był zapisany dla tego spotkania (patrz
+     * MeetingAttendee::$roleLabel — celowo NIE Member::getRoleLabel(), żeby
+     * późniejsza zmiana funkcji danej osoby nie nadpisała cicho historii).
+     *
+     * @return list<string>
+     */
     private function namesForBody(Meeting $meeting, string $body): array
     {
         $names = [];
         foreach ($meeting->getAttendees() as $attendee) {
-            if ($attendee->getBody() === $body) {
-                $names[] = $attendee->getMember()->getFullName();
+            if ($attendee->getBody() !== $body) {
+                continue;
             }
+            $name = $attendee->getMember()->getFullName();
+            $label = $attendee->getRoleLabel();
+            $names[] = $label ? sprintf('%s (%s)', $name, $label) : $name;
         }
         return $names;
     }
 
-    /** "inni" dostaje etykietę roli w nawiasie, jeśli Member ją ma (patrz Member::roleLabel). */
+    /** @return list<string> */
     private function namesForInny(Meeting $meeting): array
     {
-        $names = [];
-        foreach ($meeting->getAttendees() as $attendee) {
-            if ($attendee->getBody() !== 'inny') {
-                continue;
-            }
-            $member = $attendee->getMember();
-            $label = $member->getRoleLabel();
-            $names[] = $label ? sprintf('%s (%s)', $member->getFullName(), $label) : $member->getFullName();
-        }
-        return $names;
+        return $this->namesForBody($meeting, 'inny');
     }
 
     private function nameForRole(Meeting $meeting, string $role): ?string

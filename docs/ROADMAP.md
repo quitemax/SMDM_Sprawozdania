@@ -456,6 +456,38 @@ w `docs/DOCKER.md`.
       przeglądarce (testowano samo API + worker), oraz wydajność UI przy
       wielu jednoczesnych zadaniach (worker przetwarza jedno na raz,
       celowo — pipeline i tak jest sekwencyjny).
+- [x] **Uzupełnienie Fazy 1 — funkcje w Radzie/Zarządzie, migawka na
+      spotkanie** (zbudowane 2026-09-19): `Member.roleLabel` (istniejące
+      pole) odblokowane dla `rada_nadzorcza`/`zarzad`, nie tylko `inny` —
+      podpowiedzi w UI (`/members`): Przewodniczący/Zastępca
+      Przewodniczącego/Sekretarz Rady Nadzorczej, Członek Rady Nadzorczej
+      delegowany do czasowego pełnienia funkcji Członka Zarządu, Prezes
+      Zarządu, Członek Zarządu ds. technicznych, Członek Zarządu – Główna
+      Księgowa (plus dowolny tekst — to podpowiedzi, nie sztywny enum).
+      **Kluczowa zmiana:** nowe pole `MeetingAttendee::$roleLabel` —
+      funkcja osoby zapisywana NIEZALEŻNIE dla każdego spotkania (migawka
+      z dnia spotkania), już NIE odczyt na żywo z `Member::roleLabel`
+      (wcześniej `namesForInny()` tak właśnie robił — cichy błąd
+      historycznej dokładności, teraz naprawiony i ujednolicony dla
+      wszystkich trzech grup w `namesForBody()`). `/meetings/{id}` pozwala
+      teraz przypisać KAŻDĄ aktywną osobę do KAŻDEGO z trzech organów na
+      danym spotkaniu (nie tylko do jej domyślnego) — to obsługuje
+      dokładnie przypadek delegacji.
+      **Zweryfikowano przez API** na spotkaniu testowym: zapisano Członka
+      RN pod „Zarząd” z etykietą delegacji, potem zmieniono domyślną
+      funkcję tej osoby w `/members` na pustą — ponowny odczyt spotkania
+      dalej pokazywał zapisaną wcześniej etykietę delegacji (dowód, że
+      historia jest odporna na późniejsze zmiany składu).
+      **Przy okazji znaleziono realną lukę** (nie spowodowaną tą zmianą):
+      spotkania zaimportowane przed Fazą 0+1 (np. `10.08.2026`) mają
+      bogatą listę obecności W PLIKU, ale zero dopasowanych wierszy w
+      bazie — otwarcie takiego spotkania w `/meetings/{id}` pokazuje
+      wszystkie checkboxy jako puste, a zapisanie formularza bez ręcznego
+      zaznaczenia nadpisałoby plik pustą listą (to samo ryzyko, które już
+      raz uszkodziło dane `2026.06.22/260615_0262`, patrz Faza 2.5 w
+      `docs/HISTORY.md`). Dodano zabezpieczenie: `/meetings/{id}`
+      wykrywa ten stan i wymaga potwierdzenia (`confirm()`) przed zapisem
+      pustej listy. **Niezweryfikowane:** klikanie w przeglądarce.
 - [ ] **Faza 4** (zakres otwarty) — podgląd/edycja/eksport projektu
       sprawozdania z poziomu przeglądarki.
 

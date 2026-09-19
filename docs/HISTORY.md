@@ -62,6 +62,46 @@
   artefakty pod `output/transcripts/test.*` (z uruchomienia na pliku
   `test.mp3`) posprzątane po weryfikacji.
   Niezweryfikowane: klikanie w przeglądarce (testowano samo API + worker).
+- Nowo dodana strona `/jobs` po prostu nie działała po dodaniu
+  („page not found”) — kontener Nuxt pracował od wielu godzin i nie
+  wykrył nowego pliku strony dodanego już po jego starcie, więc nie
+  przebudował listy tras. Naprawa: `docker compose restart nuxt`.
+  Dodano do repertuaru znanych „trzeba zrestartować kontener po X"
+  obserwacji z tej sesji (obok wcześniejszej z nginx/DNS).
+- Na prośbę użytkownika uzupełniono skład Rady/Zarządu o konkretne funkcje:
+  Przewodniczący/Zastępca Przewodniczącego/Sekretarz Rady Nadzorczej,
+  Członek Rady Nadzorczej delegowany do czasowego pełnienia funkcji
+  Członka Zarządu, Prezes Zarządu, Członek Zarządu ds. technicznych,
+  Członek Zarządu – Główna Księgowa. Pole `Member::roleLabel` (istniało
+  już wcześniej, ale tylko dla `default_body="inny"`) odblokowane dla
+  wszystkich organów, z podpowiedziami w `/members` (nie sztywny enum —
+  można wpisać własną etykietę).
+  Druga część prośby użytkownika była ważniejsza: „to co będzie
+  uzupełnione na spotkaniu ma zostać ze spotkaniem" — czyli funkcja danej
+  osoby zapisana dla KONKRETNEGO spotkania nie może się zmienić, gdy
+  później zmieni się jej domyślna funkcja (typowy przypadek: delegacja
+  kończy się, ale stare spotkanie ma dalej pokazywać, że była wtedy
+  delegowana). Zrealizowane przez nowe pole
+  `MeetingAttendee::$roleLabel` — migawka zapisywana niezależnie przy
+  każdym zapisie formularza spotkania. Przy okazji naprawiono cichy błąd
+  w `MeetingController::namesForInny()`, który do tej pory czytał
+  `Member::getRoleLabel()` NA ŻYWO zamiast migawki z danego spotkania —
+  ujednolicono z `namesForBody()` dla wszystkich trzech grup.
+  `/meetings/{id}` pozwala teraz zaznaczyć KAŻDĄ aktywną osobę w KAŻDYM z
+  trzech organów (nie tylko w jej domyślnym) — to jest właśnie mechanizm
+  na wpisanie kogoś jako „tymczasowo w Zarządzie" na jedno spotkanie.
+  Zweryfikowano przez API na spotkaniu testowym (`scratch_test`, usunięte
+  po teście): zapisano delegację, zmieniono globalną funkcję osoby na
+  pustą, ponowny odczyt spotkania nadal pokazywał zapisaną wcześniej
+  etykietę delegacji — dokładnie zachowanie, o które prosił użytkownik.
+  Przy tej okazji znaleziono realną, niezwiązaną z tą zmianą lukę:
+  spotkania zaimportowane przed Fazą 0+1 (np. `10.08.2026`) mają bogatą
+  listę obecności w pliku, ale zero wierszy w bazie — otwarcie takiego
+  spotkania w `/meetings/{id}` pokazywałoby puste checkboxy, a zapis bez
+  ręcznego zaznaczenia nadpisałby plik pustą listą (to samo ryzyko, co
+  wcześniej uszkodziło `2026.06.22/260615_0262`). Dodano ostrzeżenie +
+  wymagane potwierdzenie (`confirm()`) przed takim zapisem.
+  Niezweryfikowane: klikanie w przeglądarce.
 
 ## 2026-09-17 (5)
 

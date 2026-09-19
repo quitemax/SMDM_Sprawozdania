@@ -31,6 +31,18 @@ class MeetingAttendee
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $role = null;
 
+    /**
+     * Funkcja/tytuł osoby TAK, JAK BYŁ NA TYM KONKRETNYM SPOTKANIU (np.
+     * "Przewodniczący Rady Nadzorczej", "Członek Rady Nadzorczej delegowany
+     * do czasowego pełnienia funkcji Członka Zarządu"). Zapisywane jako
+     * niezależna kopia przy zapisie formularza — celowo NIE jest to odczyt
+     * na żywo z Member::roleLabel, bo funkcja danej osoby (zwłaszcza
+     * delegacje) zmienia się w czasie, a stare spotkanie ma pokazywać stan
+     * z dnia, w którym się odbyło, niezależnie od późniejszych zmian składu.
+     */
+    #[ORM\Column(length: 150, nullable: true)]
+    private ?string $roleLabel = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,6 +92,17 @@ class MeetingAttendee
         return $this;
     }
 
+    public function getRoleLabel(): ?string
+    {
+        return $this->roleLabel;
+    }
+
+    public function setRoleLabel(?string $roleLabel): static
+    {
+        $this->roleLabel = $roleLabel;
+        return $this;
+    }
+
     /** @return array<string, mixed> */
     public function toArray(): array
     {
@@ -89,6 +112,7 @@ class MeetingAttendee
             'full_name' => $this->member->getFullName(),
             'body' => $this->body,
             'role' => $this->role,
+            'role_label' => $this->roleLabel,
         ];
     }
 }
