@@ -137,12 +137,11 @@ onUnmounted(() => {
 
 <template>
   <div>
-    <NuxtLink :to="`/meetings/${meetingId}`">&larr; Powrót do metadanych spotkania</NuxtLink>
+    <NuxtLink class="link-button" :to="`/meetings/${meetingId}`">&larr; Powrót do metadanych spotkania</NuxtLink>
     <h1>Projekt sprawozdania</h1>
     <p class="row">
-      <NuxtLink :to="`/meetings/${meetingId}/speakers`">Identyfikacja mówców</NuxtLink>
-      ·
-      <NuxtLink :to="`/meetings/${meetingId}/transcript`">Podgląd transkrypcji</NuxtLink>
+      <NuxtLink class="link-button" :to="`/meetings/${meetingId}/speakers`">Identyfikacja mówców</NuxtLink>
+      <NuxtLink class="link-button" :to="`/meetings/${meetingId}/transcript`">Podgląd transkrypcji</NuxtLink>
     </p>
     <p class="error" v-if="error">{{ error }}</p>
 
@@ -155,8 +154,8 @@ onUnmounted(() => {
           <span v-else>Projekt jeszcze nie wygenerowany dla tego spotkania.</span>
         </div>
         <div class="row">
-          <a v-if="info.exists" class="secondary" :href="`/api/meetings/${meetingId}/report/docx`" download>
-            <button type="button" class="secondary">Pobierz .docx</button>
+          <a v-if="info.exists" class="link-button" :href="`/api/meetings/${meetingId}/report/docx`" download>
+            Pobierz .docx
           </a>
           <button @click="generate" :disabled="job?.status === 'pending' || job?.status === 'running'">
             {{ info.exists ? 'Generuj ponownie' : 'Generuj projekt' }}

@@ -21,7 +21,7 @@ onMounted(load)
 
 <template>
   <div>
-    <NuxtLink :to="`/meetings/${meetingId}`">&larr; Powrót do metadanych spotkania</NuxtLink>
+    <NuxtLink class="link-button" :to="`/meetings/${meetingId}`">&larr; Powrót do metadanych spotkania</NuxtLink>
     <h1>Transkrypcja (podgląd)</h1>
     <p class="error" v-if="error">{{ error }}</p>
     <pre v-if="text" class="card" style="white-space: pre-wrap; font-family: inherit;">{{ text }}</pre>

@@ -150,14 +150,12 @@ onMounted(load)
 
 <template>
   <div>
-    <NuxtLink to="/meetings">&larr; Powrót do listy spotkań</NuxtLink>
+    <NuxtLink class="link-button" to="/meetings">&larr; Powrót do listy spotkań</NuxtLink>
     <h1>Metadane spotkania <span v-if="meeting">— {{ meeting.transcript_dir }} / {{ meeting.name }}</span></h1>
     <p class="row">
-      <NuxtLink :to="`/meetings/${meetingId}/speakers`">Identyfikacja mówców</NuxtLink>
-      ·
-      <NuxtLink :to="`/meetings/${meetingId}/transcript`">Podgląd transkrypcji</NuxtLink>
-      ·
-      <NuxtLink :to="`/meetings/${meetingId}/report`">Projekt sprawozdania</NuxtLink>
+      <NuxtLink class="link-button" :to="`/meetings/${meetingId}/speakers`">Identyfikacja mówców</NuxtLink>
+      <NuxtLink class="link-button" :to="`/meetings/${meetingId}/transcript`">Podgląd transkrypcji</NuxtLink>
+      <NuxtLink class="link-button" :to="`/meetings/${meetingId}/report`">Projekt sprawozdania</NuxtLink>
     </p>
     <p class="error" v-if="error">{{ error }}</p>
     <p v-if="saved">Zapisano — plik <code>meeting_info.json</code> zaktualizowany na dysku.</p>

@@ -64,7 +64,7 @@ onMounted(load)
           <td>{{ m.meeting_date ?? '—' }}</td>
           <td>{{ m.transcript_dir }} / {{ m.name }}</td>
           <td>{{ m.protocol_number ?? '—' }}</td>
-          <td><NuxtLink :to="`/meetings/${m.id}`">Edytuj metadane</NuxtLink></td>
+          <td><NuxtLink class="link-button" :to="`/meetings/${m.id}`">Edytuj metadane</NuxtLink></td>
         </tr>
         <tr v-if="!meetings.length">
           <td colspan="4">Brak spotkań — kliknij „Przeskanuj dysk”.</td>

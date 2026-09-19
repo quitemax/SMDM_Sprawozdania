@@ -54,7 +54,7 @@ onMounted(load)
 
 <template>
   <div>
-    <NuxtLink :to="`/meetings/${meetingId}`">&larr; Powrót do metadanych spotkania</NuxtLink>
+    <NuxtLink class="link-button" :to="`/meetings/${meetingId}`">&larr; Powrót do metadanych spotkania</NuxtLink>
     <h1>Identyfikacja mówców</h1>
     <p>
       Odsłuchaj próbki i wpisz imię/nazwisko. Zapisanie tutaj oznacza wpis
