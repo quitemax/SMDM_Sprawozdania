@@ -156,6 +156,8 @@ onMounted(load)
       <NuxtLink :to="`/meetings/${meetingId}/speakers`">Identyfikacja mówców</NuxtLink>
       ·
       <NuxtLink :to="`/meetings/${meetingId}/transcript`">Podgląd transkrypcji</NuxtLink>
+      ·
+      <NuxtLink :to="`/meetings/${meetingId}/report`">Projekt sprawozdania</NuxtLink>
     </p>
     <p class="error" v-if="error">{{ error }}</p>
     <p v-if="saved">Zapisano — plik <code>meeting_info.json</code> zaktualizowany na dysku.</p>

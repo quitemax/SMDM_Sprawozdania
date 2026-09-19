@@ -488,8 +488,33 @@ w `docs/DOCKER.md`.
       `docs/HISTORY.md`). Dodano zabezpieczenie: `/meetings/{id}`
       wykrywa ten stan i wymaga potwierdzenia (`confirm()`) przed zapisem
       pustej listy. **Niezweryfikowane:** klikanie w przeglądarce.
-- [ ] **Faza 4** (zakres otwarty) — podgląd/edycja/eksport projektu
-      sprawozdania z poziomu przeglądarki.
+- [x] **Faza 4 — podgląd i eksport projektu sprawozdania** (zbudowane
+      2026-09-19; zakres ustalony z użytkownikiem: podgląd + eksport do
+      .docx + przycisk "generuj ponownie", BEZ edycji treści w
+      przeglądarce — to zostaje ręczną redakcją pliku `.md`/`.docx` poza
+      aplikacją, patrz Etap 5). `ReportController`
+      (`GET /api/meetings/{id}/report` — treść `.draft.md` + istnienie +
+      data wygenerowania; `GET .../report/docx` — konwersja do .docx do
+      pobrania) i `ReportDocxRenderer` — NIE ogólny parser Markdown, tylko
+      dokładnie ten wąski zestaw składni, który faktycznie produkuje
+      `scripts/generate_report.py` (nagłówek, cytat, całe-linie-pogrubione
+      jako pseudo-nagłówki, wypunktowania, sygnatura w gwiazdkach, zwykłe
+      akapity, plus pogrubienia w środku dowolnej linii) — renderowany
+      przez `phpoffice/phpword` (nowa zależność Composera, `web/backend`).
+      Strona Nuxt `/meetings/{id}/report`: sformatowany podgląd (własny,
+      równie wąski renderer Markdown→HTML po stronie frontendu), przycisk
+      pobierania .docx, przycisk „Generuj (ponownie)” wołający
+      `POST /api/jobs` (typ `generate_report`, ten sam job runner co
+      Faza 3) z podglądem statusu.
+      **Zweryfikowano przez API**: pobrany `.docx` to poprawny plik
+      Word 2007+ (`file` rozpoznaje format), rozpakowany i sprawdzony
+      ręcznie w `word/document.xml` — nagłówek, cytat z ostrzeżeniem,
+      wszystkie pogrubione pseudo-nagłówki (`<w:b w:val="1"/>`), kursywa
+      cytatu, 15 elementów listy z prawdziwą numeracją Worda (`numId`,
+      `word/numbering.xml`) — dokładnie tyle, ile linii `- ` było w
+      źródłowym Markdownie. **Niezweryfikowane:** czy plik faktycznie
+      otwiera się poprawnie w samym Wordzie/LibreOffice (sprawdzono tylko
+      strukturę OOXML), klikanie w przeglądarce.
 
 ## Uwagi
 

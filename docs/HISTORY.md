@@ -102,6 +102,31 @@
   wcześniej uszkodziło `2026.06.22/260615_0262`). Dodano ostrzeżenie +
   wymagane potwierdzenie (`confirm()`) przed takim zapisem.
   Niezweryfikowane: klikanie w przeglądarce.
+- Zbudowano Fazę 4: podgląd i eksport projektu sprawozdania. Zakres
+  ustalony wprost z użytkownikiem (pytanie z opcjami): podgląd + eksport
+  do .docx + przycisk „generuj ponownie" — BEZ edycji treści w
+  przeglądarce (weryfikacja/redakcja projektu zostaje poza aplikacją,
+  jak dotąd). `ReportController.php` (`GET /api/meetings/{id}/report`,
+  `GET .../report/docx`) + `ReportDocxRenderer.php` — nowa zależność
+  Composera `phpoffice/phpword` (w wersji 1.1.0, bo 1.4.0 wymaga
+  brakującego w obrazie `ext-gd`). Renderer to celowo NIE ogólny parser
+  Markdown, tylko dokładnie ten wąski zestaw składni, który faktycznie
+  produkuje `scripts/generate_report.py` — nagłówek `#`, blok cytatu `>`,
+  całe-linie-pogrubione jako pseudo-nagłówki, wypunktowania `- `,
+  sygnatura w pojedynczych gwiazdkach, zwykłe akapity, plus pogrubienia
+  w środku dowolnej z tych linii. Strona Nuxt `/meetings/{id}/report` ma
+  swój analogiczny, równie wąski renderer Markdown→HTML (podgląd) oraz
+  link do pobrania .docx i przycisk uruchamiający zadanie
+  `generate_report` przez istniejący job runner (Faza 3).
+  Zweryfikowano przez API: pobrany plik rozpoznany przez `file` jako
+  „Microsoft Word 2007+”; rozpakowany i sprawdzony ręcznie w
+  `word/document.xml` — nagłówek, blok cytatu z ostrzeżeniem, wszystkie
+  pogrubione pseudo-nagłówki (`<w:b w:val="1"/>`), kursywa cytatu, 15
+  elementów wypunktowania z prawdziwą numeracją Worda (`numId` +
+  `word/numbering.xml`) — dokładnie tyle, ile linii `- ` było w źródle.
+  Niezweryfikowane: czy plik faktycznie otwiera się poprawnie w samym
+  Wordzie/LibreOffice (sprawdzono tylko strukturę OOXML wewnątrz pliku),
+  klikanie w przeglądarce.
 
 ## 2026-09-17 (5)
 
