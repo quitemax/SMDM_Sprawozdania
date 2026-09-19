@@ -1,5 +1,41 @@
 # Historia projektu
 
+## 2026-09-19
+
+- Rozwiązano zagadkę wydajności API z poprzedniej sesji: znaleziona
+  główna przyczyna to nginx cache'ujący adres IP kontenerów
+  `php-fpm`/`nuxt` przy starcie — po przebudowie/odtworzeniu tych
+  kontenerów nginx nadal próbował łączyć się pod starym, martwym
+  adresem, co dawało pełne zawieszenia (30s+). Naprawa: pełny restart
+  kontenera nginx (nie tylko `nginx -s reload`) po każdej przebudowie
+  `php-fpm`/`nuxt`. Po naprawie zostaje resztkowe ~5-7s na zapytanie,
+  źródła nie ustalono ostatecznie (podejrzenie: narzut Windows/WSL2 w
+  trybie dev Symfony) — niekrytyczne, opisane w `docs/DOCKER.md`.
+  Użytkownik dodał wcześniej wykluczenia w Windows Defenderze bez
+  wyraźnej poprawy, co teraz ma sens — to prawdopodobnie nie była
+  (główna) przyczyna.
+- Potwierdzone przez użytkownika w przeglądarce: odtwarzanie próbek audio
+  w Fazie 2 (`/meetings/{id}/speakers`) działa poprawnie.
+- Zbudowano Fazę 2.5: CRUD nagrań (`RecordingController.php`,
+  `InputFileManager.php`, strona Nuxt `/recordings`) — upload nowego
+  nagrania z przeglądarki do `input/audio/RRRR.MM.DD/`, lista istniejących
+  nagrań z flagą czy transkrypcja już istnieje, usuwanie. Podniesione
+  limity uploadu (PHP + nginx do 1 GB — nagrania bywają duże). Celowe
+  rozgraniczenie: samo URUCHOMIENIE transkrypcji z przeglądarki zostaje w
+  Fazie 3 (job runner, jeszcze nie zaczętej) — ta faza to tylko
+  przygotowanie pliku na dysku.
+  Zweryfikowano: listę na 31 prawdziwych nagraniach (poprawne
+  `has_transcript`), upload i usunięcie na pliku testowym przez `curl`.
+  Niezweryfikowany: upload dużego pliku z przeglądarki.
+- Zauważono (nie naprawiono, poinformowano użytkownika): plik
+  `output/transcripts/2026.06.22/260615_0262.meeting_info.json` —
+  starannie uzupełnione wcześniej dane testowe użyte do walidacji
+  `generate_report.py` względem prawdziwego protokołu — zostały
+  nadpisane uboższą wersją (po 1 osobie w każdej kategorii), najpewniej
+  efekt uboczny testowania formularza edycji spotkania w przeglądarce
+  przy niepełnym jeszcze składzie osób w bazie. Nieistotne dla dalszej
+  pracy (walidacja już wykonana i udokumentowana wcześniej).
+
 ## 2026-09-17 (5)
 
 - Faza 2 Kroku 2 (webowy interfejs): `SpeakerController.php` —

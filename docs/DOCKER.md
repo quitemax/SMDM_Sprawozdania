@@ -190,37 +190,77 @@ Zastępuje ręczne odsłuchiwanie próbek w Eksploratorze + edycję
 Strony Nuxt: `/meetings/{id}/speakers` (odtwarzacze audio + pole na
 imię/nazwisko per mówca) i `/meetings/{id}/transcript` (podgląd tekstu).
 
-**Zweryfikowane:** poprawność samych endpointów (odczyt istniejącego
-`.speakers.json`, w tym prawdziwego pliku z posiedzenia 27.06.2025).
-**Niezweryfikowane:** faktyczne odtwarzanie audio i klikanie w formularzu w
-przeglądarce — do sprawdzenia przez użytkownika.
+**Zweryfikowane:** poprawność endpointów oraz — potwierdzone przez
+użytkownika w przeglądarce (2026-09-19) — faktyczne odtwarzanie próbek
+audio działa.
+
+## Faza 2.5 — CRUD nagrań (upload, lista, usuwanie)
+
+Pierwszy krok pipeline'u, zanim `scripts/transcribe.py` w ogóle wchodzi
+do gry — miejsce na wgranie nowego nagrania z przeglądarki, zamiast
+ręcznego kopiowania pliku do `input/audio/RRRR.MM.DD/`. Samo
+uruchomienie transkrypcji z przeglądarki to Faza 3 (job runner).
+
+- `GET /api/recordings` — skanuje `input/audio/**` (rozszerzenia mp3, m4a,
+  wav, mp4, aac, ogg, wma), dla każdego pliku sprawdza, czy istnieje już
+  transkrypcja (`has_transcript`).
+- `POST /api/recordings` — upload wieloczęściowy (`date` w formacie
+  RRRR-MM-DD, `file`); zapisuje pod `input/audio/RRRR.MM.DD/<nazwa>`, nie
+  nadpisuje istniejącego pliku (dopisuje sufiks przy konflikcie nazw).
+- `DELETE /api/recordings?path=...` — usuwa plik z dysku.
+
+Strona Nuxt: `/recordings` (formularz uploadu + tabela z rozmiarem i
+statusem transkrypcji).
+
+Limity uploadu podniesione (nagrania bywają > 100 MB): PHP
+`upload_max_filesize`/`post_max_size` = 1G (`web/backend/Dockerfile`),
+nginx `client_max_body_size` = 1g (`web/nginx/default.conf`).
+
+**Zweryfikowane:** lista (31 prawdziwych nagrań, poprawne `has_transcript`),
+upload i usuwanie na pliku testowym. **Niezweryfikowane:** upload
+naprawdę dużego (setki MB) pliku audio z przeglądarki — testowano tylko
+małym plikiem przez `curl`.
 
 ## Rozwiązywanie problemów
 
-### Bardzo wolne odpowiedzi API (3-30 sekund na zapytanie)
+### Zapytania do API całkowicie się zawieszają po `docker compose up --build php-fpm`/`nuxt`
 
-Zaobserwowane przy pracy nad Fazą 2 (2026-09-17): każdy request do
-Symfony — nawet trywialny `/api/health` bez dostępu do bazy — bywał wolny
-w sposób niespójny (raz 3s, raz 30s), mimo że bezpośrednie połączenie
-PHP→MariaDB było błyskawiczne (~2ms) i żaden kontener nie pokazywał
-wysokiego zużycia CPU/RAM (`docker stats`). To wskazuje na spowolnienie na
-poziomie hosta (Windows/WSL2), nie na błąd w kodzie Symfony/Nuxt.
+**Znaleziona i potwierdzona przyczyna (2026-09-19):** nginx rozwiązuje
+nazwę hosta w `fastcgi_pass php-fpm:9000;` / `proxy_pass http://nuxt:3000`
+raz, przy starcie/reloadzie. Kiedy `php-fpm` albo `nuxt` zostaje odtworzony
+(`docker compose up -d --build ...`, `up -d ...` po zmianie w
+`docker-compose.web.yml` itp.), kontener dostaje NOWY adres IP w sieci
+Dockera — ale nginx, jeśli sam nie został zrestartowany, nadal próbuje
+łączyć się pod starym, martwym adresem. Objaw: żądanie wisi bez końca (30s+
+i więcej), a w logu `php-fpm` w ogóle nie widać, żeby request dotarł.
 
-Najbardziej prawdopodobna przyczyna i pierwsza rzecz do sprawdzenia:
-**Windows Defender skanujący w czasie rzeczywistym pliki WSL2/Dockera** —
-bardzo częsta przyczyna właśnie takich niespójnych, wielosekundowych
-opóźnień przy operacjach na plikach w kontenerach. Warto dodać wykluczenia
-w Windows Security (Wirus i zagrożenia → Ustawienia ochrony przed wirusami
-i zagrożeniami → Wykluczenia) dla:
-- katalogu danych WSL (`%LOCALAPPDATA%\Docker\wsl\`),
-- katalogu repozytorium projektu (`C:\SMDM` czy gdziekolwiek leży).
+**Zasada:** za każdym razem, gdy przebudowujesz/odtwarzasz `php-fpm` lub
+`nuxt`, zrestartuj też `nginx`:
 
-Inne rzeczy do sprawdzenia, jeśli to nie pomoże: pełny restart Docker
-Desktop (nie tylko kontenerów — sam proces `Docker Desktop.exe` i usługę
-WSL2, `wsl --shutdown` w PowerShell), limity zasobów WSL2 w
-`%UserProfile%\.wslconfig`. Nie zdiagnozowano ostatecznie w tej sesji —
-funkcjonalność (poprawność odpowiedzi) jest potwierdzona, tylko wydajność
-wymaga dalszej weryfikacji na docelowej maszynie.
+```powershell
+docker compose -f docker-compose.yml -f docker-compose.web.yml restart nginx
+```
+
+Samo `nginx -s reload` czasem NIE wystarczyło w testach — pełny restart
+kontenera (`restart`, nie `reload`) był niezawodny.
+
+### Odpowiedzi API działają, ale są wolne (~5-7 sekund na zapytanie)
+
+Po naprawieniu powyższego (restart nginx) zapytania przestają się wieszać,
+ale nawet trywialny `/api/health` bez dostępu do bazy nadal trwa
+kilka sekund — mimo że bezpośrednie połączenie PHP→MariaDB jest
+błyskawiczne (~2ms) i żaden kontener nie pokazuje podwyższonego zużycia
+CPU/RAM (`docker stats`). Nie zdiagnozowano ostatecznie źródła tego
+resztkowego opóźnienia — podejrzenie pada na narzut Windows/WSL2 przy
+operacjach plikowych w trybie dev Symfony (dużo małych odczytów/zapisów
+przy sprawdzaniu świeżości cache kontenera DI). Wykluczenia w Windows
+Defender (Wirus i zagrożenia → Ustawienia → Wykluczenia, dla
+`%LOCALAPPDATA%\Docker\wsl\` i katalogu repozytorium) przetestowane, bez
+wyraźnej poprawy — mimo to warto je zostawić. Dla wewnętrznego narzędzia
+używanego okazjonalnie kilka sekund na żądanie nie blokuje pracy, ale
+warto to zbadać dokładniej, jeśli stanie się to uciążliwe (np. profilowanie
+przez `docker compose exec php-fpm php bin/console debug:container` albo
+sprawdzenie, czy `APP_ENV=prod` zauważalnie przyspiesza).
 
 ### Docker Desktop w kółko się restartuje / `wslexec` error
 

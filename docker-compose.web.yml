@@ -26,10 +26,12 @@ services:
     environment:
       DATABASE_URL: mysql://smdm:${MYSQL_PASSWORD}@mariadb:3306/smdm?serverVersion=10.11.2-MariaDB&charset=utf8mb4
       SMDM_OUTPUT_DIR: /var/www/output
+      SMDM_INPUT_DIR: /var/www/input
       APP_ENV: dev
     volumes:
       - ./web/backend:/app
       - ./output:/var/www/output
+      - ./input:/var/www/input
       # var/ (cache, logi) osobnym wolumenem — bind mount Windows/WSL2 jest
       # bardzo wolny przy wielu małych zapisach (cache Symfony w dev), co
       # bez tego potrafiło wydłużać pojedyncze zapytanie do >10s.

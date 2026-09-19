@@ -12,6 +12,8 @@ parameters:
     # Domyślna wartość zakłada uruchomienie poza Dockerem z web/backend/ jako cwd.
     app.output_dir: '%env(default:default_output_dir:SMDM_OUTPUT_DIR)%'
     default_output_dir: '%kernel.project_dir%/../../output'
+    app.input_dir: '%env(default:default_input_dir:SMDM_INPUT_DIR)%'
+    default_input_dir: '%kernel.project_dir%/../../input'
 
 services:
     # default configuration for services in *this* file

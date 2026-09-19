@@ -2,6 +2,7 @@
   <div class="app">
     <nav class="nav">
       <strong>SMDM</strong>
+      <NuxtLink to="/recordings">Nagrania</NuxtLink>
       <NuxtLink to="/members">Skład Rady/Zarządu</NuxtLink>
       <NuxtLink to="/meetings">Spotkania</NuxtLink>
     </nav>

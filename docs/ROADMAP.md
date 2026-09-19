@@ -403,16 +403,27 @@ w `docs/DOCKER.md`.
       `.clean.txt`). Strony Nuxt: `/meetings/{id}/speakers`,
       `/meetings/{id}/transcript`. Zweryfikowano poprawność odczytu
       istniejącego, prawdziwego `.speakers.json` (posiedzenie 27.06.2025)
-      przez API. **Niezweryfikowane**: klikanie w formularzu i
-      odtwarzanie audio w przeglądarce.
-      Napotkano (i udokumentowano w `docs/DOCKER.md`, nie rozwiązano
-      ostatecznie) poważny problem wydajności: każde zapytanie do API —
-      nawet trywialne, bez dostępu do bazy — trwało niespójnie 3-30s,
-      mimo błyskawicznego (~2ms) połączenia PHP→MariaDB i niskiego
-      zużycia CPU/RAM kontenerów. Najbardziej prawdopodobna przyczyna:
-      Windows Defender skanujący pliki WSL2/Dockera w czasie
-      rzeczywistym — do zweryfikowania przez użytkownika (wykluczenia w
-      Windows Security).
+      przez API oraz (2026-09-19, potwierdzone przez użytkownika w
+      przeglądarce) faktyczne odtwarzanie próbek audio.
+      Napotkano poważny problem wydajności API (zapytania trwające
+      niespójnie kilka-kilkanaście sekund, czasem się zawieszające) —
+      **główna przyczyna znaleziona i naprawiona 2026-09-19**: nginx
+      cache'uje adres IP kontenerów `php-fpm`/`nuxt` przy starcie i traci
+      z nimi łączność po ich przebudowie, dopóki sam nie zostanie
+      zrestartowany (nie wystarczy `reload`) — patrz `docs/DOCKER.md`.
+      Po naprawie zostaje resztkowe ~5-7s na zapytanie, źródło
+      niezdiagnozowane ostatecznie (podejrzenie: narzut Windows/WSL2 w
+      trybie dev Symfony), ale niekrytyczne dla wewnętrznego narzędzia.
+- [x] **Faza 2.5 — CRUD nagrań** (zrobione 2026-09-19): `RecordingController`
+      — `GET/POST/DELETE /api/recordings` (lista `input/audio/**` z
+      flagą `has_transcript`, upload wieloczęściowy do
+      `input/audio/RRRR.MM.DD/`, usuwanie). Strona Nuxt `/recordings`.
+      Podniesione limity uploadu (PHP + nginx, do 1 GB — nagrania bywają
+      duże). Zweryfikowano: listę na 31 prawdziwych nagraniach (poprawne
+      `has_transcript`), upload/usuwanie na pliku testowym.
+      Niezweryfikowany: upload naprawdę dużego pliku z przeglądarki.
+      Uruchomienie samej transkrypcji z przeglądarki zostaje w Fazie 3
+      (job runner) — to celowe rozgraniczenie, nie przeoczenie.
 - [ ] **Faza 3** (nie rozpoczęta) — job runner: kolejka zadań w MySQL +
       worker Pythona (`scripts/job_worker.py`, nowy plik) w kontenerze
       `app` odpytujący kolejkę i uruchamiający te same skrypty CLI co dziś;
