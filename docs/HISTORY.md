@@ -1,5 +1,34 @@
 # Historia projektu
 
+## 2026-09-25
+
+- Na prośbę użytkownika przeniesiono `input/knowledge/` i
+  `input/knowledge_md/` (regulaminy, statut, uchwały spółdzielni) do
+  nowego, osobnego repozytorium
+  [SMDM_Knowledge_Base](https://github.com/quitemax/SMDM_Knowledge_Base)
+  — baza wiedzy o strukturze organizacyjnej i procesach spółdzielni, nie
+  część pipeline'u transkrypcji/sprawozdań.
+  Zbudowano tam strukturę wg planu użytkownika (struktura organizacyjna,
+  zarząd, administracja techniczna, czynsze/księgowość, kadry, IT,
+  procedury dla mieszkańców) i wypełniono treścią zsyntetyzowaną z
+  rzeczywistych regulaminów/statutu (z cytatami numerów paragrafów przy
+  każdym twierdzeniu) — nie surowym zrzutem plików. Fragmenty
+  niepokryte żadnym regulaminem (np. dokładny przebieg zgłoszenia
+  awarii, onboarding/offboarding, mapa zastępowalności, podział
+  terenowy, faktury KSeF, problemy z systemem Papirus) oznaczono jako
+  DO UZUPEŁNIENIA, zamiast zgadywać.
+  Folder „umowy i zakres obowiązków dla Prezydium" (prawdziwe umowy o
+  pracę i zakresy obowiązków konkretnych, nazwanych osób) — na
+  wyraźną decyzję użytkownika — pominięto przy przenoszeniu; z jego
+  treści wyabstrahowano tylko generyczne opisy ról (bez nazwisk,
+  inicjałów, wynagrodzeń, dat umów) do
+  `struktura-organizacyjna/stanowiska-i-zakresy-obowiazkow.md` w nowym
+  repo. Ten folder pozostaje niezmieniony w `input/knowledge(_md)/` w
+  tym repo.
+  Katalogi `input/knowledge/` i `input/knowledge_md/` zostają w tym
+  repo jako miejsce robocze `scripts/pdf_to_markdown.py` na przyszłość —
+  bez zmian w samym skrypcie.
+
 ## 2026-09-19
 
 - Rozwiązano zagadkę wydajności API z poprzedniej sesji: znaleziona

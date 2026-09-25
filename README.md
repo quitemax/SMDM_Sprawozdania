@@ -16,6 +16,15 @@ lokalnych modeli sztucznej inteligencji.
 - [Pamięć projektu i ustalenia](docs/PROJECT_MEMORY.md)
 - [Instrukcje dla agentów AI](docs/AGENTS.md)
 
+## Powiązane repozytoria
+
+- [SMDM_Knowledge_Base](https://github.com/quitemax/SMDM_Knowledge_Base)
+  — baza wiedzy o strukturze organizacyjnej i procesach spółdzielni
+  (regulaminy, statut, opisy stanowisk, procedury). Dawne
+  `input/knowledge/` i `input/knowledge_md/` z tego repo zostały tam
+  przeniesione (2026-09-25); te katalogi zostają jako miejsce robocze
+  `scripts/pdf_to_markdown.py` dla przyszłych dokumentów.
+
 ## Szybki start
 
 Wymagania i instalacja środowiska opisane są w
